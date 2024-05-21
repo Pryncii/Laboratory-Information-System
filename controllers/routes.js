@@ -5,7 +5,7 @@ function add(server){
   server.get('/', function(req, resp){
     resp.render('main',{
       layout: 'index',
-      title: 'Chatbot Example!'
+      title: 'Laboratory Information System'
     });
   });
   

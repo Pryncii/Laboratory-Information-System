@@ -1,6 +1,4 @@
-//Install Command:
-//npm init
-//npm i express express-handlebars body-parser
+
 const express = require('express');
 const server = express();
 
@@ -13,7 +11,7 @@ server.set('view engine', 'hbs');
 server.engine('hbs', handlebars.engine({
     extname: 'hbs',
 }));
-//test github thingy test
+
 server.use(express.static('public'));
 
 //This part of the code will load the controllers that will interact
