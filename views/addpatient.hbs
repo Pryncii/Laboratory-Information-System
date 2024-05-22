@@ -1,0 +1,62 @@
+{{> header}}
+<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <h6 class="dropdown-header">Hello, Username!</h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">View Profile</a>
+{{> header2}}
+<div class="main-content">
+            <!-- ======= Title ======= -->
+            <div class="title container-fluid">
+                <h1>Add Patient Data</h1>
+            </div>
+
+            <!-- ======= Registration Details ======= -->
+            <div class="reg-content">
+                <form action="/action_page.php">
+                    <table class="reg-items">
+                        <tr>
+                            <th class="item-label"><h5>Full Name</h5></th>
+                        </tr>
+                        <tr>
+                            <th class="item-container"><input class="input-item" type="text" id="fname" name="fname" placeholder="First Name"></th>
+                            <th class="item-container"><input class="input-item" type="text" id="mname" name="mname" placeholder="Middle Name"></th>
+                            <th class="item-container"><input class="input-item" type="text" id="lname" name="lname" placeholder="Last Name"></th>
+                        </tr>
+                    </table>
+                    <table class="reg-items">
+                        <tr>
+                            <th class="item-label two-col"><h5>Sex</h5></th>
+                            <th class="item-label two-col"><h5>Birthday</h5></th>
+                        </tr>
+                        <tr>
+                            <th class="item-container">
+                                <select class="input-item" name="sex" id="sex">
+                                    <option value="m">Male</option>
+                                    <option value="f">Female</option>
+                                </select>
+                            </th>
+                            <th class="item-container"><input class="input-item" type="date" id="bday" name="bday"></th>
+                        </tr>
+                        <tr>
+                            <th class="item-label two-col"><h5>Phone Number</h5></th>
+                            <th class="item-label two-col"><h5>Email</h5></th>
+                        </tr>
+                        <tr>
+                            <th class="item-container"><input class="input-item" type="text" id="pnum" name="pnum" placeholder="(09XX) XXX XXXX"></th>
+                            <th class="item-container"><input class="input-item" type="text" id="email" name="email" placeholder="username@bioscopic.com"></th>
+                        </tr>
+                        <tr>
+                            <th class="item-label"><h5>Address</h5></th>
+                        </tr>
+                        <tr>
+                            <th class="item-container" colspan="2"><input class="input-item" type="text" id="address" name="address"></th>
+                        </tr>
+                    </table>
+                    <div class="btn-container" colspan="2"><input class="reg-btn" type="submit" value="REGISTER"></div>
+                </form>
+            </div>
+        </div>
