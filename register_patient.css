@@ -31,9 +31,8 @@ body { background-color: #FFF8F3 !important; }
 }
 
 .reg-btn:hover {
-    background-color: #A1B1C7;
-    color: #0D1D58;
-    font-weight: 600;
+    background-color: #4A6BA1;
+    color: white;
 }
 
 .input-item {
