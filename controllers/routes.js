@@ -1,7 +1,11 @@
 //Routes
-const responder = require('../models/Responder');
+
 
 function add(server){
+  const responder = require('../models/data');
+  const { appdata } = require('../models/data');
+  const patientModel = appdata.patientModel;
+
   server.get('/', function(req, resp){
     resp.render('addpatient',{
       layout: 'index',
