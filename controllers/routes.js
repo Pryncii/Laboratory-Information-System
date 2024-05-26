@@ -11,6 +11,19 @@ function add(server){
     console.error(err);
   }
 
+  function setDefault(value, defaultValue = "N/A") {
+    return value || defaultValue;
+  }
+
+  function setDefaultNo(value, defaultValue = "-1") {
+    return value || defaultValue;
+  }
+
+  function setDefaultDate(value, defaultValue = new Date(0)) {
+    return value ? new Date(value) : defaultValue;
+  }
+
+
   server.get('/', function(req, resp){
     resp.render('main',{
       layout: 'index',
@@ -30,13 +43,13 @@ function add(server){
     //add to the database patient details
     var actualName = req.body.lname + ", " + req.body.fname + " " + req.body.mname;
     const patientInstance = patientModel({
-      name: actualName,
-      sex: req.body.sex,
-      birthday: req.body.bday,
-      age: req.body.age,
-      phoneNo: req.body.pnum,
-      email: req.body.email,
-      address: req.body.address
+      name: setDefault(actualName),
+      sex: setDefault(req.body.sex),
+      birthday: setDefaultDate(req.body.bday),
+      age: setDefaultNo(req.body.age),
+      phoneNo: setDefault(req.body.pnum),
+      email: setDefault(req.body.email),
+      address: setDefault(req.body.address)
     });
 
     patientInstance.save().then(function(patient) {
