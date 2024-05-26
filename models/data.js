@@ -7,7 +7,7 @@ name: { type: String },
 sex: { type: String },
 birthday: {type: Date},
 age: {type: Number},
-phoneNo: {type: Number},
+phoneNo: {type: String},
 email: {type: String},
 address: {type: String},
 },{ versionKey: false });
