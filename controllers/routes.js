@@ -4,6 +4,7 @@
 function add(server){
   const responder = require('../models/data');
   const { appdata } = require('../models/data');
+  const userModel = appdata.userModel;
   const patientModel = appdata.patientModel;
 
   function errorFn(err){
@@ -25,17 +26,41 @@ function add(server){
 
 
   server.get('/', function(req, resp){
-    resp.render('main',{
+    resp.render('login',{
       layout: 'index',
-      title: 'Laboratory Information System'
+      title: 'Laboratory Information System - Login'
     });
   });
-
+  
+  server,get('/register', function(req, resp){
+    resp.render('register', {
+      layout: 'index',
+      title: 'Laboratory Information System - Register'
+    });
+  });
+  
   server.get('/addpatient', function(req, resp){
     resp.render('addpatient',{
       layout: 'index',
       title: 'Laboratory Information System'
     });
+  });
+
+  //adds to the database the user details upon registering
+  server.post('/adduser-db', function(req, resp){
+    var fullName = req.body.lastname + ", " + req.body.firstname;
+    const userInstance = userModel({
+      name: setDefault(fullName),
+      username: setDefault(req.body.username),
+      email: setDefault(req.body.email),
+      sex: setDefault(req.body.sex),
+      password: setDefault(req.body.password),
+      prcno: setDefault(req.body.prc),
+    });
+
+    userInstance.save().then(function(user){
+      resp.redirect('/'); //CHANGE THIS
+    }).catch(errorFn);
   });
 
   server.post('/addpatient-db', function(req, resp){
