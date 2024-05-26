@@ -1,0 +1,51 @@
+{{> header}}
+    <div class="d-flex justify-content-center align-items-center vh-100 w">
+        <div class="w-50">
+            <h1 class="text-center fw-bold mb-3">Register Account</h1>
+            <form action="" method="post">
+                <div class="d-flex justify-content-evenly">
+                    <div class="mb-3">
+                        <label for="firstname" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sex" class="form-label">Sex</label>
+                        <select class="form-select" id="sex">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" minlength="8" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="prc" class="form-label">PRC License no.</label>
+                    <input type="number" class="form-control" id="prc">
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">REGISTER</button>
+                </div>
+            </form>
+            <div class="d-flex justify-content-center">
+                Already have an account?
+                <p><a href="login" class="ms-1 link-offset-2 link-underline link-underline-opacity-0">Log In</a></p>
+            </div>
+        </div>
+    </div>
