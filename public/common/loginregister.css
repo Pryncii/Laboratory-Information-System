@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+body {
+    font-family: "Inter";
+    background-color: #FFF8F3;
+}
+
+.btn-primary {
+    --bs-btn-bg: #0D1D58;
+    --bs-btn-border-color: #0D1D58;
+    --bs-btn-color: #FFF8F3;
+    --bs-btn-hover-color: #FFF8F3;
+    --bs-btn-hover-bg: #4A6BA1;
+    --bs-btn-hover-border-color: #4A6BA1;
+    --bs-btn-active-color: #FFF8F3;
+    --bs-btn-active-bg: #4A6BA1;
+    --bs-btn-active-border-color: #4A6BA1;
+}
+
+.form-floating>label {
+    text-align: center;
+}
+
+.form-check-input {
+    --bs-form-check-bg: #A1B1C7;
+}
+
+.form-check-input:checked {
+    background-color: #0D1D58;
+}
+
+.form-control,
+.form-control:focus,
+.form-select {
+    background-color: #A1B1C7;
+    color: #0D1D58;
+}
+
+h1, a,
+.form-floating .form-control~label,
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label,
+.form-floating .form-select~label {
+    color: #0D1D58;
+}
+
+.form-floating .form-control:focus~label::after,
+.form-floating .form-control:not(:placeholder-shown)~label::after,
+.form-floating .form-select:focus~label::after,
+.form-floating .form-select:not(:placeholder-shown)~label::after {
+    background-color: #A1B1C7;
+}
+
+a:hover {
+    color: #4A6BA1;
+}
+
+.link-underline-primary {
+    text-decoration-color: #0D1D58 !important;
+}

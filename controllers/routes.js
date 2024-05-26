@@ -32,7 +32,7 @@ function add(server){
     });
   });
   
-  server,get('/register', function(req, resp){
+  server.get('/register', function(req, resp){
     resp.render('register', {
       layout: 'index',
       title: 'Laboratory Information System - Register'
