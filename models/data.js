@@ -45,7 +45,7 @@ let appdata = {
     'patientModel'   : patientModel,
     // add other models here
     'userModel'      : userModel,
-    'requestModel'      : requestModel,
+    'requestModel'   : requestModel,
 };
 
 module.exports.appdata = appdata;

@@ -1,7 +1,7 @@
 .main-content { margin: 50px; }
 .reg-content { margin: 20px 50px 0px 50px; }
-.title > h1, .item-label, .item-container, .reg-btn { font-family: "Inter"; }
-.title, .item-label { color: #0D1D58; }
+._title > h1, .item-label, .item-container, .reg-btn { font-family: "Inter"; }
+._title, .item-label { color: #0D1D58; }
 .reg-items, .input-item { width: 100%; }
 .two-col { width: 50%; }
 .item-container { padding: 10px; }
@@ -26,4 +26,3 @@ body { background-color: #FFF8F3 !important; }
     border-width: 0px;
     padding: 15px;
 }
-
