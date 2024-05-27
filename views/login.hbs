@@ -1,41 +1,47 @@
-{{> header}}
 <link href="/common/loginregister.css" rel="stylesheet" >
 
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div>
-            <div class="d-flex justify-content-center mb-3">
-                <img src="/common/images/logo.png" class="w-25">
-            </div>
-            <h1 class="text-center fw-bold mb-3">LABORATORY INFORMATION SYSTEM</h1>
-            <form action="" method="post">
-                <div class="d-flex justify-content-center">
-                    <div class="w-50">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control text-center" id="username" placeholder="" required>
-                            <label for="username">Username </label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control text-center" id="password" placeholder="" required>
-                            <label for="password">Password</label>
-                        </div>
-                        <p class="text-end"><a href="#" class="link-underline-primary">Forgot password?</a></p>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div>
+        <div class="d-flex justify-content-center mb-3">
+            <img src="/common/images/logo.png" class="w-25">
+        </div>
+
+        <div class="title">
+            <h1 class="text-center fw-bold mb-3">BIOSCOPIC DIAGNOSTIC LABORATORY</h1>
+            <h3 class="text-center mb-3">LABORATORY INFORMATION SYSTEM</h3>
+        </div>
+
+        <form action="" method="post">
+            <div class="d-flex justify-content-center">
+                <div class="w-50">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control text-center" id="username" placeholder="" required>
+                        <label for="username">Username </label>
                     </div>
-                </div>
-                <div class="d-flex justify-content-center mb-3">
-                    <div class="form-check">
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control text-center" id="password" placeholder="" required>
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="remember-forgot">
+                    <div class="form-check text-start">
                         <input class="form-check-input" type="checkbox" value="" id="remember">
                         <label class="form-check-label" for="remember">
                             Remember me
                         </label>
                     </div>
+                    <p class="text-end"><a href="#" class="link-underline-primary">Forgot password?</a></p>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center mb-3">
-                    <button type="submit" class="btn btn-primary btn-lg">LOGIN</button>
-                </div>
-            </form>
-            <div class="d-flex justify-content-center">
-                Don't have an account?
-                <p><a href="register" class="ms-1 link-offset-2 link-underline link-underline-opacity-0">REGISTER</a></p>
             </div>
+            <div class="d-flex justify-content-center mb-3">
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">LOGIN</button>
+            </div>
+        </form>
+        <div class="d-flex justify-content-center">
+            Don't have an account?
+            <p><a href="register" class="ms-1 link-offset-2 link-underline link-underline-opacity-0">Register Now</a></p>
         </div>
     </div>
+</div>
