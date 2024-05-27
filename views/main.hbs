@@ -87,56 +87,18 @@
                 <th class="item-label date"><h5>Date Requested</h5></th>
                 <th class="item-label date"><h5>Date Completed</h5></th>
             </tr>
-            <tr>
-                <th class="item-container number"><h5>1</h5></th>
-                <td class="item-container"><h5>12345678</h5></th>
-                <td class="item-container"><h5>Chester Ruiz</h5></th>
-                <td class="item-container"><h5>CBC, ETC, YFC, CBC, ETC, YFC, CBC, ETC, YFC, CBC, ETC, YFC</h5></th>
-                <td class="item-container status"><h5 class="status-item">Requested</h5></th>
-                <td class="item-container"><h5>Remarks</h5></th>
-                <td class="item-container date"><h5>11/11/2011 16:31:01</h5></th>
-                <td class="item-container date"><h5>11/11/2011 16:31:01</h5></th>
-            </tr>
-            <tr>
-                <th class="item-container number"><h5>2</h5></th>
-                <td class="item-container"><h5>12345678</h5></th>
-                <td class="item-container"><h5>Chester Ruiz</h5></th>
-                <td class="item-container"><h5>CBC, ETC, YFC</h5></th>
-                <td class="item-container status"><h5 class="status-item c">Completed</h5></th>
-                <td class="item-container"><h5>Remarks</h5></th>
-                <td class="item-container date"><h5>Date Requested</h5></th>
-                <td class="item-container date"><h5>Date Completed</h5></th>
-            </tr>
-            <tr>
-                <th class="item-container number"><h5>3</h5></th>
-                <td class="item-container"><h5>12345678</h5></th>
-                <td class="item-container"><h5>Chester Ruiz</h5></th>
-                <td class="item-container"><h5>CBC, ETC, YFC</h5></th>
-                <td class="item-container status"><h5 class="status-item ip">In Progress</h5></th>
-                <td class="item-container"><h5>Remarks</h5></th>
-                <td class="item-container date"><h5>Date Requested</h5></th>
-                <td class="item-container date"><h5>Date Completed</h5></th>
-            </tr>
-            <tr>
-                <th class="item-container number"><h5>4</h5></th>
-                <td class="item-container"><h5>12345678</h5></th>
-                <td class="item-container"><h5>Chester Ruiz</h5></th>
-                <td class="item-container"><h5>CBC, ETC, YFC</h5></th>
-                <td class="item-container status"><h5 class="status-item">Status</h5></th>
-                <td class="item-container"><h5>Remarks</h5></th>
-                <td class="item-container date"><h5>Date Requested</h5></th>
-                <td class="item-container date"><h5>Date Completed</h5></th>
-            </tr>
-            <tr>
-                <th class="item-container number"><h5>5</h5></th>
-                <td class="item-container"><h5>12345678</h5></td>
-                <td class="item-container"><h5>Chester Ruiz</h5></td>
-                <td class="item-container"><h5>CBC, ETC, YFC</h5></td>
-                <td class="item-container status"><h5 class="status-item">Status</h5></td>
-                <td class="item-container"><h5>Remarks</h5></th>
-                <td class="item-container date"><h5>Date Requested</h5></td>
-                <td class="item-container date"><h5>Date Completed</h5></td>
-            </tr>
+            {{#each data}}
+                <tr>
+                    <th class="item-container number"><h5>{{@index}}</h5></th>
+                    <td class="item-container"><h5>{{patientID}}</h5></th>
+                    <td class="item-container"><h5>{{patientName}}</h5></th>
+                    <td class="item-container"><h5>{{category}}</h5></th>
+                    <td class="item-container status"><h5 class="status-item {{barColor}}">{{status}}</h5></th>
+                    <td class="item-container"><h5>{{remarks}}</h5></th>
+                    <td class="item-container date"><h5>{{dateStart}}</h5></th>
+                    <td class="item-container date"><h5>{{dateEnd}}</h5></th>
+                </tr>
+            {{/each}}
         </table>
 
         <!-- ======= Buttons ======= -->

@@ -30,8 +30,16 @@ const patientSchema = new mongoose.Schema({
 const patientModel = mongoose.model('patients', patientSchema);
 
 const requestSchema = new mongoose.Schema({
-    patient: { type: String },
-    medtech: { type: String },
+    patient: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'patients',
+        required: true
+    },
+    medtech: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true
+    },
     category: {type: String},
     status: {type: String},
     dateStart: {type: Date},
