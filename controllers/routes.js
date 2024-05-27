@@ -7,6 +7,7 @@ function add(server) {
   const { appdata } = require('../models/data');
   const userModel = appdata.userModel;
   const patientModel = appdata.patientModel;
+  const requestModel = appdata.requestModel;
 
   function errorFn(err) {
     console.log('Error found. Please trace!');
@@ -38,16 +39,72 @@ function add(server) {
   });
 
   server.get('/main', function (req, resp) {
-    resp.render('main', {
-      layout: 'index',
-      title: 'Main - Laboratory Information System'
-    });
+  // Initialize an empty search query object
+    let searchQuery = {};
+
+    // Check if lowerprice and/or upperprice are defined and non-empty
+    if (req.query.lowerprice !== '' || req.query.upperprice !== '') {
+        // Construct the price range query
+        searchQuery.date = {};
+        if (req.query.lowerprice !== '') {
+            searchQuery.date.$gte = req.query.lowerdate;
+        }
+        if (req.query.upperprice !== '') {
+            searchQuery.date.$lte = req.query.upperdate;
+        }
+    }
+
+    // Check if category is defined and non-empty
+    if (req.query.category !== '') {
+        // Add category query to the search query
+        searchQuery.category = req.query.category;
+    }
+    requestModel.find(searchQuery).then(function(requests){
+      console.log('List successful');
+      let vals = [];
+      let counts = 0;
+      let subval = [];
+      for(const item of requests){
+        //check for this item's assigned patient and medtech
+        patientModel.findOne({_id: patient}).then(function(patients){
+          userModel.findOne({_id: medtech}).then(function(medtechs){
+        
+            subval.push({
+                  patient: patients.name,
+                  medtech: medtechs.name,
+                  category: item.category,
+                  status: item.status,
+                  dateStart: item.dateStart,
+                  dateEnd: item.dateEnd,
+                  remarks: item.remarks,
+                  name: item.name,
+                  linkname: item.linkname,
+                  image: item.imagesquare,
+                  landmark: item.landmark
+              });
+              counts+=1;
+              if(counts == 5){
+                counts=0;
+                vals.push( subval);
+                subval = new Array();
+              }
+          })
+        })
+      }
+      vals.push( subval);
+      resp.render('main', {
+        layout: 'index',
+        title: 'Main - Laboratory Information System'
+      });
+    }).catch(errorFn);
+
   });
   server.get('/register', function (req, resp) {
     resp.render('register', {
       layout: 'index',
       title: 'Register - Laboratory Information System'
     });
+
   });
 
   server.get('/addpatient', function (req, resp) {
@@ -64,7 +121,7 @@ function add(server) {
   //adds to the database the user details upon registering
   server.post('/adduser-db', function (req, resp) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-      var fullName = req.body.lastname + ", " + req.body.firstname + req.body.middlename;
+      var fullName = req.body.lastname + ", " + req.body.firstname + " " + req.body.middlename;
       const userInstance = userModel({
         name: setDefault(fullName),
         username: setDefault(req.body.username),
