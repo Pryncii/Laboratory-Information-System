@@ -32,6 +32,12 @@ function add(server){
     });
   });
   
+  server.get('/main', function(req, resp){
+    resp.render('main',{
+      layout: 'index',
+      title: 'Laboratory Information System - Main'
+    });
+  });
   server.get('/register', function(req, resp){
     resp.render('register', {
       layout: 'index',
@@ -42,7 +48,7 @@ function add(server){
   server.get('/addpatient', function(req, resp){
     resp.render('addpatient',{
       layout: 'index',
-      title: 'Laboratory Information System'
+      title: 'Laboratory Information System - Add Patient'
     });
   });
 
@@ -74,7 +80,8 @@ function add(server){
       age: setDefaultNo(req.body.age),
       phoneNo: setDefault(req.body.pnum),
       email: setDefault(req.body.email),
-      address: setDefault(req.body.address)
+      address: setDefault(req.body.address),
+      remarks: ""
     });
 
     patientInstance.save().then(function(patient) {
@@ -82,6 +89,8 @@ function add(server){
       resp.redirect('/');
     }).catch(errorFn);
   });
+
+  //add request here
   
 }
 
