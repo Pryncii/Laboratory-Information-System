@@ -38,7 +38,7 @@ const requestSchema = new mongoose.Schema({
     remarks: {type: String}
     },{ versionKey: false });
     
-const requestModel = mongoose.model('requests', requestModel);
+const requestModel = mongoose.model('requests', requestSchema);
 
 let appdata = {
     'patientModel'   : patientModel,
