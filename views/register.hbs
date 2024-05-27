@@ -6,26 +6,18 @@
 
         <form action="/adduser-db" method="post">
             <div class="spacer">
-                <div class="d-flex justify-content-evenly">
-                    <div class="mb-3">
-                        <label for="firstname" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstname" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="middlename" class="form-label">Middle Name</label>
-                        <input type="text" class="form-control" id="middlename" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastname" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastname" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="sex" class="form-label">Sex</label>
-                        <select class="form-select" id="sex">
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                        </select>
-                    </div>
+                Full Name
+                <div class="d-flex justify-content-evenly mb-3 gap-5">
+                    <input type="text" class="form-control" id="firstname" placeholder="First Name" required>
+                    <input type="text" class="form-control" id="middlename" placeholder="Middle Name">
+                    <input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="sex" class="form-label">Sex</label>
+                    <select class="form-select" id="sex">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
                 </div>
                 <div>
                     <div class="mb-3">

@@ -54,7 +54,7 @@ function add(server){
 
   //adds to the database the user details upon registering
   server.post('/adduser-db', function(req, resp){
-    var fullName = req.body.lastname + ", " + req.body.firstname;
+    var fullName = req.body.lastname + ", " + req.body.firstname + req.body.middlename;
     const userInstance = userModel({
       name: setDefault(fullName),
       username: setDefault(req.body.username),
