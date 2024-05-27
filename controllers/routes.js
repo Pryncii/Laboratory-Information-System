@@ -35,7 +35,7 @@ function add(server){
   server.get('/main', function(req, resp){
     resp.render('main',{
       layout: 'index',
-      title: 'Laboratory Information System - Login'
+      title: 'Laboratory Information System - Main'
     });
   });
   server.get('/register', function(req, resp){
@@ -48,7 +48,7 @@ function add(server){
   server.get('/addpatient', function(req, resp){
     resp.render('addpatient',{
       layout: 'index',
-      title: 'Laboratory Information System'
+      title: 'Laboratory Information System - Add Patient'
     });
   });
 
