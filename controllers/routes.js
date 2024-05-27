@@ -32,6 +32,12 @@ function add(server){
     });
   });
   
+  server.get('/main', function(req, resp){
+    resp.render('main',{
+      layout: 'index',
+      title: 'Laboratory Information System - Login'
+    });
+  });
   server.get('/register', function(req, resp){
     resp.render('register', {
       layout: 'index',
