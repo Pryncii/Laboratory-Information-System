@@ -43,7 +43,7 @@ function add(server) {
     let searchQuery = {};
 
     // Check if lowerprice and/or upperprice are defined and non-empty
-    if (req.query.lowerprice !== '' || req.query.upperprice !== '') {
+    if (req.query.lowerdate !== '' || req.query.upperdate !== '') {
         // Construct the price range query
         searchQuery.date = {};
         if (req.query.lowerprice !== '') {
