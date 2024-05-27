@@ -59,44 +59,60 @@ function add(server) {
         // Add category query to the search query
         searchQuery.category = req.query.category;
     }
-    requestModel.find(searchQuery).then(function(requests){
-      console.log('List successful');
-      let vals = [];
-      let counts = 0;
-      let subval = [];
-      for(const item of requests){
-        //check for this item's assigned patient and medtech
-        patientModel.findOne({_id: patient}).then(function(patients){
-          userModel.findOne({_id: medtech}).then(function(medtechs){
-        
-            subval.push({
-                  patient: patients.name,
-                  medtech: medtechs.name,
-                  category: item.category,
-                  status: item.status,
-                  dateStart: item.dateStart,
-                  dateEnd: item.dateEnd,
-                  remarks: item.remarks,
-                  name: item.name,
-                  linkname: item.linkname,
-                  image: item.imagesquare,
-                  landmark: item.landmark
-              });
-              counts+=1;
-              if(counts == 5){
-                counts=0;
-                vals.push( subval);
-                subval = new Array();
-              }
-          })
-        })
+    requestModel.find({})
+  .then(async function(requests) {
+    console.log('List successful');
+    let vals = [];
+    let counts = 0;
+    let subval = [];
+    let statusColor;
+
+    for (const item of requests) {
+      try {
+        const patients = await patientModel.findById(item.patient);
+        const medtechs = await userModel.findById(item.medtech);
+
+        if(item.status == "Completed"){
+          statusColor = "c";
+        } else if (item.status == "In Progress"){
+          statusColor = "ip";
+        } else {
+          statusColor = "";
+        }
+
+        subval.push({
+          patientID: patients.patientID,
+          patientName: patients.name,
+          medtech: medtechs.name,
+          category: item.category,
+          status: item.status,
+          dateStart: item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }),
+          dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
+          remarks: item.remarks,
+          barColor: statusColor
+        });
+
+        counts += 1;
+        if (counts === 5) {
+          counts = 0;
+          vals.push(subval);
+          subval = [];
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-      vals.push( subval);
-      resp.render('main', {
-        layout: 'index',
-        title: 'Main - Laboratory Information System'
-      });
-    }).catch(errorFn);
+    }
+
+    vals.push(subval);
+    console.log(vals);
+    resp.render('main', {
+      layout: 'index',
+      title: 'Main - Laboratory Information System',
+      data: vals[0] 
+    });
+  })
+  .catch(errorFn);
+
 
   });
   server.get('/register', function (req, resp) {
