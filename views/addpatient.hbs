@@ -1,5 +1,7 @@
 {{> header}}
+
 <link rel="stylesheet" href="/common/register_patient.css">
+<script src="addpatient.js"></script>
 
 <div class="main-content">
             <!-- ======= Title ======= -->
@@ -9,7 +11,7 @@
 
             <!-- ======= Registration Details ======= -->
             <div class="reg-content">
-                <form action="/addpatient-db" method="post">
+                <form action="/addpatient-db" method="post" onsubmit="return confirm('Proceed with registering a new patient?');">
                     <table class="reg-items">
                         <tr>
                             <th class="item-label"><h5>Full Name</h5></th>
@@ -19,13 +21,13 @@
                             <th class="item-container"><input class="input-item" type="text" id="mname" name="mname" placeholder="Middle Name"></th>
                             <th class="item-container"><input class="input-item" type="text" id="lname" name="lname" placeholder="Last Name"></th>
                         </tr>
-                    </table>
-                    <table class="reg-items">
                         <tr>
-                            <th class="item-label two-col"><h5>Sex</h5></th>
-                            <th class="item-label two-col"><h5>Birthday</h5></th>
+                            <th class="item-label"><h5>Age</h5></th>
+                            <th class="item-label"><h5>Sex</h5></th>
+                            <th class="item-label"><h5>Birthday</h5></th>
                         </tr>
                         <tr>
+                            <th class="item-container"><input class="input-item" type="text" id="age" name="age"></th>
                             <th class="item-container">
                                 <select class="input-item" name="sex" id="sex">
                                     <option value="m">Male</option>
@@ -34,6 +36,8 @@
                             </th>
                             <th class="item-container"><input class="input-item" type="date" id="bday" name="bday"></th>
                         </tr>
+                    </table>
+                    <table class="reg-items">
                         <tr>
                             <th class="item-label two-col"><h5>Phone Number</h5></th>
                             <th class="item-label two-col"><h5>Email</h5></th>
