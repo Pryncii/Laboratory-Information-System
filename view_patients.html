@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <title>Bioscopic Template</title>
+
+        <link rel="stylesheet" href="view_patients.css">
+    
+        <!-- ======= Bootstrap 5 ======= -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+
+    <body>
+        <!-- ======= Header ======= -->
+        <div class="header sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="homepage.html">
+                    <img class="navbar-logo" src="public\common\images\nav_logo.PNG" alt="">
+                </a>
+                
+                <button class="menu-links navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="menu-links navbar-nav ms-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="homepage.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="register_patient.html">Register New Patient</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="view_patients.html">View All Patients</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Add Patient Request</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <h6 class="dropdown-header">Hello, Username!</h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">View Profile</a>
+                                <a class="dropdown-item" href="#">Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- ======= Main Content ======= -->
+        <center id="nameOfPage">
+            VIEW ALL PATIENTS
+        </center>
+
+        <div class="main-content">
+            <div class="search-bar">
+                <input type="text" placeholder="Search for Patient" class="search-input">
+                <button type="submit">Search</button>
+            </div>
+            <div class="info-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="text-center">PATIENT</th>
+                            <th class="text-center">REQUEST</th>
+                            <th class="text-center">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> <!-- ROW 1 -->
+                            <td>Name 1</td> <!-- ROW 1 COLUMN 1 -->
+                            <td>Request 1</td> <!-- ROW 1 COLUMN 2 -->
+                            <td>Status 1</td> <!-- ROW 1 COLUMN 3 -->
+                        </tr>
+                        <tr> <!-- ROW 2 -->
+                            <td>Name 2</td> <!-- ROW 2 COLUMN 1 -->
+                            <td>Request 2</td> <!-- ROW 2 COLUMN 2 -->
+                            <td>Status 2</td> <!-- ROW 2 COLUMN 3 -->
+                        </tr>
+                        <tr> <!-- ROW 3 -->
+                            <td>Name 3</td> <!-- ROW 3 COLUMN 1 -->
+                            <td>Request 3</td> <!-- ROW 3 COLUMN 2 -->
+                            <td>Status 3</td> <!-- ROW 3 COLUMN 3 -->
+                        </tr>
+                        <tr> <!-- ROW 4  -->
+                            <td>Name 4</td> <!-- ROW 4 COLUMN 1 -->
+                            <td>Request 4</td> <!-- ROW 4 COLUMN 2 -->
+                            <td>Status 4</td> <!-- ROW 4 COLUMN 3 -->
+                        </tr>
+                        <tr> <!-- ROW 5 -->
+                            <td>Name 5</td> <!-- ROW 5 COLUMN 1 -->
+                            <td>Request 5</td> <!-- ROW 5 COLUMN 2 -->
+                            <td>Status 5</td> <!-- ROW 5 COLUMN 3 -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            1 out of 1
+            <div class="nextback-buttons">
+                <button type="button">Back</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </body>
+</html>
