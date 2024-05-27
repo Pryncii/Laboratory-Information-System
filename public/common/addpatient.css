@@ -7,6 +7,7 @@
 .item-container { padding: 10px; }
 tr { height: 30px; }
 body { background-color: #FFF8F3 !important; }
+.reg-btn { margin: 30px; }
 
 .item-label {
     justify-content: left;
@@ -17,23 +18,6 @@ body { background-color: #FFF8F3 !important; }
 .btn-container {
     display: flex;
     justify-content: center;
-}
-
-.reg-btn {
-    width: 10%;
-    margin: 30px;
-    padding: 10px;
-    font-size: larger;
-    background-color: #0D1D58;
-    border-radius: 10px;
-    color: white;
-    border-width: 0px;
-}
-
-.reg-btn:hover {
-    background-color: #A1B1C7;
-    color: #0D1D58;
-    font-weight: 600;
 }
 
 .input-item {

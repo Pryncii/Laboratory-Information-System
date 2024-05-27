@@ -1,13 +1,19 @@
-{{> header}}
 <link href="/common/loginregister.css" rel="stylesheet" >
-    <div class="d-flex justify-content-center align-items-center vh-100 w">
-        <div class="w-50">
-            <h1 class="text-center fw-bold mb-3">Register Account</h1>
-            <form action="/adduser-db" method="post">
+
+<div class="d-flex justify-content-center align-items-center vh-100 w">
+    <div class="w-50">
+        <h1 class="text-center fw-bold mb-3">Register Account</h1>
+
+        <form action="/adduser-db" method="post">
+            <div class="spacer">
                 <div class="d-flex justify-content-evenly">
                     <div class="mb-3">
                         <label for="firstname" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="middlename" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="middlename" required>
                     </div>
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last Name</label>
@@ -38,15 +44,16 @@
                 </div>
                 <div class="mb-3">
                     <label for="prc" class="form-label">PRC License no.</label>
-                    <input type="number" class="form-control" id="prc">
+                    <input type="text" class="form-control" id="prc">
                 </div>
-                <div class="d-flex justify-content-center mb-3">
-                    <button type="submit" class="btn btn-primary btn-lg">REGISTER</button>
-                </div>
-            </form>
-            <div class="d-flex justify-content-center">
-                Already have an account?
-                <p><a href="login" class="ms-1 link-offset-2 link-underline link-underline-opacity-0">Log In</a></p>
             </div>
+            <div class="d-flex justify-content-center mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">REGISTER</button>
+            </div>
+        </form>
+        <div class="d-flex justify-content-center">
+            Already have an account?
+            <p><a href="/" class="ms-1 link-offset-2 link-underline link-underline-opacity-0">Log In</a></p>
         </div>
     </div>
+</div>
