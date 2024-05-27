@@ -80,7 +80,8 @@ function add(server){
       age: setDefaultNo(req.body.age),
       phoneNo: setDefault(req.body.pnum),
       email: setDefault(req.body.email),
-      address: setDefault(req.body.address)
+      address: setDefault(req.body.address),
+      remarks: ""
     });
 
     patientInstance.save().then(function(patient) {
@@ -88,6 +89,8 @@ function add(server){
       resp.redirect('/');
     }).catch(errorFn);
   });
+
+  //add request here
   
 }
 
