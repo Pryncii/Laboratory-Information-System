@@ -43,6 +43,7 @@ function add(server) {
       title: 'Main - Laboratory Information System'
     });
   });
+
   server.get('/register', function (req, resp) {
     resp.render('register', {
       layout: 'index',
@@ -54,6 +55,13 @@ function add(server) {
     resp.render('addpatient', {
       layout: 'index',
       title: 'Add Patient - Laboratory Information System'
+    });
+  });
+
+  server.get('/viewpatients', function (req, resp) {
+    resp.render('view_patients', {
+      layout: 'index',
+      title: 'View Patients - Laboratory Information System'
     });
   });
 
