@@ -7,7 +7,8 @@
         "age": 20,
         "phoneNo": "09287092589",
         "email": "princebuencamino@gmail.com",
-        "address": "122 Golden Hour, Penacony Dreamscape"
+        "address": "122 Golden Hour, Penacony Dreamscape",
+        "remarks": ""
     },
     {
         "patientID": 1001,
@@ -17,7 +18,8 @@
         "age": 21,
         "phoneNo": "09171234567",
         "email": "maria.garcia@gmail.com",
-        "address": "456 Sunrise St, Dreamville"
+        "address": "456 Sunrise St, Dreamville",
+        "remarks": ""
     },
     {
         "patientID": 1002,
@@ -27,7 +29,8 @@
         "age": 24,
         "phoneNo": "09081234567",
         "email": "juan.delacruz@example.com",
-        "address": "789 Sunset Blvd, Newtown"
+        "address": "789 Sunset Blvd, Newtown",
+        "remarks": ""
     },
     {
         "patientID": 1003,
@@ -37,7 +40,8 @@
         "age": 22,
         "phoneNo": "09391234567",
         "email": "ana.reyes@example.com",
-        "address": "1011 Moonlight Ave, Star City"
+        "address": "1011 Moonlight Ave, Star City",
+        "remarks": ""
     },
     {
         "patientID": 1004,
@@ -47,6 +51,7 @@
         "age": 24,
         "phoneNo": "09201234567",
         "email": "miguel.santos@example.com",
-        "address": "1213 Sunshine Rd, Happy Town"
+        "address": "1213 Sunshine Rd, Happy Town",
+        "remarks": ""
     }
 ]
