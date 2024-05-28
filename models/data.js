@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/LISdb');
 
 const userSchema = new mongoose.Schema({
+    medtechID: {type: Number},
     name: { type: String },
     username: { type: String },
     email: { type: String },
@@ -16,6 +17,8 @@ const userSchema = new mongoose.Schema({
 const userModel = mongoose.model('users', userSchema);
 
 const patientSchema = new mongoose.Schema({
+    patientID: {type: Number},
+
     name: { type: String },
     sex: { type: String },
     birthday: {type: Date},
@@ -29,8 +32,8 @@ const patientSchema = new mongoose.Schema({
 const patientModel = mongoose.model('patients', patientSchema);
 
 const requestSchema = new mongoose.Schema({
-    patient: { type: String },
-    medtech: { type: String },
+    patientID: {type: Number},
+    medtechID:{type: Number},
     category: {type: String},
     status: {type: String},
     dateStart: {type: Date},
@@ -44,9 +47,9 @@ let appdata = {
     'patientModel'   : patientModel,
     // add other models here
     'userModel'      : userModel,
-    'requestModel'      : requestModel,
+    'requestModel'   : requestModel,
+
 };
 
 module.exports.appdata = appdata;
 module.exports.mongoose = mongoose;
-
