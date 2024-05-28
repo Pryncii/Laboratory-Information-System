@@ -2,6 +2,7 @@
 const bcrypt = require("bcrypt");
 const { Int32 } = require("mongodb");
 const saltRounds = 10;
+var loggedUser;
 
 function add(server) {
   const responder = require('../models/data');
@@ -130,7 +131,8 @@ function add(server) {
       pageNo: req.params.pageNo,
       pageNoNext: pageFront,
       pageNoBack: pageBack,
-      pageNoCap: vals.length
+      pageNoCap: vals.length,
+      user: loggedUser.name
     });
   })
   .catch(errorFn);
@@ -145,19 +147,12 @@ function add(server) {
     });
 
   });
-
-  server.get('/main', function (req, resp) {
-    resp.render('main', {
-      layout: 'index',
-      title: 'Main - Laboratory Information System'
-    });
-  });
   
   server.get('/addpatient', function(req, resp){
     resp.render('addpatient',{
-
       layout: 'index',
-      title: 'Add Patient - Laboratory Information System'
+      title: 'Add Patient - Laboratory Information System',
+      user: loggedUser.name
     });
   });
 
@@ -166,6 +161,7 @@ function add(server) {
       if (user != undefined && user._id != null) {
         bcrypt.compare(req.body.password, user.password, function (err, result) {
           if (result) {
+            loggedUser = user;
             resp.redirect("/main/1");
             return;
           } else {
@@ -238,7 +234,8 @@ function add(server) {
               resp.render('view_patients', {
                 layout: 'index',
                 title: 'Laboratory Information System',
-                patientData: patientData
+                patientData: patientData,
+                user: loggedUser.name
               });
           });
         })
@@ -342,14 +339,15 @@ function add(server) {
       resp.render('patientrequest',{
         layout: 'index',
         title: 'Laboratory Information System - Patient Request',
-        patient: patient
+        patient: patient,
+        user: loggedUser.name
       });
     });
   });
 
   server.get('/add-patientrequest', function(req, resp) {
     let patientID = req.query.patientID;
-    let medtechID = req.query.medtechID;
+    let medtechID = loggedUser.medtechID;
     let category = req.query.category;
     let status = 'Requested';
     let dateStart = new Date();
@@ -372,7 +370,3 @@ function add(server) {
 }
 
 module.exports.add = add;
-
-//Note: There are other ways to declare routes. Another way is to
-//      use a structure called router. It would look like this:
-//      const router = express.Router()
