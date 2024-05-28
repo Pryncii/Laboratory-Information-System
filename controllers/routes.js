@@ -61,6 +61,7 @@ function add(server) {
     }
     requestModel.find({})
   .then(async function(requests) {
+    requests = requests.reverse();
     console.log('List successful');
     let vals = [];
     let valNo = req.params.pageNo - 1;
