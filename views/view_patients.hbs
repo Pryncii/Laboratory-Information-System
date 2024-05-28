@@ -26,8 +26,8 @@
                             <th class="text-center">REMARKS</th>
                         </tr>
                     </thead>
-                    <tbody id="patientData">
-                        {{#each patientData}}
+                    <tbody id="pageData">
+                        {{#each pageData}}
                         <tr>
                             <td>{{name}}</td> 
                             <td>{{latestDate}}</td> 
@@ -38,9 +38,12 @@
                     </tbody>
                 </table>
             </div>
-            1 out of 1
-            <div class="nextback-buttons">
-                <button type="button">Back</button>
-                <button type="button">Next</button>
+            <div id="pageNumber">
+                {{start}} out of {{end}}
             </div>
+            <div class="nextback-buttons">
+                <button type="button" id="back-btn" disabled="true">Back</button>
+                <button type="button" id="next-btn">Next</button>
+            </div>
+            <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="N">
         </div>
