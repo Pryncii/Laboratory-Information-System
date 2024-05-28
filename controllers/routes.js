@@ -46,6 +46,13 @@ function add(server){
     });
   });
 
+  server.get('/viewpatients', function(req, resp){
+    resp.render('view_patients',{
+      layout: 'index',
+      title: 'Laboratory Information System'
+    });
+  });
+
   //adds to the database the user details upon registering
   server.post('/adduser-db', function(req, resp){
     var fullName = req.body.lastname + ", " + req.body.firstname;
