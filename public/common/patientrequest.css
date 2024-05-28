@@ -1,0 +1,112 @@
+body { background-color: #FFF8F3 !important; }
+.item-container, th, td, .proceed-button { font-family: "Inter"; }
+.patient-info, .test-info, .label, .row-patient-info, .row-test-info { display: flex; }
+.button-spacer { width: 70%; }
+.item-container { padding: 10px; }
+
+.main-content {
+    height: 1065px;
+    padding: 10px;
+}
+
+.patient-info {
+    height: 295px;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom:1px solid #0D1D58;
+}
+
+.test-info {
+    height: 750px;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.label {
+    height: 75px;
+    align-items: center;
+    padding: 10px;
+}
+
+.label-text {
+    color: #0D1D58;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.row-patient-info {
+    height: 110px;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+}
+
+.row-test-info {
+    height: 150px;
+    flex-direction: column;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 1px solid #0D1D58;
+}
+
+th, td {
+    color: #0D1D58;
+    font-size: 20px;
+}
+
+th { 
+    padding: 10px; 
+}
+
+td {
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.proceed-button
+{
+    width: 15%;
+    height: 100%;
+    background-color: #0D1D58;
+    color: #FFF8F3;
+    border: #0D1D58;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.proceed-button:hover {
+    background-color: #4A6BA1;
+    color: #FFF8F3;
+}
+
+.input-item {
+    background-color: #DDDFE3;
+    border-radius: 5px;
+    border-width: 0px;
+    padding: 15px;
+}
+
+.dropdown {
+    width: 630px;
+    display: none;
+}
+
+.not-visible {
+    display: none;
+}
+
+/* Modal */
+
+.modal-header, .close, .btn-primary {
+    background-color: #0D1D58;
+    color: #FFF8F3;
+}
+
+.btn-primary:hover {
+    background-color: #4A6BA1;
+    color: #FFF8F3;
+}
