@@ -1,0 +1,44 @@
+{{> header}}
+
+<link rel="stylesheet" href="/common/view_patients.css">
+        <!-- ======= Main Content ======= -->
+        <center id="nameOfPage">
+            VIEW ALL PATIENTS
+        </center>
+
+        <div class="main-content">
+            <div class="search-bar">
+                <form action="/viewpatients" method="GET">
+                    <input type="text" name="search" placeholder="Search patients...">
+                    <button type="submit"  class="btn btn-primary btn-lg">Search</button>
+                </form>
+            </div>
+            
+
+            <div class="info-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="text-center">PATIENT<br><button class="btn btn-primary btn-lg" id="sortName">Last Name A-Z</button></th>
+                            <th class="text-center">LAST MODIFIED<br><button class="btn btn-primary btn-lg" id="sortDate">Recently Modified</button></th>
+                            <th class="text-center">REMARKS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each patientData}}
+                        <tr>
+                            <td>{{name}}</td> 
+                            <td>{{latestDate}}</td> 
+                            <td>{{remarks}}</td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            1 out of 1
+            <div class="nextback-buttons">
+                <button type="button">Back</button>
+                <button type="button">Next</button>
+            </div>
+        </div>

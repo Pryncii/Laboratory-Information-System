@@ -47,8 +47,8 @@ let appdata = {
     // add other models here
     'userModel'      : userModel,
     'requestModel'   : requestModel,
+
 };
 
 module.exports.appdata = appdata;
 module.exports.mongoose = mongoose;
-

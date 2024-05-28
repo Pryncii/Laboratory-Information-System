@@ -137,6 +137,7 @@ function add(server) {
 
 
   });
+
   server.get('/register', function (req, resp) {
     resp.render('register', {
       layout: 'index',
@@ -145,8 +146,16 @@ function add(server) {
 
   });
 
-  server.get('/addpatient', function (req, resp) {
-    resp.render('addpatient', {
+  server.get('/main', function (req, resp) {
+    resp.render('main', {
+      layout: 'index',
+      title: 'Main - Laboratory Information System'
+    });
+  });
+  
+  server.get('/addpatient', function(req, resp){
+    resp.render('addpatient',{
+
       layout: 'index',
       title: 'Add Patient - Laboratory Information System'
     });
@@ -170,6 +179,72 @@ function add(server) {
         return;
       }
     });
+
+  server.get('/viewpatients', function(req, resp){
+      patientModel
+        .find()
+        .lean()
+        .then(function(patients){
+          const filteredPatients = patients.filter(patient => {
+            if (req.query.search && patient.name.toLowerCase().includes(req.query.search.toLowerCase())) {
+                return true;
+            }
+            return false;
+          });
+
+          const patientsToProcess = req.query.search ? filteredPatients : patients;
+
+          const promises = patientsToProcess.map(patient => {
+            return requestModel
+              .find({patient: patient.patientID})
+              .lean()
+              .then(function(requests){
+                const dates = requests.map(request => new Date(request.dateStart));
+                const latestDate = new Date(Math.max(...dates));
+
+                return {
+                  patientID: patient.patientID,
+                  name: patient.name,
+                  latestDate: latestDate,
+                  remarks: patient.remarks
+                };
+              });
+          });
+
+          return Promise.all(promises)
+            .then(patientData => {
+              // Format dates
+              patientData.forEach(patient => {
+                const options = { month: 'long', day: 'numeric', year: 'numeric' };
+                patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+              });
+
+              // Sort patientData by name  A-Z
+              patientData.sort((a, b) => {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+              });
+              
+              //check
+              console.log(patientData);
+
+              resp.render('view_patients', {
+                layout: 'index',
+                title: 'Laboratory Information System',
+                patientData: patientData
+              });
+          });
+        })
+        .catch(errorFn);
+  });
+
   });
 
   //adds to the database the user details upon registering
