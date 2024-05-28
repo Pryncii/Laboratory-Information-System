@@ -143,7 +143,7 @@ function add(server) {
         username: setDefault(req.body.username),
         email: setDefault(req.body.email),
         sex: setDefault(req.body.sex),
-        password: setDefault(req.body.password),
+        password: hash,
         prcno: setDefault(req.body.prc),
       });
       userInstance.save().then(function (user) {
