@@ -2,6 +2,8 @@
 
 <link rel="stylesheet" href="/common/main.css">
 <link rel="stylesheet" href="/common/loginregister.css">
+<link rel="stylesheet" href="/common/edit_status_request.css">
+
 
  <div class="main-content">
     <!-- ======= Title ======= -->
@@ -88,12 +90,13 @@
                 <th class="item-label date"><h5>Date Completed</h5></th>
             </tr>
             {{#each data}}
-                <tr>
+                <tr data-patient-id="{{patientID}}" data-patient-name="{{patientName}}" data-status="{{status}}" data-remarks="{{remarks}}" data-date-start="{{dateStart}}" data-date-end="{{dateEnd}}">
                     <th class="item-container number"><h5>{{@index}}</h5></th>
                     <td class="item-container"><h5>{{patientID}}</h5></th>
                     <td class="item-container"><h5>{{patientName}}</h5></th>
                     <td class="item-container"><h5>{{category}}</h5></th>
-                    <td class="item-container status"><h5 class="status-item {{barColor}}">{{status}}</h5></th>
+                    <td class="item-container status"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
+                    <h5 class="status-item {{barColor}}">{{status}}</h5></a></th>
                     <td class="item-container"><h5>{{remarks}}</h5></th>
                     <td class="item-container date"><h5>{{dateStart}}</h5></th>
                     <td class="item-container date"><h5>{{dateEnd}}</h5></th>
@@ -115,6 +118,161 @@
                 </th>
             </tr>
         </table>
+        <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <!-- Modal content -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Edit Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="form-header">
+                            <div class="form-title">
+                                <h1 id="user-name"><h2 id="patient-id"><br></h2></h1>
+                            </div>
+                        </div>
+                        <form id="status-form">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status" name="status" class="form-control">
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="start-date-group">
+                                <label for="start-date">Start Date</label>
+                                <input type="date" id="start-date" name="start-date" class="form-control">
+                            </div>
+                            <div class="form-group" id="finish-date-group">
+                                <label for="finish-date">Finish Date</label>
+                                <input type="date" id="finish-date" name="finish-date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="remarks">Medical Technician's Remarks</label>
+                                <textarea id="remarks" name="remarks" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group btn-container">
+                                <input class="reg-btn" type="submit" value="SAVE">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
  </div>
- 
+ <script>    document.addEventListener("DOMContentLoaded", function() {
+    const statusSelect = document.getElementById("status");
+    const startDateGroup = document.getElementById("start-date-group");
+    const finishDateGroup = document.getElementById("finish-date-group");
+    const startDateInput = document.getElementById("start-date");
+    const finishDateInput = document.getElementById("finish-date");
+
+    startDateGroup.style.display = "none";
+    finishDateGroup.style.display = "none";
+
+    statusSelect.addEventListener("change", function() {
+        const currentDate = new Date().toISOString().split("T")[0];
+        
+        if (statusSelect.value === "in_progress") {
+            startDateGroup.style.display = "block";
+            finishDateGroup.style.display = "none";
+            startDateInput.value = currentDate;
+        } else if (statusSelect.value === "completed") {
+            finishDateGroup.style.display = "block";
+            startDateGroup.style.display = "none";
+            finishDateInput.value = currentDate;
+        } else {
+            startDateGroup.style.display = "none";
+            finishDateGroup.style.display = "none";
+        }
+    });
+
+    const form = document.getElementById("status-form");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        const formData = {
+            status: statusSelect.value,
+            startDate: startDateInput.value,
+            finishDate: finishDateInput.value,
+            remarks: document.getElementById("remarks").value
+        };
+        
+        const url = "/update-status-request-db";
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            form.reset();
+            const modal = bootstrap.Modal.getInstance(document.getElementById("statusModal"));
+            modal.hide();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    });
+        // Get the modal element
+    var statusModal = document.getElementById("statusModal");
+
+    // Listen for the modal opening event
+    statusModal.addEventListener("show.bs.modal", function(event) {
+        // Get the button that triggered the modal
+        var button = event.relatedTarget;
+
+        // Extract data from the clicked row
+        var patientID = button.closest("tr").dataset.patientId;
+        var patientName = button.closest("tr").dataset.patientName;
+        var status = button.closest("tr").dataset.status;
+        var remarks = button.closest("tr").dataset.remarks;
+        var dateStart = button.closest("tr").dataset.dateStart;
+        var dateEnd = button.closest("tr").dataset.dateEnd;
+
+        // Populate the modal with the extracted data
+        var modalTitle = statusModal.querySelector(".modal-title");
+        var userName = statusModal.querySelector("#user-name");
+        var patientId = statusModal.querySelector("#patient-id");
+        var statusSelect = statusModal.querySelector("#status");
+        var remarksTextarea = statusModal.querySelector("#remarks");
+        var startDateInput = statusModal.querySelector("#start-date");
+        var finishDateInput = statusModal.querySelector("#finish-date");
+
+        modalTitle.textContent = "Edit Status";
+        userName.textContent = patientName;
+        patientId.textContent = "Patient ID: " + patientID;
+        statusSelect.ariaPlaceholder = status;
+        remarksTextarea.value = remarks;
+        startDateInput.value = dateStart;
+        finishDateInput.value = dateEnd;
+    });
+
+    // Automatically set the start and finish date when status changes
+    document.getElementById("status").addEventListener("change", function() {
+        var statusValue = this.value;
+        var startDateInput = document.getElementById("start-date");
+        var finishDateInput = document.getElementById("finish-date");
+        var currentDate = new Date();
+
+        if (statusValue === "in_progress") {
+            startDateInput.value = formatDate(currentDate);
+            finishDateInput.value = "";
+        } else if (statusValue === "completed") {
+            startDateInput.value = formatDate(currentDate);
+            finishDateInput.value = formatDate(currentDate);
+        } else {
+            startDateInput.value = "";
+            finishDateInput.value = "";
+        }
+    });
+
+});</script>
