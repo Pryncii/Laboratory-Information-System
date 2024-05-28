@@ -15,14 +15,15 @@ body {
     --bs-btn-active-color: #FFF8F3;
     --bs-btn-active-bg: #4A6BA1;
     --bs-btn-active-border-color: #4A6BA1;
+    padding: 10px 25px 10px 25px;
 }
 
-.form-floating>label {
+.form-floating > label {
     text-align: center;
 }
 
 .form-check-input {
-    --bs-form-check-bg: #A1B1C7;
+    --bs-form-check-bg: #DDDFE3;
 }
 
 .form-check-input:checked {
@@ -32,11 +33,10 @@ body {
 .form-control,
 .form-control:focus,
 .form-select {
-    background-color: #A1B1C7;
-    color: #0D1D58;
+    background-color: #DDDFE3;
 }
 
-h1, a,
+h1, h3, a, .form-label,
 .form-floating .form-control~label,
 .form-floating .form-control:focus~label,
 .form-floating .form-control:not(:placeholder-shown)~label,
@@ -48,7 +48,7 @@ h1, a,
 .form-floating .form-control:not(:placeholder-shown)~label::after,
 .form-floating .form-select:focus~label::after,
 .form-floating .form-select:not(:placeholder-shown)~label::after {
-    background-color: #A1B1C7;
+    background-color: #DDDFE3;
 }
 
 a:hover {
@@ -58,3 +58,12 @@ a:hover {
 .link-underline-primary {
     text-decoration-color: #0D1D58 !important;
 }
+
+.title { margin-bottom: 50px; }
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spacer { margin: 40px 50px 40px 50px; }
