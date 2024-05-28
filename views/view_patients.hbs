@@ -1,6 +1,8 @@
 {{> header}}
 
 <link rel="stylesheet" href="/common/view_patients.css">
+<script type="text/javascript" src="/common/view_patients_func.js"></script>
+
         <!-- ======= Main Content ======= -->
         <center id="nameOfPage">
             VIEW ALL PATIENTS
@@ -18,12 +20,12 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="text-center">PATIENT<br><button class="btn btn-primary btn-lg" id="sortName">Last Name A-Z</button></th>
-                            <th class="text-center">LAST MODIFIED<br><button class="btn btn-primary btn-lg" id="sortDate">Recently Modified</button></th>
+                            <th class="text-center">PATIENT<br><button class="btn btn-primary btn-lg" id="sortName-btn">Last Name A-Z</button></th>
+                            <th class="text-center">LAST MODIFIED<br><button class="btn btn-primary btn-lg" id="sortDate-btn">Recently Modified</button></th>
                             <th class="text-center">REMARKS</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="patientData">
                         {{#each patientData}}
                         <tr>
                             <td>{{name}}</td> 
