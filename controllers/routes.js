@@ -71,8 +71,8 @@ function add(server) {
     let statusColor;
     for (const item of requests) {
       try {
-        const patients = await patientModel.findById(item.patient);
-        const medtechs = await userModel.findById(item.medtech);
+        const patients = await patientModel.findById(item.patientID);
+        const medtechs = await userModel.findById(item.medtechID);
 
         if(item.status == "Completed"){
           statusColor = "c";
@@ -150,32 +150,54 @@ function add(server) {
     });
   });
 
-  server.post("/login-validation", function (req, resp) { // tbd
-    resp.redirect("/main/1");
+  server.post("/login-validation", function (req, resp) {
+    userModel.findOne({ username: req.body.username }).lean().then(function (user) {
+      if (user != undefined && user._id != null) {
+        bcrypt.compare(req.body.password, user.password, function (err, result) {
+          if (result) {
+            resp.redirect("/main/1");
+            return;
+          } else {
+            resp.redirect("/login");
+            return;
+          }
+        }
+        );
+      } else {
+        resp.redirect("/login");
+        return;
+      }
+    });
   });
 
   //adds to the database the user details upon registering
   server.post('/adduser-db', function (req, resp) {
-    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-      let baseNo = 100;
-      userModel.find({})
-      .then(function(users){
-      var fullName = req.body.lastname + ", " + req.body.firstname + " " + req.body.middlename;
-      const userInstance = userModel({
-        medtechID: baseNo + users.length,
-        name: setDefault(fullName),
-        username: setDefault(req.body.username),
-        email: setDefault(req.body.email),
-        sex: setDefault(req.body.sex),
-        password: hash,
-        prcno: setDefault(req.body.prc),
-      });
-      userInstance.save().then(function (user) {
-        resp.redirect('/login'); //CHANGE THIS
-      }).catch(errorFn);
-      return;
+    userModel.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] }).then(function (user) {
+      if (user) {
+        resp.redirect("/register");
+      } else {
+        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+          let baseNo = 100;
+          userModel.find({})
+            .then(function (users) {
+              var fullName = req.body.lname + ", " + req.body.fname + " " + req.body.mname;
+              const userInstance = userModel({
+                medtechID: baseNo + users.length,
+                name: setDefault(fullName),
+                username: setDefault(req.body.username),
+                email: setDefault(req.body.email),
+                sex: setDefault(req.body.sex),
+                password: hash,
+                prcno: setDefault(req.body.prc),
+              });
+              userInstance.save().then(function (user) {
+                resp.redirect('/login'); //CHANGE THIS
+              }).catch(errorFn);
+              return;
+            });
+        });
+      }
     });
-  });
   });
 
   server.post('/addpatient-db', function (req, resp) {
