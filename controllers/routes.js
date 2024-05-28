@@ -27,6 +27,10 @@ function add(server) {
     return value ? new Date(value) : defaultValue;
   }
 
+  function isValidDate(dateString) {
+    // Check if the string can be parsed into a valid date
+    return !isNaN(Date.parse(dateString));
+  }
 
   server.get('/', function (req, resp) {
     resp.redirect("/login");
@@ -43,24 +47,71 @@ function add(server) {
   // Initialize an empty search query object
     let searchQuery = {};
 
-    // Check if lowerprice and/or upperprice are defined and non-empty
-    if (req.query.lowerdate !== '' || req.query.upperdate !== '') {
-        // Construct the price range query
-        searchQuery.date = {};
-        if (req.query.lowerdate !== '') {
-            searchQuery.date.$gte = req.query.lowerdate;
-        }
-        if (req.query.upperdate !== '') {
-            searchQuery.date.$lte = req.query.upperdate;
-        }
+    console.log("");
+    console.log("Search: " + req.query.search);
+    console.log("Lower Date: " + req.query.lowerdate);
+    console.log("Upper Date: " + req.query.upperdate);
+    console.log("Status: " + req.query.status);
+    console.log("Categories: " + req.query.category);
+    console.log("Tests: " + req.query.tests);
+
+    if(req.query.search !== undefined || req.query.search !== "")
+    {
+      regex = new RegExp(req.query.search, 'i');
+        searchQuery = {
+          $or: [
+              { category: regex },
+              { status: regex },
+              { remarks: regex }
+          ]
+        };
     }
 
+    if ((req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) || (req.query.upperdate !== undefined && isValidDate(req.query.upperdate))) {
+        // Construct the price range query
+        const dateRangeQuery = {};
+
+        if (req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) {
+          const lowerDate = new Date(req.query.lowerdate);
+          dateRangeQuery['$gte'] = lowerDate;
+          console.log("LowerDate " + lowerDate);
+        }
+  
+        if (req.query.upperdate !== undefined && isValidDate(req.query.upperdate)) {
+          const upperDate = new Date(req.query.upperdate);
+          dateRangeQuery['$lte'] = upperDate;
+          console.log("UpperDate " + upperDate);
+        }
+  
+        // Include the date range query in the overall search query
+        searchQuery.dateStart = dateRangeQuery;
+        searchQuery.dateEnd = dateRangeQuery;
+        searchQuery = {
+          $or: [
+              { dateStart: searchQuery.dateStart },
+              { dateEnd: searchQuery.dateEnd},
+          ]
+        };
+    }
+
+    
+
     // Check if category is defined and non-empty
-    if (req.query.category !== '') {
+    if (req.query.category !== 'AA' && req.query.category !== undefined) {
         // Add category query to the search query
         searchQuery.category = req.query.category;
     }
-    requestModel.find({})
+
+    // Check if category is defined and non-empty
+    if (req.query.status !== 'A' && req.query.status !== undefined) {
+      // Add category query to the search query
+      searchQuery.status = req.query.status;
+    }
+
+    console.log("Search Query");
+    console.log(searchQuery);
+
+    requestModel.find(searchQuery)
   .then(async function(requests) {
     requests = requests.reverse();
     console.log('List successful');
@@ -83,7 +134,7 @@ function add(server) {
         }
 
 
-        console.log(patients);
+        //console.log(patients);
         subval.push({
           patientID: patients.patientID,
           patientName: patients.name,
@@ -110,7 +161,7 @@ function add(server) {
     let pageFront;
     let pageBack;
     vals.push(subval);
-    console.log(vals);
+    //console.log(vals);
     if(req.query.pageNo == 1){
       pageBack = req.params.pageNo;
     } else {
@@ -276,17 +327,23 @@ function add(server) {
     let patientID = req.query.patientID;
     let medtechID = req.query.medtechID;
     let category = req.query.category;
+    if(category == "ClinicalMicroscopy")
+    {
+      category = "Clinical Microscopy";
+    }
     let status = 'Requested';
     let dateStart = new Date();
-    let dateEnd = 'N/A';
-    let remarks = 'N/A';
+    let dateEnd = null;
+    let remarks = "";
 
     const requestInstance = requestModel({
       patientID: patientID,
       medtechID: medtechID,
       category: category,
       status: status,
-      dateStart: dateStart
+      dateStart: dateStart,
+      dateEnd: dateEnd,
+      remarks: remarks
     });
     requestInstance.save().then(function () {
       resp.redirect("/patient-request");
@@ -294,10 +351,7 @@ function add(server) {
   });
 
   
+  
 }
 
 module.exports.add = add;
-
-//Note: There are other ways to declare routes. Another way is to
-//      use a structure called router. It would look like this:
-//      const router = express.Router()
