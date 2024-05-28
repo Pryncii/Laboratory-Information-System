@@ -38,7 +38,7 @@ function add(server) {
     });
   });
 
-  server.get('/main', function (req, resp) {
+  server.get('/main/:pageNo', function (req, resp) {
   // Initialize an empty search query object
     let searchQuery = {};
 
@@ -46,10 +46,10 @@ function add(server) {
     if (req.query.lowerdate !== '' || req.query.upperdate !== '') {
         // Construct the price range query
         searchQuery.date = {};
-        if (req.query.lowerprice !== '') {
+        if (req.query.lowerdate !== '') {
             searchQuery.date.$gte = req.query.lowerdate;
         }
-        if (req.query.upperprice !== '') {
+        if (req.query.upperdate !== '') {
             searchQuery.date.$lte = req.query.upperdate;
         }
     }
@@ -63,10 +63,10 @@ function add(server) {
   .then(async function(requests) {
     console.log('List successful');
     let vals = [];
+    let valNo = req.params.pageNo - 1;
     let counts = 0;
     let subval = [];
     let statusColor;
-
     for (const item of requests) {
       try {
         const patients = await patientModel.findById(item.patient);
@@ -89,7 +89,7 @@ function add(server) {
           dateStart: item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }),
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
           remarks: item.remarks,
-          barColor: statusColor
+          barColor: statusColor,
         });
 
         counts += 1;
@@ -103,12 +103,29 @@ function add(server) {
       }
     }
 
+    let pageFront;
+    let pageBack;
     vals.push(subval);
     console.log(vals);
+    if(req.query.pageNo == 1){
+      pageBack = req.params.pageNo;
+    } else {
+      pageBack = Number(req.params.pageNo) - 1;
+    }
+
+    if(vals.length == req.params.pageNo){
+      pageFront = req.params.pageNo;
+    } else {
+      pageFront = Number(req.params.pageNo) + 1;
+    }
+
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
-      data: vals[0] 
+      data: vals[valNo],
+      pageNo: req.params.pageNo,
+      pageNoNext: pageFront,
+      pageNoBack: pageBack
     });
   })
   .catch(errorFn);
@@ -131,7 +148,7 @@ function add(server) {
   });
 
   server.post("/login-validation", function (req, resp) { // tbd
-    resp.redirect("/main");
+    resp.redirect("/main/1");
   });
 
   //adds to the database the user details upon registering
@@ -155,9 +172,13 @@ function add(server) {
 
   server.post('/addpatient-db', function (req, resp) {
 
+    let baseNo = 1000;
+    patientModel.find({})
+    .then(function(patients) {
     //add to the database patient details
     var actualName = req.body.lname + ", " + req.body.fname + " " + req.body.mname;
     const patientInstance = patientModel({
+      patientID: baseNo + patients.length,
       name: setDefault(actualName),
       sex: setDefault(req.body.sex),
       birthday: setDefaultDate(req.body.bday),
@@ -170,8 +191,9 @@ function add(server) {
 
     patientInstance.save().then(function (patient) {
       //add patient to db
-      resp.redirect('/');
+      resp.redirect('/addpatient?=success');
     }).catch(errorFn);
+  }).catch(errorFn);
   });
 
   //add request here

@@ -11,8 +11,7 @@ $(document).ready(function(){
       });//fn+post
   });//btn
 
-  function showData(){
-    $.post('chatbot-answer',
+  $.post('chatbot-answer',
       { msg: $('#msg-txt').val() },
       function(data, status){
         if(status === 'success'){
@@ -21,5 +20,5 @@ $(document).ready(function(){
           $('#msg-txt').val('');
         }//if
       });//fn+post
-    }
-});//doc
+
+    })
