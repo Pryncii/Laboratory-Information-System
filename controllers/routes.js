@@ -71,8 +71,8 @@ function add(server) {
     let statusColor;
     for (const item of requests) {
       try {
-        const patients = await patientModel.findOne(item.patientID);
-        const medtechs = await userModel.findOne(item.medtechID);
+        const patients = await patientModel.findOne({patientID: item.patientID});
+        const medtechs = await userModel.findOne({medtechID: item.medtechID});
 
         if(item.status == "Completed"){
           statusColor = "c";
@@ -82,6 +82,8 @@ function add(server) {
           statusColor = "";
         }
 
+
+        console.log(patients);
         subval.push({
           patientID: patients.patientID,
           patientName: patients.name,
