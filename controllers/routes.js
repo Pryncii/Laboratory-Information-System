@@ -71,8 +71,8 @@ function add(server) {
     let statusColor;
     for (const item of requests) {
       try {
-        const patients = await patientModel.findById(item.patientID);
-        const medtechs = await userModel.findById(item.medtechID);
+        const patients = await patientModel.findOne(item.patientID);
+        const medtechs = await userModel.findOne(item.medtechID);
 
         if(item.status == "Completed"){
           statusColor = "c";
