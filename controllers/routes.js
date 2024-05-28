@@ -1,5 +1,6 @@
 //Routes
 const bcrypt = require("bcrypt");
+const { Int32 } = require("mongodb");
 const saltRounds = 10;
 
 function add(server) {
@@ -126,7 +127,8 @@ function add(server) {
       data: vals[valNo],
       pageNo: req.params.pageNo,
       pageNoNext: pageFront,
-      pageNoBack: pageBack
+      pageNoBack: pageBack,
+      pageNoCap: vals.length
     });
   })
   .catch(errorFn);
