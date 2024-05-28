@@ -2,7 +2,7 @@
     {
         "patientID": 1000,
         "name": "Buencamino, Prince Bendrik C.",
-        "sex": "m",
+        "sex": "M",
         "birthday": { "$date": "2003-09-25T00:00:00.000Z" },
         "age": 20,
         "phoneNo": "09287092589",
@@ -12,7 +12,7 @@
     {
         "patientID": 1001,
         "name": "Garcia, Maria Isabel A.",
-        "sex": "f",
+        "sex": "F",
         "birthday": { "$date": "2002-08-15T00:00:00.000Z" },
         "age": 21,
         "phoneNo": "09171234567",
@@ -22,7 +22,7 @@
     {
         "patientID": 1002,
         "name": "Dela Cruz, Juan C.",
-        "sex": "m",
+        "sex": "M",
         "birthday": { "$date": "1999-05-10T00:00:00.000Z" },
         "age": 24,
         "phoneNo": "09081234567",
@@ -32,7 +32,7 @@
     {
         "patientID": 1003,
         "name": "Reyes, Ana L.",
-        "sex": "f",
+        "sex": "F",
         "birthday": { "$date": "2001-11-20T00:00:00.000Z" },
         "age": 22,
         "phoneNo": "09391234567",
@@ -42,7 +42,7 @@
     {
         "patientID": 1004,
         "name": "Santos, Miguel F.",
-        "sex": "m",
+        "sex": "M",
         "birthday": { "$date": "2000-01-30T00:00:00.000Z" },
         "age": 24,
         "phoneNo": "09201234567",
