@@ -1,14 +1,15 @@
 //Routes
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
-
-function add(server){
+function add(server) {
   const responder = require('../models/data');
   const { appdata } = require('../models/data');
   const userModel = appdata.userModel;
   const patientModel = appdata.patientModel;
   const requestModel = appdata.requestModel;
 
-  function errorFn(err){
+  function errorFn(err) {
     console.log('Error found. Please trace!');
     console.error(err);
   }
@@ -26,17 +27,28 @@ function add(server){
   }
 
 
-  server.get('/', function(req, resp){
-    resp.render('login',{
+  server.get('/', function (req, resp) {
+    resp.redirect("/login");
+  });
+
+  server.get('/login', function (req, resp) {
+    resp.render('login', {
       layout: 'index',
-      title: 'Laboratory Information System - Login'
+      title: 'Login - Laboratory Information System'
     });
   });
-  
-  server.get('/register', function(req, resp){
+
+  server.get('/main', function (req, resp) {
+    resp.render('main', {
+      layout: 'index',
+      title: 'Main - Laboratory Information System'
+    });
+  });
+
+  server.get('/register', function (req, resp) {
     resp.render('register', {
       layout: 'index',
-      title: 'Laboratory Information System - Register'
+      title: 'Register - Laboratory Information System'
     });
   });
 
@@ -49,10 +61,12 @@ function add(server){
   
   server.get('/addpatient', function(req, resp){
     resp.render('addpatient',{
+
       layout: 'index',
-      title: 'Laboratory Information System'
+      title: 'Add Patient - Laboratory Information System'
     });
   });
+
 
   server.get('/viewpatients', function(req, resp){
       patientModel
@@ -216,13 +230,32 @@ function add(server){
       password: setDefault(req.body.password),
       prcno: setDefault(req.body.prc),
     });
-
-    userInstance.save().then(function(user){
-      resp.redirect('/'); //CHANGE THIS
-    }).catch(errorFn);
   });
 
-  server.post('/addpatient-db', function(req, resp){
+  server.post("/login-validation", function (req, resp) { // tbd
+    resp.redirect("/main");
+  });
+
+  //adds to the database the user details upon registering
+  server.post('/adduser-db', function (req, resp) {
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+      var fullName = req.body.lastname + ", " + req.body.firstname + req.body.middlename;
+      const userInstance = userModel({
+        name: setDefault(fullName),
+        username: setDefault(req.body.username),
+        email: setDefault(req.body.email),
+        sex: setDefault(req.body.sex),
+        password: setDefault(req.body.password),
+        prcno: setDefault(req.body.prc),
+      });
+      userInstance.save().then(function (user) {
+        resp.redirect('/login'); //CHANGE THIS
+      }).catch(errorFn);
+      return;
+    });
+  });
+
+  server.post('/addpatient-db', function (req, resp) {
 
     //add to the database patient details
     var actualName = req.body.lname + ", " + req.body.fname + " " + req.body.mname;
@@ -233,15 +266,18 @@ function add(server){
       age: setDefaultNo(req.body.age),
       phoneNo: setDefault(req.body.pnum),
       email: setDefault(req.body.email),
-      address: setDefault(req.body.address)
+      address: setDefault(req.body.address),
+      remarks: ""
     });
 
-    patientInstance.save().then(function(patient) {
+    patientInstance.save().then(function (patient) {
       //add patient to db
       resp.redirect('/');
     }).catch(errorFn);
   });
-  
+
+  //add request here
+
 }
 
 module.exports.add = add;

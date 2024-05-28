@@ -18,6 +18,7 @@ const userModel = mongoose.model('users', userSchema);
 
 const patientSchema = new mongoose.Schema({
     patientID: {type: Number},
+
     name: { type: String },
     sex: { type: String },
     birthday: {type: Date},
@@ -47,6 +48,7 @@ let appdata = {
     // add other models here
     'userModel'      : userModel,
     'requestModel'   : requestModel,
+
 };
 
 module.exports.appdata = appdata;
