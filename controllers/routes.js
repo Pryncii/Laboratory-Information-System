@@ -291,22 +291,7 @@ function add(server) {
     });
   });
 
-  //adds to the database the user details upon registering
-  server.post('/adduser-db', function(req, resp){
-    var fullName = req.body.lastname + ", " + req.body.firstname;
-    const userInstance = userModel({
-      name: setDefault(fullName),
-      username: setDefault(req.body.username),
-      email: setDefault(req.body.email),
-      sex: setDefault(req.body.sex),
-      password: setDefault(req.body.password),
-      prcno: setDefault(req.body.prc),
-    });
-
-    userInstance.save().then(function(user){
-      resp.redirect('/'); //CHANGE THIS
-    }).catch(errorFn);
-  });
+  
 }
 
 module.exports.add = add;
