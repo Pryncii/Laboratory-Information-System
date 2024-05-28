@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/LISdb');
 
 const userSchema = new mongoose.Schema({
+    medtechID: {type: Number},
     name: { type: String },
     username: { type: String },
     email: { type: String },

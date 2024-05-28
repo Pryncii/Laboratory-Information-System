@@ -157,8 +157,12 @@ function add(server) {
   //adds to the database the user details upon registering
   server.post('/adduser-db', function (req, resp) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+      let baseNo = 100;
+      userModel.find({})
+      .then(function(users){
       var fullName = req.body.lastname + ", " + req.body.firstname + " " + req.body.middlename;
       const userInstance = userModel({
+        medtechID: baseNo + users.length,
         name: setDefault(fullName),
         username: setDefault(req.body.username),
         email: setDefault(req.body.email),
@@ -171,6 +175,7 @@ function add(server) {
       }).catch(errorFn);
       return;
     });
+  });
   });
 
   server.post('/addpatient-db', function (req, resp) {
