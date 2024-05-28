@@ -1,7 +1,7 @@
 [
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9620" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1000,
+        "medtech": 100,
         "category": "Hematology",
         "status": "Requested",
         "dateStart": { "$date": "2023-09-25T00:00:00.000Z" },
@@ -9,8 +9,8 @@
         "remarks": "Making good progress with his blood pressure"
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9621" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1001,
+        "medtech": 100,
         "category": "Clinical Microscopy",
         "status": "In Progress",
         "dateStart": { "$date": "2023-09-26T00:00:00.000Z" },
@@ -18,8 +18,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9622" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1002,
+        "medtech": 100,
         "category": "Chemistry",
         "status": "Completed",
         "dateStart": { "$date": "2023-09-27T00:00:00.000Z" },
@@ -27,8 +27,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9623" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1003,
+        "medtech": 100,
         "category": "Serology",
         "status": "Requested",
         "dateStart": { "$date": "2023-09-29T00:00:00.000Z" },
@@ -36,8 +36,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9624" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1004,
+        "medtech": 100,
         "category": "Hematology",
         "status": "In Progress",
         "dateStart": { "$date": "2023-09-30T00:00:00.000Z" },
@@ -45,8 +45,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9620" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1000,
+        "medtech": 100,
         "category": "Clinical Microscopy",
         "status": "Completed",
         "dateStart": { "$date": "2023-10-01T00:00:00.000Z" },
@@ -54,8 +54,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9621" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1001,
+        "medtech": 100,
         "category": "Chemistry",
         "status": "Requested",
         "dateStart": { "$date": "2023-10-03T00:00:00.000Z" },
@@ -63,8 +63,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9622" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1002,
+        "medtech": 100,
         "category": "Serology",
         "status": "In Progress",
         "dateStart": { "$date": "2023-10-04T00:00:00.000Z" },
@@ -72,8 +72,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9623" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1003,
+        "medtech": 100,
         "category": "Hematology",
         "status": "Completed",
         "dateStart": { "$date": "2023-10-05T00:00:00.000Z" },
@@ -81,8 +81,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9624" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1004,
+        "medtech": 100,
         "category": "Clinical Microscopy",
         "status": "Requested",
         "dateStart": { "$date": "2023-10-07T00:00:00.000Z" },
@@ -90,8 +90,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9620" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1000,
+        "medtech": 100,
         "category": "Chemistry",
         "status": "In Progress",
         "dateStart": { "$date": "2023-10-08T00:00:00.000Z" },
@@ -99,8 +99,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9621" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1001,
+        "medtech": 100,
         "category": "Serology",
         "status": "Completed",
         "dateStart": { "$date": "2023-10-09T00:00:00.000Z" },
@@ -108,8 +108,8 @@
         "remarks": ""
     },
     {
-        "patient":  {"$oid": "6654a9d45e099a49434f9622" },
-        "medtech": {"$oid": "6654bb16e48dd50173a76128"},
+        "patient":  1002,
+        "medtech": 100,
         "category": "Hematology",
         "status": "Requested",
         "dateStart": { "$date": "2023-10-11T00:00:00.000Z" },
