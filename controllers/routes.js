@@ -86,17 +86,34 @@ function add(server) {
         // Create an array of promises to fetch request data for each patient
         const promises = patientsToProcess.map(patient => {
           return requestModel
-            .find({ patient: patient.patientID })
+            .find({ patientID: patient.patientID })
             .lean()
             .then(requests => {
-              const dates = requests.map(request => new Date(request.dateStart));
-              const latestDate = new Date(Math.max(...dates));
-  
+              const dates = requests.map(request => {
+                return {
+                  date: new Date(request.dateStart),
+                  remarks: request.remarks
+                };
+              });
+              console.log(patient.patientID);
+              console.log(patient.name);
+              console.log(dates);
+              let  latestDate = new Array();
+              
+              if(dates.length === 0){
+                latestDate = {
+                  date: new Date(1960, 0, 1), 
+                  remarks: ""
+                }
+              }else{
+                dates.sort((a, b) => b.date - a.date);
+                latestDate = dates[0];
+              }
               return {
                 patientID: patient.patientID,
                 name: patient.name,
-                latestDate: latestDate,
-                remarks: patient.remarks
+                latestDate: latestDate.date,
+                remarks: latestDate.remarks
               };
             });
         });
@@ -119,11 +136,15 @@ function add(server) {
           return b.latestDate - a.latestDate; // Newest to oldest
         });
         
-        
         // Format dates
         patientData.forEach(patient => {
           const options = { month: 'long', day: 'numeric', year: 'numeric' };
-          patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
         });
         
         // limit to first 5 initially
@@ -196,7 +217,12 @@ function add(server) {
         
         patientData.forEach(patient => {
           const options = { month: 'long', day: 'numeric', year: 'numeric' };
-          patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
         });
         
         // limit to first 5
@@ -270,7 +296,12 @@ function add(server) {
         
         patientData.forEach(patient => {
           const options = { month: 'long', day: 'numeric', year: 'numeric' };
-          patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
         });
 
         // limit to first 5
@@ -350,7 +381,12 @@ function add(server) {
 
         patientData.forEach(patient => {
           const options = { month: 'long', day: 'numeric', year: 'numeric' };
-          patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
         });
 
         resp.json({
