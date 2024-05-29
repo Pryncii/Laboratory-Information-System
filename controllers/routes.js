@@ -290,7 +290,93 @@ function add(server) {
               });
           });
         })
-        .catch(errorFn);
+      .catch(errorFn);
+  });
+
+  server.post("/sort-Patients", function(req, resp){
+    patientModel
+      .find()
+      .lean()
+      .then(function(patients){
+        const filteredPatients = patients.filter(patient => {
+          if (req.query.search && patient.name.toLowerCase().includes(req.query.search.toLowerCase())) {
+              return true;
+          }
+          return false;
+        });
+
+        const patientsToProcess = req.query.search ? filteredPatients : patients;
+
+        const promises = patientsToProcess.map(patient => {
+          return requestModel
+            .find({patient: patient.patientID})
+            .lean()
+            .then(function(requests){
+              const dates = requests.map(request => new Date(request.dateStart));
+              const latestDate = new Date(Math.max(...dates));
+
+              return {
+                patientID: patient.patientID,
+                name: patient.name,
+                latestDate: latestDate,
+                remarks: patient.remarks
+              };
+            });
+        });
+
+        return Promise.all(promises)
+          .then(patientData => {
+
+            let nameBtn_text = "";
+            if(req.body.name){
+              let name = req.body.name;
+              nameBtn_text = name[name.length-1] !== 'Z' ? "Last Name A-Z" : "Last Name Z-A";
+              patientData.sort((a, b) => {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if(name[name.length-1] !== 'Z'){  //if A-Z change to Z-A
+                  if (nameA < nameB) {
+                      return -1;
+                  }
+                  if (nameA > nameB) {
+                      return 1;
+                  }
+                }else{
+                  if (nameA < nameB) {
+                    return 1;
+                  }
+                  if (nameA > nameB) {
+                      return -1;
+                  }
+                }
+                return 0;
+              });
+            }
+
+            let dateBtn_text = "";
+            if(req.body.date){
+              let date = req.body.date;
+              dateBtn_text = date[0] !== 'R' ? "Recently Modified" : "Oldest Modified";
+              patientData.sort((a, b) => {
+                if (date[0] === 'R') {
+                  return a.latestDate - b.latestDate; // Oldest to newest
+                } else {
+                  return b.latestDate - a.latestDate; // Newest to oldest
+                }
+              });
+            }
+            
+            patientData.forEach(patient => {
+              const options = { month: 'long', day: 'numeric', year: 'numeric' };
+              patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+            });
+            
+            //check
+            console.log(patientData);
+            resp.json({patientData: patientData, nameBtn_text: nameBtn_text, dateBtn_text});
+        });
+      })
+    .catch(errorFn);
   });
 
   });
