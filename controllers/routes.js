@@ -139,6 +139,8 @@ function add(server) {
     let counts = 0;
     let subval = [];
     let statusColor;
+    let patientNo = 1;
+
     for (const item of requests) {
       try {
         const patients = await patientModel.findOne({patientID: item.patientID});
@@ -152,9 +154,10 @@ function add(server) {
           statusColor = "";
         }
 
+        // console.log(patients);
 
-        //console.log(patients);
         subval.push({
+          patientNo: patientNo,
           patientID: patients.patientID,
           patientName: patients.name,
           medtech: medtechs.name,
@@ -165,10 +168,12 @@ function add(server) {
           remarks: item.remarks,
           barColor: statusColor,
         });
-
+        
         counts += 1;
+        patientNo += 1;
         if (counts === 5) {
           counts = 0;
+          patientNo = 1;
           vals.push(subval);
           subval = [];
         }
@@ -224,15 +229,17 @@ function add(server) {
 
     if (querySearch.length > 0){
       finalQuery = "?";
-      finalQuery += querySearch.join("&");
+      finalQuery += querySearch.join("&");f
     } else {
       finalQuery = "";
     }
-
+    
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
       data: vals[valNo],
+      pageFirst: req.params.pageNo == 1,
+      pageLast: req.params.pageNo == vals.length,
       pageNo: req.params.pageNo,
       pageNoNext: pageFront,
       pageNoBack: pageBack,
@@ -242,7 +249,6 @@ function add(server) {
     });
   })
   .catch(errorFn);
-
 
   });
 
