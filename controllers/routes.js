@@ -114,18 +114,11 @@ function add(server) {
     let end;
     processPatients("", patientModel, requestModel)
       .then(patientData => {
-        // Sort patientData by name  A-Z
+        // Sort by most recent
         patientData.sort((a, b) => {
-          const nameA = a.name.toUpperCase();
-          const nameB = b.name.toUpperCase();
-          if (nameA < nameB) {
-              return -1;
-          }
-          if (nameA > nameB) {
-              return 1;
-          }
-          return 0;
+          return b.latestDate - a.latestDate; // Newest to oldest
         });
+        
         
         // Format dates
         patientData.forEach(patient => {
@@ -138,8 +131,9 @@ function add(server) {
 
         // chedck for Locks
         end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
         lockNext = start === end ? true : false;
-        lockBack = start === 1 ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
 
         resp.render('view_patients', {
           layout: 'index',
@@ -160,7 +154,7 @@ function add(server) {
     let lockBack = false;
     let start = 1;
     let end;
-    processPatients(req.body.search, patientModel, requestModel)
+    processPatients(req.body.search.trim(), patientModel, requestModel)
       .then(patientData => {
 
         // Sort Last Name
@@ -210,8 +204,9 @@ function add(server) {
         
         // chedck for Locks
         end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
         lockNext = start === end ? true : false;
-        lockBack = start === 1 ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
 
         resp.json({
           pageData: pageData, 
@@ -225,7 +220,7 @@ function add(server) {
   });
 
   server.post("/sort-Patients", function(req, resp){
-    let search = req.body.hasSearched === 'true' ? req.body.search : "";
+    let search = req.body.hasSearched === 'true' ? req.body.search.trim() : "";
     let pageData = new Array();
     let lockNext = false;
     let lockBack = false;
@@ -283,8 +278,9 @@ function add(server) {
         
         // chedck for Locks
         end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
         lockNext = start === end ? true : false;
-        lockBack = start === 1 ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
         
         resp.json({
           pageData: pageData, 
@@ -299,7 +295,7 @@ function add(server) {
   });
 
   server.post("/move-Page", function(req, resp){
-    let search = req.body.hasSearched === 'true' ? req.body.search : "";
+    let search = req.body.hasSearched === 'true' ? req.body.search.trim() : "";
     let pageDetails = req.body.pageNum.trim().split(" ");
     let sort = req.body.sort;
     let start = parseInt(pageDetails[0]);
