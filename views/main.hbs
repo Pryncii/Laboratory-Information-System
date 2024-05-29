@@ -13,7 +13,7 @@
 
     <div class="test-content">
         <!-- ======= Advanced Search ======= -->
-        <form>
+        <form action = "/main/1" method = "get">
             <div class="form-box">
                 <div class="norm">
                     <input class="input-item form-control" type="text" id="search" name="search" placeholder="Search">
@@ -35,37 +35,40 @@
                         <div class="card card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="start_date">Date Requested</label>
-                                    <input type="date" class="form-control adv-item">
+                                    <label for="start_date">Starting Date Range</label>
+                                    <input type="date" class="form-control adv-item" id="lowerdate" name="lowerdate">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="end_date">Date Completed</label>
-                                    <input type="date" class="form-control adv-item">
+                                    <label for="end_date">Ending Date Range</label>
+                                    <input type="date" class="form-control adv-item" id="upperdate" name="upperdate">
                                 </div>
                             </div>
                             <div class="row">
                                  <div class="col-md-12">
                                     <label for="date">Status</label>
-                                    <select class="form-select adv-item" id="status">
-                                        <option value="R">Requested</option>
-                                        <option value="IP">In Progress</option>
-                                        <option value="C">Completed</option>
+                                    <select class="form-select adv-item" id="status" name="status">
+                                        <option value="A">All</option>
+                                        <option value="Requested">Requested</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Completed">Completed</option>
                                     </select>
                                  </div>
                             </div>
                             <div class="row">
                                  <div class="col-md-6">
                                     <label for="date">Category</label>
-                                    <select class="form-select adv-item" id="categories">
-                                        <option value="H">Hematology</option>
-                                        <option value="C">Chemistry</option>
-                                        <option value="CM">Clinical Microscopy</option>
-                                        <option value="S">Serology</option>
+                                    <select class="form-select adv-item" id="category" name="category">
+                                        <option value="AA">All</option>
+                                        <option value="Hematology">Hematology</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Clinical Microscopy">Clinical Microscopy</option>
+                                        <option value="Serology">Serology</option>
                                     </select>
                                  </div>
                                  <div class="col-md-6">
                                     <label for="date">Test</label>
-                                    <select class="form-select adv-item" id="tests">
+                                    <select class="form-select adv-item" id="tests" name="tests">
+                                        <option value="AAA">All</option>
                                         <option value="t1">Test 1</option>
                                         <option value="t2">Test 2</option>
                                         <option value="t3">Test 3</option>
