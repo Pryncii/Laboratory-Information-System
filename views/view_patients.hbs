@@ -10,10 +10,8 @@
 
         <div class="main-content">
             <div class="search-bar">
-                <form action="/viewpatients" method="GET">
-                    <input type="text" name="search" placeholder="Search patients...">
-                    <button type="submit"  class="btn btn-primary btn-lg">Search</button>
-                </form>
+                <input type="text" name="search" id="search-field" placeholder="Search patients...">
+                <button type="submit"  class="btn btn-primary btn-lg" id="search-btn">Search</button>
             </div>
             
 
@@ -26,8 +24,8 @@
                             <th class="text-center">REMARKS</th>
                         </tr>
                     </thead>
-                    <tbody id="patientData">
-                        {{#each patientData}}
+                    <tbody id="pageData">
+                        {{#each pageData}}
                         <tr>
                             <td>{{name}}</td> 
                             <td>{{latestDate}}</td> 
@@ -38,9 +36,13 @@
                     </tbody>
                 </table>
             </div>
-            1 out of 1
-            <div class="nextback-buttons">
-                <button type="button">Back</button>
-                <button type="button">Next</button>
+            <div id="pageNumber">
+                {{start}} out of {{end}}
             </div>
+            <div class="nextback-buttons">
+                <button type="button" id="back-btn" disabled="true">Back</button>
+                <button type="button" id="next-btn">Next</button>
+            </div>
+            <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="D">
+            <input type="hidden" name="hidden-search" id="hidden-search" value="false">
         </div>
