@@ -1,13 +1,52 @@
 $(document).ready(function(){
+    $("#search-btn").click(function(){
+      $.post(
+        "search-Patients",
+        {
+            name: $("#sortName-btn").text(),
+            date: $("#sortDate-btn").text(),
+            sort: $("#hidden-chosenSort").val(),
+            search: $("#search-field").val()
+        },
+        function(data, status){
+            if(status === 'success'){
+                $("#next-btn").attr("disabled", data.lockNext);
+                $("#back-btn").attr("disabled", data.lockBack);
+                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#hidden-search").val("true");
+                let pageData = data.pageData;
+                let table = document.getElementById("pageData");
+                table.innerHTML = "";
+                let patients = "";
+                for(let i = 0; i < pageData.length; i++){
+                    patient = pageData[i];
+                    patients += `
+                        <tr>
+                            <td>${patient.name}</td> 
+                            <td>${patient.latestDate}</td> 
+                            <td>${patient.remarks}</td>
+                        </tr>
+                    `
+                }
+                table.innerHTML = patients;
+            }//if
+        });//fn+post
+    });//btn
+
     $("#sortName-btn").click(function(){
       $.post(
         "sort-Patients",
         {
-            name: $("#sortName-btn").text()
+            name: $("#sortName-btn").text(),
+            hasSearched: $("#hidden-search").val(),
+            search: $("#search-field").val()
         },
         function(data, status){
             if(status === 'success'){
+                $("#next-btn").attr("disabled", data.lockNext);
+                $("#back-btn").attr("disabled", data.lockBack);
                 $("#sortName-btn").text(data.nameBtn_text);
+                $("#pageNumber").text(data.start + " out of " + data.end);
                 $("#hidden-chosenSort").val("N");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
@@ -32,11 +71,16 @@ $(document).ready(function(){
       $.post(
         "sort-Patients",
         {
-            date: $("#sortDate-btn").text()
+            date: $("#sortDate-btn").text(),
+            hasSearched: $("#hidden-search").val(),
+            search: $("#search-field").val()
         },
         function(data, status){
             if(status === 'success'){
+                $("#next-btn").attr("disabled", data.lockNext);
+                $("#back-btn").attr("disabled", data.lockBack);
                 $("#sortDate-btn").text(data.dateBtn_text);
+                $("#pageNumber").text(data.start + " out of " + data.end);
                 $("#hidden-chosenSort").val("D");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
@@ -65,7 +109,9 @@ $(document).ready(function(){
             date: $("#sortDate-btn").text(),
             pageNum: $("#pageNumber").text(),
             sort: $("#hidden-chosenSort").val(),
-            move: 0
+            move: 0,
+            hasSearched: $("#hidden-search").val(),
+            search: $("#search-field").val()
         },
         function(data, status){
             if(status === 'success'){
@@ -99,7 +145,9 @@ $(document).ready(function(){
             date: $("#sortDate-btn").text(),
             pageNum: $("#pageNumber").text(),
             sort: $("#hidden-chosenSort").val(),
-            move: 1
+            move: 1,
+            hasSearched: $("#hidden-search").val(),
+            search: $("#search-field").val()
         },
         function(data, status){
             if(status === 'success'){

@@ -10,10 +10,8 @@
 
         <div class="main-content">
             <div class="search-bar">
-                <form action="/viewpatients" method="GET">
-                    <input type="text" name="search" placeholder="Search patients...">
-                    <button type="submit"  class="btn btn-primary btn-lg">Search</button>
-                </form>
+                <input type="text" name="search" id="search-field" placeholder="Search patients...">
+                <button type="submit"  class="btn btn-primary btn-lg" id="search-btn">Search</button>
             </div>
             
 
@@ -46,4 +44,5 @@
                 <button type="button" id="next-btn">Next</button>
             </div>
             <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="N">
+            <input type="hidden" name="hidden-search" id="hidden-search" value="false">
         </div>

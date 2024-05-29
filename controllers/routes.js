@@ -67,21 +67,21 @@ function add(server) {
     });
   });
 
-  const processPatients = (req, patientModel, requestModel) => {
+  const processPatients = (search, patientModel, requestModel) => {
     return patientModel
       .find()
       .lean()
       .then(patients => {
         // Filter patients based on search query
         const filteredPatients = patients.filter(patient => {
-          if (req.query.search && patient.name.toLowerCase().includes(req.query.search.toLowerCase())) {
+          if (search && patient.name.toLowerCase().includes(search.toLowerCase())) {
             return true;
           }
           return false;
         });
   
         // Determine which patients to process
-        const patientsToProcess = req.query.search ? filteredPatients : patients;
+        const patientsToProcess = search ? filteredPatients : patients;
   
         // Create an array of promises to fetch request data for each patient
         const promises = patientsToProcess.map(patient => {
@@ -107,7 +107,12 @@ function add(server) {
   };
 
   server.get('/viewpatients', function(req, resp){
-    processPatients(req, patientModel, requestModel)
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients("", patientModel, requestModel)
       .then(patientData => {
         // Sort patientData by name  A-Z
         patientData.sort((a, b) => {
@@ -129,22 +134,106 @@ function add(server) {
         });
         
         // limit to first 5 initially
-        let pageData = patientData.slice(0, 5);
+        pageData = patientData.slice(0, 5);
+
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 ? true : false;
 
         resp.render('view_patients', {
           layout: 'index',
           title: 'Laboratory Information System',
           pageData: pageData,
-          start: 1,
-          end: Math.ceil(patientData.length/5)
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
         });
       });
   });
 
-  server.post("/sort-Patients", function(req, resp){
-    processPatients(req, patientModel, requestModel)
+  server.post("/search-Patients", function(req, resp){
+    let sort = req.body.sort;
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients(req.body.search, patientModel, requestModel)
       .then(patientData => {
 
+        // Sort Last Name
+        if(sort === 'N'){
+          let name = req.body.name;
+          patientData.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if(name[name.length-1] === 'Z'){  //if A-Z change to Z-A
+              if (nameA < nameB) {
+                  return -1;
+              }
+              if (nameA > nameB) {
+                  return 1;
+              }
+            }else{
+              if (nameA < nameB) {
+                return 1;
+              }
+              if (nameA > nameB) {
+                  return -1;
+              }
+            }
+            return 0;
+        });
+        }
+
+        // Sort by Date
+        if(sort === 'D'){
+          let date = req.body.date;
+        patientData.sort((a, b) => {
+          if (date[0] === 'R') {
+            return b.latestDate - a.latestDate; // Newest to oldest
+          } else {
+            return a.latestDate - b.latestDate; // Oldest to newest
+          }
+        });
+        }
+        
+        patientData.forEach(patient => {
+          const options = { month: 'long', day: 'numeric', year: 'numeric' };
+          patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
+        });
+        
+        // limit to first 5
+        pageData = patientData.slice(0, 5);
+        
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 ? true : false;
+
+        resp.json({
+          pageData: pageData, 
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
+        });
+      });
+
+  });
+
+  server.post("/sort-Patients", function(req, resp){
+    let search = req.body.hasSearched === 'true' ? req.body.search : "";
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients(search, patientModel, requestModel)
+      .then(patientData => {
+        
         let nameBtn_text = "";
         if(req.body.name){
           let name = req.body.name;
@@ -189,19 +278,34 @@ function add(server) {
           patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
         });
 
-        let pageData = patientData.slice(0, 5);
+        // limit to first 5
+        pageData = patientData.slice(0, 5);
         
-        resp.json({pageData: pageData, nameBtn_text: nameBtn_text, dateBtn_text});
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 ? true : false;
+        
+        resp.json({
+          pageData: pageData, 
+          nameBtn_text: nameBtn_text, 
+          dateBtn_text: dateBtn_text, 
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
+        });
     });
   });
 
   server.post("/move-Page", function(req, resp){
+    let search = req.body.hasSearched === 'true' ? req.body.search : "";
     let pageDetails = req.body.pageNum.trim().split(" ");
     let sort = req.body.sort;
-    let startNum = parseInt(pageDetails[0]);
-    let endNum = pageDetails[3];
+    let start = parseInt(pageDetails[0]);
+    let end = pageDetails[3];
 
-    processPatients(req, patientModel, requestModel)
+    processPatients(search, patientModel, requestModel)
       .then(patientData => {
         let pageData = new Array();
 
@@ -242,11 +346,11 @@ function add(server) {
         });
         }
 
-        startNum += parseInt(req.body.move) ? 1 : -1;
-        let lockNext = startNum === parseInt(endNum) ? true : false;
-        let lockBack = startNum === 1 ? true : false;
+        start += parseInt(req.body.move) ? 1 : -1;
+        let lockNext = start === parseInt(end) ? true : false;
+        let lockBack = start === 1 ? true : false;
         
-        pageData = patientData.slice(startNum*5 - 5, startNum*5);
+        pageData = patientData.slice(start*5 - 5, start*5);
 
         patientData.forEach(patient => {
           const options = { month: 'long', day: 'numeric', year: 'numeric' };
@@ -255,8 +359,8 @@ function add(server) {
 
         resp.json({
           pageData: pageData, 
-          start: startNum, 
-          end: endNum, 
+          start: start, 
+          end: end, 
           lockNext: lockNext, 
           lockBack: lockBack
         });
