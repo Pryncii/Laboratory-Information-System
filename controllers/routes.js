@@ -43,10 +43,12 @@ function add(server) {
     });
   });
 
-  server.get('/main/:pageNo', function (req, resp) {
+  server.get('/main/:pageNo', async function (req, resp) {
   // Initialize an empty search query object
-    let searchQuery = {};
+    let searchQuery = { $and: [] };
+    let listofID = [];
 
+    /*
     console.log("");
     console.log("Search: " + req.query.search);
     console.log("Lower Date: " + req.query.lowerdate);
@@ -54,21 +56,32 @@ function add(server) {
     console.log("Status: " + req.query.status);
     console.log("Categories: " + req.query.category);
     console.log("Tests: " + req.query.tests);
+    */
 
     if(req.query.search !== undefined || req.query.search !== "")
     {
       regex = new RegExp(req.query.search, 'i');
-        searchQuery = {
+      
+      const patients = await patientModel.find({ name: regex } );
+        for (const item of patients) {
+          //console.log(item.patientID);
+          //console.log(item.name);
+          listofID.push(item.patientID);
+        }
+
+        searchQuery.$and.push({
           $or: [
               { category: regex },
               { status: regex },
-              { remarks: regex }
+              { remarks: regex },
+              { patientID: { $in: listofID} }
           ]
-        };
+        });
     }
+    //console.log("=========listofID========");
+    //console.log(listofID);
 
     if ((req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) || (req.query.upperdate !== undefined && isValidDate(req.query.upperdate))) {
-        // Construct the price range query
         const dateRangeQuery = {};
 
         if (req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) {
@@ -83,15 +96,13 @@ function add(server) {
           console.log("UpperDate " + upperDate);
         }
   
-        // Include the date range query in the overall search query
-        searchQuery.dateStart = dateRangeQuery;
-        searchQuery.dateEnd = dateRangeQuery;
-        searchQuery = {
+        // Add date range criteria
+        searchQuery.$and.push({
           $or: [
-              { dateStart: searchQuery.dateStart },
-              { dateEnd: searchQuery.dateEnd},
+            { dateStart: dateRangeQuery },
+            { dateEnd: dateRangeQuery }
           ]
-        };
+        });
     }
 
     
@@ -99,21 +110,29 @@ function add(server) {
     // Check if category is defined and non-empty
     if (req.query.category !== 'AA' && req.query.category !== undefined) {
         // Add category query to the search query
-        searchQuery.category = req.query.category;
+        searchQuery.$and.push({ category: req.query.category });
     }
 
     // Check if category is defined and non-empty
     if (req.query.status !== 'A' && req.query.status !== undefined) {
       // Add category query to the search query
-      searchQuery.status = req.query.status;
+      searchQuery.$and.push({ status: req.query.status });
     }
 
     console.log("Search Query");
     console.log(searchQuery);
 
+    if (searchQuery.$and.length === 0) {
+      searchQuery = {};
+    }
+
     requestModel.find(searchQuery)
   .then(async function(requests) {
     requests = requests.reverse();
+
+    console.log("requests");
+    console.log(requests);
+
     console.log('List successful');
     let vals = [];
     let valNo = req.params.pageNo - 1;
