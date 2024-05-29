@@ -1,48 +1,55 @@
 {{> header}}
 
 <link rel="stylesheet" href="/common/view_patients.css">
+<link rel="stylesheet" href="/common/main.css">
+<link rel="stylesheet" href="/common/loginregister.css">
 <script type="text/javascript" src="/common/view_patients_func.js"></script>
 
-        <!-- ======= Main Content ======= -->
-        <center id="nameOfPage">
-            VIEW ALL PATIENTS
-        </center>
-
-        <div class="main-content">
-            <div class="search-bar">
-                <input type="text" name="search" id="search-field" placeholder="Search patients...">
-                <button type="submit"  class="btn btn-primary btn-lg" id="search-btn">Search</button>
-            </div>
-            
-
-            <div class="info-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="text-center">PATIENT<br><button class="btn btn-primary btn-lg" id="sortName-btn">Last Name A-Z</button></th>
-                            <th class="text-center">LAST MODIFIED<br><button class="btn btn-primary btn-lg" id="sortDate-btn">Recently Modified</button></th>
-                            <th class="text-center">REMARKS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pageData">
-                        {{#each pageData}}
-                        <tr>
-                            <td>{{name}}</td> 
-                            <td>{{latestDate}}</td> 
-                            <td>{{remarks}}</td>
-                        </tr>
-                        {{/each}}
-
-                    </tbody>
-                </table>
-            </div>
-            <div id="pageNumber">
-                {{start}} out of {{end}}
-            </div>
-            <div class="nextback-buttons">
-                <button type="button" id="back-btn" disabled="true">Back</button>
-                <button type="button" id="next-btn">Next</button>
-            </div>
-            <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="D">
-            <input type="hidden" name="hidden-search" id="hidden-search" value="false">
+    <!-- ======= Main Content ======= -->
+    <div class="main-content">
+        <div class="_title container-fluid">
+            <h1>View All Patients</h1>
         </div>
+
+        <div class="form-box">
+            <div class="norm">
+                <input class="input-item form-control" type="text" id="search" name="search" placeholder="Search">
+                <button class="btn-item btn btn-primary btn-lg" type="submit">SEARCH</button>
+            </div>
+
+            <div class="adv">
+                <h5 class="adv-icon">Sort by <a class="link-underline-primary" id="sortName-btn">Last Name A-Z</a> / <a class="link-underline-primary" id="sortDate-btn">Recently Modified</a></h5>
+            </div>
+        </div>
+
+        <div class="test-content">
+            <table class="test-items">
+                <thead>
+                    <tr>
+                        <th class="item-label"><h5>Patient</h5></th>
+                        <th class="item-label"><h5>Last Modified</h5></th>
+                        <th class="item-label"><h5>Remarks</h5></th>
+                    </tr>
+                </thead>
+                <tbody id="pageData">
+                    {{#each pageData}}
+                    <tr>
+                        <td class="item-container"><h5>{{name}}</h5></td> 
+                        <td class="item-container"><h5>{{latestDate}}</h5></td> 
+                        <td class="item-container"><h5>{{remarks}}</h5></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="pageNumber page-container">
+            <h5>Page {{start}} of {{end}}</h5>
+        </div>
+        <div class="nextback-buttons">  
+            <button class="btn btn-primary btn-lg" type="button" id="back-btn" disabled="true">Back</button>
+            <button class="btn btn-primary btn-lg" type="button" id="next-btn">Next</button>
+        </div>
+        <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="D">
+        <input type="hidden" name="hidden-search" id="hidden-search" value="false">
+    </div>
