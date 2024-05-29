@@ -427,7 +427,7 @@ function add(server) {
         // Return a promise that resolves when all patient data is processed
         return Promise.all(promises);
       });
-  };
+  });
 
   server.get('/viewpatients', function(req, resp){
     let pageData = new Array();
