@@ -1,0 +1,188 @@
+{{> header}}
+<link href="/common/patientrequest.css" rel="stylesheet" >
+<script type="text/javascript" src="/common/script.js"></script>
+
+<div class="main-content">
+    <div class="patient-info">
+        <div class="label">
+            <div class="label-text">
+                Patient Information
+            </div>
+        </div>
+        <div class="row-patient-info">
+            <table>
+                <tr> 
+                    <th class="item-container">
+                        Name&nbsp;&nbsp;<input class="input-item" type="text" id="patientname" name="patientname" placeholder="Name" size="50" >
+                        <select class="input-item dropdown" id="selectPatient"></select>&nbsp;
+                        <select class="dropdown" id="patientList">
+                        {{#each patient}}
+                            <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                        </select>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-patientid" name="{{firstname}}-{{lastname}}-patientid" placeholder="{{patientID}}" readonly>
+                        {{/each}}
+                    </th>
+                    <th class="item-container">
+                        <div class="input-item btn-primary" id="searchbtn" onclick="searchPatient()">
+                            Search
+                        </div>
+                        <div class="input-item btn-primary not-visible" id="cancelbtn" onclick="searchPatient()">
+                            Cancel
+                        </div>
+                    </th>
+
+                    <th class="item-container">
+                        Sex&nbsp;&nbsp;<input class="input-item" type="text" class="Serology" id="sex" name="sex" placeholder="[Auto]" size="1" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-sex" name="{{firstname}}-{{lastname}}-sex" placeholder="{{sex}}" size="1" readonly>
+                        {{/each}}
+                        &nbsp;
+                    </th>
+                    <th class="item-container">
+                        Age&nbsp;&nbsp;<input class="input-item" type="text" id="age" name="age" placeholder="[Auto]" size="1" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-age" name="{{firstname}}-{{lastname}}-age" placeholder="{{age}}" size="1" readonly>
+                        {{/each}}
+                        &nbsp;
+                    </th>
+                </tr> 
+            </table>
+        </div>
+        <div class="row-patient-info">
+            <table>
+                <tr>
+                    <th class="item-container">
+                        Email&nbsp;&nbsp;&nbsp;<input class="input-item" type="text" id="email" name="email" placeholder="[Autofill]" size="50" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-email" name="{{firstname}}-{{lastname}}-email" placeholder="{{email}}" size="50" readonly>
+                        {{/each}}
+                        &nbsp;
+                    </th>    
+                    <th class="item-container">
+                        Phone No.&nbsp;&nbsp;<input class="input-item" type="text" id="phoneno" name="phoneno" placeholder="[Autofill]" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-phoneno" name="{{firstname}}-{{lastname}}-phoneno" placeholder="{{phoneNo}}" readonly>
+                        {{/each}}
+                    </th>   
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="test-info">
+        <div class="label">
+            <div class="label-text">
+                Test Information
+            </div>
+        </div>
+        <div class="row-test-info">
+            <table>
+                <tr><th>Hematology</th></tr>
+            </table>
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-1"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-2"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-3"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-4"type="checkbox"/>&nbsp;Test</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-5"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-6"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-7"type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-8"type="checkbox"/>&nbsp;Test</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row-test-info">
+            <table>
+                <tr><th>Clinical Microscopy</th></tr>
+            </table>
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-1" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-2" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-3" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-4" type="checkbox"/>&nbsp;Test</td>
+                </tr>
+                <tr> 
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-5" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-6" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-7" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-8" type="checkbox"/>&nbsp;Test</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row-test-info">
+            <table>
+                <tr><th>Chemistry</th></tr>
+            </table>
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-1" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-2" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-3" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-4" type="checkbox"/>&nbsp;Test</td>
+                </tr> 
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-5" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-6" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-7" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-8" type="checkbox"/>&nbsp;Test</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row-test-info">
+            <table>
+                <tr><th>Serology</th></tr>
+            </table>
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-1" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-2" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-3" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-4" type="checkbox"/>&nbsp;Test</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-5" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-6" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-7" type="checkbox"/>&nbsp;Test</td>
+                    <td>&nbsp;&nbsp;<input class="Serology" id="S-8" type="checkbox"/>&nbsp;Test</td>
+                </tr>
+            </table>
+        </div>
+        <div class="label">
+            <div class="proceed-button">
+                Cancel Request
+            </div>
+            <div class="button-spacer">
+            </div>
+            <div class="proceed-button" onclick="confirmPatientRequest()">
+                Submit Request
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetRequest()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Patient Name: <span id="confirmName"></span><br>
+                Handled By: <span id="confirmMedtech"></span><br>
+                Category: <span id="confirmCategory"></span><br>
+                <span id="confirmModalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addRequest()">Confirm Request</button>
+            </div>
+        </div>
+    </div>
+</div>

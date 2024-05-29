@@ -1,0 +1,98 @@
+.main-content { margin: 50px 50px 0px 50px; }
+.test-content { margin: 20px 50px 0px 50px; }
+._title > h1, .item-label, .item-container, .btn-container, .page-container, .advanced { font-family: "Inter"; }
+._title, .item-label { color: #0D1D58; }
+body { background-color: #FFF8F3 !important; }
+table { table-layout: fixed; }
+.item-label, .item-container, .page-container { padding: 10px; }
+.number { width: 4%; }
+.remarks, .input-item { width: 25%; }
+.adv-item { border: 1px solid #0D1D58; }
+.row { margin: 7px; }
+.adv-icon { margin: 0px 7px 0px 7px; }
+
+.date, .status {
+    width: 10%;
+    text-align: center;
+}
+
+.item-label, .number { 
+    border: 2px solid #FFF8F3 !important;
+    border-radius: 10px;
+    background-color: #0D1D58 !important;
+    color: #FFF8F3;
+    text-align: center;
+}
+
+.item-container {
+    border: 2px solid #FFF8F3;
+    border-radius: 10px;
+    background-color: #DDDFE3;
+}
+
+.test-items {
+    width: 100%;
+    margin: 15px 0px 15px 0px;
+}
+
+.input-item {
+    background-color: #DDDFE3;
+    border-radius: 5px;
+    border-width: 0px;
+    padding: 10px 15px 10px 15px !important;
+    margin-right: 7px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.norm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.adv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.advanced {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    background-color: #DDDFE3;
+    border: 0;
+    margin-bottom: 10px;
+}
+
+
+.adv-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.status-item {
+    border-radius: 50px;
+    padding: 5px 5px 5px 5px;
+    background-color: rgb(199, 199, 199);
+    border: none;
+}
+.status-item:hover { background-color: rgb(175, 175, 175); }
+
+.c { background-color: rgba(112, 253, 112, 0.623); }
+.c:hover { background-color:rgba(23, 219, 23, 0.623); }
+.ip { background-color: rgba(238, 232, 144, 0.623); }
+.ip:hover { background-color: rgba(206, 195, 41, 0.623); }
+.page-container { color: #0D1D58; }
