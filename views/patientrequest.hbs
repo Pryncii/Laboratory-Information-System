@@ -1,8 +1,15 @@
 {{> header}}
+
 <link href="/common/patientrequest.css" rel="stylesheet" >
+<link rel="stylesheet" href="/common/loginregister.css">
 <script type="text/javascript" src="/common/script.js"></script>
 
 <div class="main-content">
+    <!-- ======= Title ======= -->
+    <div class="_title container-fluid">
+        <h1>Add Patient Request</h1>
+    </div>
+    
     <div class="patient-info">
         <div class="label">
             <div class="label-text">
@@ -11,41 +18,42 @@
         </div>
         <div class="row-patient-info">
             <table>
-                <tr> 
-                    <th class="item-container">
-                        Name&nbsp;&nbsp;<input class="input-item" type="text" id="patientname" name="patientname" placeholder="Name" size="50" >
-                        <select class="input-item dropdown" id="selectPatient"></select>&nbsp;
-                        <select class="dropdown" id="patientList">
+                <tr>
+                    <th class="item-container dd_search">
+                        <label for="patientname" class="form-label">Name</label>
+                        <input class="input-item form-control" type="text" id="patientname" name="patientname" placeholder="Name">
+                        <select class="input-item _dropdown form-control" id="selectPatient"></select>
+                        <select class=" _dropdown form-control" id="patientList">
                         {{#each patient}}
                             <option value="{{name}}">{{name}}</option>
                         {{/each}}
                         </select>
                         {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-patientid" name="{{firstname}}-{{lastname}}-patientid" placeholder="{{patientID}}" readonly>
+                        <input class="input-item form-control not-visible" type="text" id="{{firstname}}-{{lastname}}-patientid" name="{{firstname}}-{{lastname}}-patientid" placeholder="{{patientID}}" readonly>
                         {{/each}}
                     </th>
                     <th class="item-container">
-                        <div class="input-item btn-primary" id="searchbtn" onclick="searchPatient()">
-                            Search
+                        <label for="searchbtn" class="form-label"></label>
+                        <div class="input-item btn btn-primary btn-lg" id="searchbtn" onclick="searchPatient()">
+                            SEARCH
                         </div>
-                        <div class="input-item btn-primary not-visible" id="cancelbtn" onclick="searchPatient()">
-                            Cancel
+                        <div class="input-item btn btn-primary btn-lg not-visible" id="cancelbtn" onclick="searchPatient()">
+                            CANCEL
                         </div>
                     </th>
-
                     <th class="item-container">
-                        Sex&nbsp;&nbsp;<input class="input-item" type="text" class="Serology" id="sex" name="sex" placeholder="[Auto]" size="1" readonly>
+                        <label for="sex" class="form-label">Sex</label>
+                        <input class="input-item form-control" type="text" class="Serology form-check-input" id="sex" name="sex" placeholder="[Auto]" readonly>
                         {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-sex" name="{{firstname}}-{{lastname}}-sex" placeholder="{{sex}}" size="1" readonly>
+                        <input class="input-item form-control not-visible" type="text" id="{{firstname}}-{{lastname}}-sex" name="{{firstname}}-{{lastname}}-sex" placeholder="{{sex}}" readonly>
                         {{/each}}
-                        &nbsp;
                     </th>
                     <th class="item-container">
-                        Age&nbsp;&nbsp;<input class="input-item" type="text" id="age" name="age" placeholder="[Auto]" size="1" readonly>
+                        <label for="age" class="form-label">Age</label>
+                        <input class="input-item form-control" type="text" id="age" name="age" placeholder="[Auto]" readonly>
                         {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-age" name="{{firstname}}-{{lastname}}-age" placeholder="{{age}}" size="1" readonly>
+                        <input class="input-item form-control not-visible" type="text" id="{{firstname}}-{{lastname}}-age" name="{{firstname}}-{{lastname}}-age" placeholder="{{age}}" readonly>
                         {{/each}}
-                        &nbsp;
                     </th>
                 </tr> 
             </table>
@@ -54,22 +62,24 @@
             <table>
                 <tr>
                     <th class="item-container">
-                        Email&nbsp;&nbsp;&nbsp;<input class="input-item" type="text" id="email" name="email" placeholder="[Autofill]" size="50" readonly>
+                        <label for="email" class="form-label">Email</label>
+                        <input class="input-item form-control" type="text" id="email" name="email" placeholder="[Auto]" readonly>
                         {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-email" name="{{firstname}}-{{lastname}}-email" placeholder="{{email}}" size="50" readonly>
+                        <input class="input-item form-control not-visible" type="text" id="{{firstname}}-{{lastname}}-email" name="{{firstname}}-{{lastname}}-email" placeholder="{{email}}" readonly>
                         {{/each}}
-                        &nbsp;
-                    </th>    
+                    </th>
                     <th class="item-container">
-                        Phone No.&nbsp;&nbsp;<input class="input-item" type="text" id="phoneno" name="phoneno" placeholder="[Autofill]" readonly>
+                        <label for="phoneno" class="form-label">Phone No.</label>
+                        <input class="input-item form-control" type="text" id="phoneno" name="phoneno" placeholder="[Auto]" readonly>
                         {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-phoneno" name="{{firstname}}-{{lastname}}-phoneno" placeholder="{{phoneNo}}" readonly>
+                        <input class="input-item form-control not-visible" type="text" id="{{firstname}}-{{lastname}}-phoneno" name="{{firstname}}-{{lastname}}-phoneno" placeholder="{{phoneNo}}" readonly>
                         {{/each}}
                     </th>   
                 </tr>
             </table>
         </div>
     </div>
+    
     <div class="test-info">
         <div class="label">
             <div class="label-text">
@@ -82,16 +92,16 @@
             </table>
             <table>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-1"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-2"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-3"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-4"type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-1" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-2" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-3" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-4" type="checkbox"/>Test</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-5"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-6"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-7"type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Hematology" id="Hematology-8"type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-5" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-6" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-7" type="checkbox"/>Test</td>
+                    <td><input class="Hematology form-check-input" id="Hematology-8" type="checkbox"/>Test</td>
                 </tr>
             </table>
         </div>
@@ -101,16 +111,16 @@
             </table>
             <table>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-1" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-2" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-3" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-4" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-1" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-2" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-3" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-4" type="checkbox"/>Test</td>
                 </tr>
                 <tr> 
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-5" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-6" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-7" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="ClinicalMicroscopy" id="CM-8" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-5" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-6" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-7" type="checkbox"/>Test</td>
+                    <td><input class="ClinicalMicroscopy form-check-input" id="CM-8" type="checkbox"/>Test</td>
                 </tr>
             </table>
         </div>
@@ -120,16 +130,16 @@
             </table>
             <table>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-1" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-2" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-3" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-4" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-1" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-2" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-3" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-4" type="checkbox"/>Test</td>
                 </tr> 
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-5" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-6" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-7" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Chemistry" id="C-8" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-5" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-6" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-7" type="checkbox"/>Test</td>
+                    <td><input class="Chemistry form-check-input" id="C-8" type="checkbox"/>Test</td>
                 </tr>
             </table>
         </div>
@@ -139,29 +149,24 @@
             </table>
             <table>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-1" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-2" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-3" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-4" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Serology form-check-input" id="S-1" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-2" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-3" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-4" type="checkbox"/>Test</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-5" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-6" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-7" type="checkbox"/>&nbsp;Test</td>
-                    <td>&nbsp;&nbsp;<input class="Serology" id="S-8" type="checkbox"/>&nbsp;Test</td>
+                    <td><input class="Serology form-check-input" id="S-5" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-6" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-7" type="checkbox"/>Test</td>
+                    <td><input class="Serology form-check-input" id="S-8" type="checkbox"/>Test</td>
                 </tr>
             </table>
         </div>
-        <div class="label">
-            <div class="proceed-button">
-                Cancel Request
-            </div>
-            <div class="button-spacer">
-            </div>
-            <div class="proceed-button" onclick="confirmPatientRequest()">
-                Submit Request
-            </div>
-        </div>
+    </div>
+
+    <div class="buttons">
+        <div class="btn btn-primary btn-lg">CANCEL REQUEST</div>
+        <div class="btn btn-primary btn-lg" onclick="confirmPatientRequest()">SUBMIT REQUEST</div>
     </div>
 </div>
 

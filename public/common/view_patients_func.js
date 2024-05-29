@@ -22,9 +22,9 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td>${patient.name}</td> 
-                            <td>${patient.latestDate}</td> 
-                            <td>${patient.remarks}</td>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
                     `
                 }
@@ -56,9 +56,9 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td>${patient.name}</td> 
-                            <td>${patient.latestDate}</td> 
-                            <td>${patient.remarks}</td>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
                     `
                 }
@@ -90,9 +90,9 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td>${patient.name}</td> 
-                            <td>${patient.latestDate}</td> 
-                            <td>${patient.remarks}</td>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
                     `
                 }
@@ -126,9 +126,9 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td>${patient.name}</td> 
-                            <td>${patient.latestDate}</td> 
-                            <td>${patient.remarks}</td>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
                     `
                 }
@@ -162,9 +162,9 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td>${patient.name}</td> 
-                            <td>${patient.latestDate}</td> 
-                            <td>${patient.remarks}</td>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
                     `
                 }
