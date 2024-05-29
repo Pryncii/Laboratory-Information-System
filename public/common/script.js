@@ -65,7 +65,7 @@ function confirmPatientRequest(){
   var category = ''
   if (($('#searchbtn').is(':visible'))) {
     alert('Please select a patient!');
-  } else  if ($('.Hematology:checked, .ClinicalMicroscopy:checked, .Chemistry:checked, .Serotology:checked').length < 1) {
+  } else  if ($('.Hematology:checked, .ClinicalMicroscopy:checked, .Chemistry:checked, .Serology:checked').length < 1) {
     alert('Please select at least one (1) test!');
   } else {
     document.getElementById('confirmModalLabel').innerText = 'Confirming Patient Request';
