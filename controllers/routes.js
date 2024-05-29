@@ -142,7 +142,7 @@ function add(server) {
           medtech: medtechs.name,
           category: item.category,
           status: item.status,
-          dateStart: item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }),
+          dateStart: item.dateStart ? item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }): '',
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
           remarks: item.remarks,
           barColor: statusColor,
