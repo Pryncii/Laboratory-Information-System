@@ -32,25 +32,7 @@
                             Cancel
                         </div>
                     </th>
-                    <th class="item-container">
-                        Phone No.&nbsp;&nbsp;<input class="input-item" type="text" id="phoneno" name="phoneno" placeholder="[Autofill]" readonly>
-                        {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-phoneno" name="{{firstname}}-{{lastname}}-phoneno" placeholder="{{phoneNo}}" readonly>
-                        {{/each}}
-                    </th>   
-                </tr> 
-            </table>
-        </div>
-        <div class="row-patient-info">
-            <table>
-                <tr>
-                    <th class="item-container">
-                        Email&nbsp;&nbsp;&nbsp;<input class="input-item" type="text" id="email" name="email" placeholder="[Autofill]" size="50" readonly>
-                        {{#each patient}}
-                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-email" name="{{firstname}}-{{lastname}}-email" placeholder="{{email}}" size="50" readonly>
-                        {{/each}}
-                        &nbsp;
-                    </th>    
+
                     <th class="item-container">
                         Sex&nbsp;&nbsp;<input class="input-item" type="text" class="Serology" id="sex" name="sex" placeholder="[Auto]" size="1" readonly>
                         {{#each patient}}
@@ -65,7 +47,25 @@
                         {{/each}}
                         &nbsp;
                     </th>
-
+                </tr> 
+            </table>
+        </div>
+        <div class="row-patient-info">
+            <table>
+                <tr>
+                    <th class="item-container">
+                        Email&nbsp;&nbsp;&nbsp;<input class="input-item" type="text" id="email" name="email" placeholder="[Autofill]" size="50" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-email" name="{{firstname}}-{{lastname}}-email" placeholder="{{email}}" size="50" readonly>
+                        {{/each}}
+                        &nbsp;
+                    </th>    
+                    <th class="item-container">
+                        Phone No.&nbsp;&nbsp;<input class="input-item" type="text" id="phoneno" name="phoneno" placeholder="[Autofill]" readonly>
+                        {{#each patient}}
+                        <input class="input-item not-visible" type="text" id="{{firstname}}-{{lastname}}-phoneno" name="{{firstname}}-{{lastname}}-phoneno" placeholder="{{phoneNo}}" readonly>
+                        {{/each}}
+                    </th>   
                 </tr>
             </table>
         </div>
