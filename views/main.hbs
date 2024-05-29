@@ -111,13 +111,13 @@
         <table class="test-items">
             <tr>
                 <th class="btn-container text-start">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/main/{{pageNoBack}}'">BACK</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/main/{{pageNoBack}}?search={{searchWord}}&lowerdate={{lowDate}}&upperdate={{upDate}}&status={{requestStatus}}&category={{requestCategory}}&tests={{testName}}'">BACK</button>
                 </th>
                 <th class="page-container text-center">
                     <h5>Page {{pageNo}} of {{pageNoCap}}</h5>
                 </th>
                 <th class="btn-container text-end">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/main/{{pageNoNext}}'">NEXT</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/main/{{pageNoNext}}?search={{searchWord}}&lowerdate={{lowDate}}&upperdate={{upDate}}&status={{requestStatus}}&category={{requestCategory}}&tests={{testName}}'">NEXT</button>
                 </th>
             </tr>
         </table>

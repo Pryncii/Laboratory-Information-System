@@ -163,7 +163,7 @@ function add(server) {
     let pageBack;
     vals.push(subval);
     //console.log(vals);
-    if(req.query.pageNo == 1){
+    if(req.params.pageNo == 1){
       pageBack = req.params.pageNo;
     } else {
       pageBack = Number(req.params.pageNo) - 1;
@@ -175,6 +175,12 @@ function add(server) {
       pageFront = Number(req.params.pageNo) + 1;
     }
 
+    console.log("Search: " + req.query.search);
+    console.log("Lower Date: " + req.query.lowerdate);
+    console.log("Upper Date: " + req.query.upperdate);
+    console.log("Status: " + req.query.status);
+    console.log("Categories: " + req.query.category);
+    console.log("Tests: " + req.query.tests);
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
@@ -183,7 +189,13 @@ function add(server) {
       pageNoNext: pageFront,
       pageNoBack: pageBack,
       pageNoCap: vals.length,
-      user: loggedUser.name
+      user: loggedUser.name,
+      searchWord: req.query.search,
+      lowDate: req.query.lowerdate,
+      upDate: req.query.upperdate,
+      requestStatus: req.query.status,
+      requestCategory: req.query.category,
+      testName: req.query.tests
     });
   })
   .catch(errorFn);
