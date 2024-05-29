@@ -351,6 +351,7 @@ function add(server) {
   }).catch(errorFn);
   });
 
+
   //add request here
   server.get('/patient-request', function(req, resp) {
     patientModel.find().then(function(person) {
@@ -424,7 +425,25 @@ function add(server) {
   });
 
   
-  
+  server.post('/update-status-request-db', function(req, resp){
+    const { requestID, status, startDate, finishDate, remarks } = req.body;
+
+    requestModel.findOneAndUpdate(
+        { requestID: requestID }, 
+        { status: status, dateStart: startDate, dateEnd: finishDate, remarks: remarks }, 
+        { new: true } // Return the updated document
+    ).then(function(updatedRequest) {
+        if (updatedRequest) {
+            resp.status(200).json({ success: true, updatedRequest: updatedRequest });
+        } else {
+            resp.status(404).json({ success: false, message: "Request not found" });
+        }
+    }).catch(function(error) {
+        console.error(error);
+        resp.status(500).json({ success: false, message: "Error updating request" });
+    });
+  });
+
 }
 
 module.exports.add = add;
