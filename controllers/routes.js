@@ -1,5 +1,6 @@
 //Routes
 const bcrypt = require("bcrypt");
+const { query } = require("express");
 const { Int32 } = require("mongodb");
 const saltRounds = 10;
 var loggedUser;
@@ -174,7 +175,9 @@ function add(server) {
 
     let pageFront;
     let pageBack;
-    vals.push(subval);
+    if(subval.length > 0){
+      vals.push(subval);
+    }
     //console.log(vals);
     if(req.params.pageNo == 1){
       pageBack = req.params.pageNo;
@@ -188,12 +191,40 @@ function add(server) {
       pageFront = Number(req.params.pageNo) + 1;
     }
 
-    console.log("Search: " + req.query.search);
-    console.log("Lower Date: " + req.query.lowerdate);
-    console.log("Upper Date: " + req.query.upperdate);
-    console.log("Status: " + req.query.status);
-    console.log("Categories: " + req.query.category);
-    console.log("Tests: " + req.query.tests);
+    let finalQuery;
+    let querySearch = [];
+
+    if(req.query.search) {
+      querySearch.push("search=" + req.query.search);
+    }
+
+    if(req.query.lowerDate) {
+      querySearch.push("lowerDate=" + req.query.lowerDate);
+    }
+
+    if(req.query.upperDate) {
+      querySearch.push("upperDate=" + req.query.upperDate);
+    }
+
+    if(req.query.status) {
+      querySearch.push("status=" + req.query.status);
+    }
+
+    if(req.query.category) {
+      querySearch.push("category=" + req.query.category);
+    }
+
+    if(req.query.tests) {
+      querySearch.push("tests=" + req.query.tests);
+    }
+
+    if (querySearch.length > 0){
+      finalQuery = "?";
+      finalQuery += querySearch.join("&");
+    } else {
+      finalQuery = "";
+    }
+
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
@@ -203,12 +234,7 @@ function add(server) {
       pageNoBack: pageBack,
       pageNoCap: vals.length,
       user: loggedUser.name,
-      searchWord: req.query.search,
-      lowDate: req.query.lowerdate,
-      upDate: req.query.upperdate,
-      requestStatus: req.query.status,
-      requestCategory: req.query.category,
-      testName: req.query.tests
+      query: finalQuery
     });
   })
   .catch(errorFn);
