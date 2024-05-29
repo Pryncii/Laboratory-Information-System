@@ -58,12 +58,25 @@ function add(server) {
 
     if(req.query.search !== undefined || req.query.search !== "")
     {
+      let listofID = [];
       regex = new RegExp(req.query.search, 'i');
+      patientModel.find({ name: regex } ).then(function(patients){
+        for (const item of patients) {
+          console.log(item.patientID);
+          console.log(item.name);
+          //listofID.push(item.patientID);
+        }
+      });
+
+      //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      //console.log(listofID);
+
         searchQuery = {
           $or: [
               { category: regex },
               { status: regex },
-              { remarks: regex }
+              { remarks: regex },
+              //{ patientID: listofID }
           ]
         };
     }
