@@ -558,3 +558,5 @@ function add(server) {
 }
 
 module.exports.add = add;
+
+//?search={{searchWord}}&lowerdate={{lowDate}}&upperdate={{upDate}}&status={{requestStatus}}&category={{requestCategory}}&tests={{testName}}
