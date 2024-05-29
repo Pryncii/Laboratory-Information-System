@@ -15,6 +15,9 @@ body {
     --bs-btn-active-color: #FFF8F3;
     --bs-btn-active-bg: #4A6BA1;
     --bs-btn-active-border-color: #4A6BA1;
+    --bs-btn-disabled-border-color: #0D1D58;
+    --bs-btn-disabled-bg: #DDDFE3;
+    --bs-btn-disabled-color: #0D1D58;
     padding: 10px 25px 10px 25px;
 }
 
