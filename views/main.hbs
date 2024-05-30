@@ -85,6 +85,7 @@
         <table class="test-items">
             <tr>
                 <th class="item-label number"><h5>#</h5></th>
+                <th class="item-label"><h5>Request ID</h5></th>
                 <th class="item-label"><h5>Patient ID</h5></th>
                 <th class="item-label"><h5>Name</h5></th>
                 <th class="item-label"><h5>Test&sol;s</h5></th>
@@ -97,6 +98,7 @@
                 <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}" 
                 data-status="{{status}}" data-remarks="{{remarks}}">
                     <th class="item-container number"><h5>{{patientNo}}</h5></th>
+                    <th class="item-container"><h5>{{requestID}}</h5></th>
                     <td class="item-container"><h5>{{patientID}}</h5></th>
                     <td class="item-container"><h5>{{patientName}}</h5></th>
                     <td class="item-container"><h5>{{category}}</h5></th>
@@ -146,8 +148,9 @@
                                 <h1 id="user-name"><h2 id="patient-id"><br></h2></h1>
                             </div>
                         </div>
-                        <form id="status-form">
+                        <form id="status-form" action="/update-status-request-db" method = "post">
                             <div class="form-group">
+                                <h2 id="request-id" name="request-id"><br></h2>
                                 <label for="status">Status</label>
                                 <select id="editstatus" name="status" class="form-control">
                                     <option value="" disabled selected>Select Status</option>

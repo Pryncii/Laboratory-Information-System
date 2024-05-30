@@ -68,17 +68,21 @@ document.addEventListener("DOMContentLoaded", function() {
         var patientID = button.closest("tr").dataset.patientId;
         var patientName = button.closest("tr").dataset.patientName;
         var remarks = button.closest("tr").dataset.remarks;
-        requestID = button.closest("tr").dataset.requestId;
+        var requestID = button.closest("tr").dataset.requestId;
 
+        console.log(patientID);
+        console.log(requestID);
         // Populate the modal with the extracted data
         var modalTitle = statusModal.querySelector(".modal-title");
         var userName = statusModal.querySelector("#user-name");
         var patientId = statusModal.querySelector("#patient-id");
+        var requestId = statusModal.querySelector("#request-id");
         var remarksTextarea = statusModal.querySelector("#remarks");
 
         modalTitle.textContent = "Edit Status";
         userName.textContent = patientName;
         patientId.textContent = "Patient ID: " + patientID;
+        requestId.textContent = "Request ID: " + requestID;
         remarksTextarea.placeholder = remarks;
     });
 

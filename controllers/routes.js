@@ -158,6 +158,7 @@ function add(server) {
 
         subval.push({
           patientNo: patientNo,
+          requestID: item.requestID,
           patientID: patients.patientID,
           patientName: patients.name,
           medtech: medtechs.name,
@@ -753,18 +754,28 @@ function add(server) {
   server.post('/update-status-request-db', function(req, resp){
     const { status, dateStart, dateEnd, remarks } = req.body;
 
-    requestModel.findOneAndUpdate({
-          status: status,
-          dateStart: dateStart, 
-          dateEnd: dateEnd, 
-          remarks: remarks
-        },
-        { new: true }
-    )
+    console.log(req.body.id);
+    console.log("update stuff");
+    console.log(status);
+    console.log(dateStart);
+    console.log(dateEnd);
+    console.log(remarks);
+    const updateValues = {
+      $set:
+      {
+        status: status,
+        dateStart: dateStart, 
+        dateEnd: dateEnd, 
+        remarks: remarks
+      }
+    }
+      
+
+    requestModel.updateOne(updateQuery, updateValues)
     .then(function(updatedRequest) {
       if (updatedRequest) {
         // If the update was successful, redirect back to the main page
-        resp.redirect('/main');
+        resp.redirect('/main/1');
     } else {
         // If the request was not found, respond with a 404 error
         resp.status(404).json({ success: false, message: "Request not found" });
