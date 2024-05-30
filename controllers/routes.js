@@ -1,5 +1,6 @@
 //Routes
 const bcrypt = require("bcrypt");
+const { query } = require("express");
 const { Int32 } = require("mongodb");
 const saltRounds = 10;
 var loggedUser;
@@ -44,10 +45,12 @@ function add(server) {
     });
   });
 
-  server.get('/main/:pageNo', function (req, resp) {
+  server.get('/main/:pageNo', async function (req, resp) {
   // Initialize an empty search query object
-    let searchQuery = {};
+    let searchQuery = { $and: [] };
+    let listofID = [];
 
+    /*
     console.log("");
     console.log("Search: " + req.query.search);
     console.log("Lower Date: " + req.query.lowerdate);
@@ -55,72 +58,89 @@ function add(server) {
     console.log("Status: " + req.query.status);
     console.log("Categories: " + req.query.category);
     console.log("Tests: " + req.query.tests);
+    */
 
     if(req.query.search !== undefined || req.query.search !== "")
     {
       regex = new RegExp(req.query.search, 'i');
-        searchQuery = {
+      
+      const patients = await patientModel.find({ name: regex } );
+        for (const item of patients) {
+          //console.log(item.patientID);
+          //console.log(item.name);
+          listofID.push(item.patientID);
+        }
+
+        searchQuery.$and.push({
           $or: [
               { category: regex },
               { status: regex },
-              { remarks: regex }
+              { remarks: regex },
+              { patientID: { $in: listofID} }
           ]
-        };
+        });
     }
 
     if ((req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) || (req.query.upperdate !== undefined && isValidDate(req.query.upperdate))) {
-        // Construct the price range query
         const dateRangeQuery = {};
 
         if (req.query.lowerdate !== undefined && isValidDate(req.query.lowerdate)) {
           const lowerDate = new Date(req.query.lowerdate);
           dateRangeQuery['$gte'] = lowerDate;
-          console.log("LowerDate " + lowerDate);
+          //console.log("LowerDate " + lowerDate);
         }
   
         if (req.query.upperdate !== undefined && isValidDate(req.query.upperdate)) {
           const upperDate = new Date(req.query.upperdate);
           dateRangeQuery['$lte'] = upperDate;
-          console.log("UpperDate " + upperDate);
+          //console.log("UpperDate " + upperDate);
         }
   
-        // Include the date range query in the overall search query
-        searchQuery.dateStart = dateRangeQuery;
-        searchQuery.dateEnd = dateRangeQuery;
-        searchQuery = {
+        // Add date range criteria
+        searchQuery.$and.push({
           $or: [
-              { dateStart: searchQuery.dateStart },
-              { dateEnd: searchQuery.dateEnd},
+            { dateStart: dateRangeQuery },
+            { dateEnd: dateRangeQuery }
           ]
-        };
+        });
     }
 
     
 
     // Check if category is defined and non-empty
     if (req.query.category !== 'AA' && req.query.category !== undefined) {
-        // Add category query to the search query
-        searchQuery.category = req.query.category;
+      // Add category query to the search query
+      searchQuery.$and.push({ category: req.query.category });
     }
 
     // Check if category is defined and non-empty
     if (req.query.status !== 'A' && req.query.status !== undefined) {
       // Add category query to the search query
-      searchQuery.status = req.query.status;
+      searchQuery.$and.push({ status: req.query.status });
     }
 
     console.log("Search Query");
     console.log(searchQuery);
 
+    if (searchQuery.$and.length === 0) {
+      searchQuery = {};
+    }
+
     requestModel.find(searchQuery)
   .then(async function(requests) {
     requests = requests.reverse();
+    
+    console.log("requests");
+    console.log(requests);
+
     console.log('List successful');
     let vals = [];
     let valNo = req.params.pageNo - 1;
     let counts = 0;
     let subval = [];
     let statusColor;
+    let patientNo = 1;
+
     for (const item of requests) {
       try {
         const patients = await patientModel.findOne({patientID: item.patientID});
@@ -134,23 +154,26 @@ function add(server) {
           statusColor = "";
         }
 
+        // console.log(patients);
 
-        //console.log(patients);
         subval.push({
+          patientNo: patientNo,
           patientID: patients.patientID,
           patientName: patients.name,
           medtech: medtechs.name,
           category: item.category,
           status: item.status,
-          dateStart: item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }),
+          dateStart: item.dateStart ? item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }): '',
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
           remarks: item.remarks,
           barColor: statusColor,
         });
-
+        
         counts += 1;
+        patientNo += 1;
         if (counts === 5) {
           counts = 0;
+          patientNo = 1;
           vals.push(subval);
           subval = [];
         }
@@ -161,9 +184,11 @@ function add(server) {
 
     let pageFront;
     let pageBack;
-    vals.push(subval);
+    if(subval.length > 0){
+      vals.push(subval);
+    }
     //console.log(vals);
-    if(req.query.pageNo == 1){
+    if(req.params.pageNo == 1){
       pageBack = req.params.pageNo;
     } else {
       pageBack = Number(req.params.pageNo) - 1;
@@ -175,19 +200,55 @@ function add(server) {
       pageFront = Number(req.params.pageNo) + 1;
     }
 
+    let finalQuery;
+    let querySearch = [];
+
+    if(req.query.search) {
+      querySearch.push("search=" + req.query.search);
+    }
+
+    if(req.query.lowerDate) {
+      querySearch.push("lowerDate=" + req.query.lowerDate);
+    }
+
+    if(req.query.upperDate) {
+      querySearch.push("upperDate=" + req.query.upperDate);
+    }
+
+    if(req.query.status) {
+      querySearch.push("status=" + req.query.status);
+    }
+
+    if(req.query.category) {
+      querySearch.push("category=" + req.query.category);
+    }
+
+    if(req.query.tests) {
+      querySearch.push("tests=" + req.query.tests);
+    }
+
+    if (querySearch.length > 0){
+      finalQuery = "?";
+      finalQuery += querySearch.join("&");f
+    } else {
+      finalQuery = "";
+    }
+    
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
       data: vals[valNo],
+      pageFirst: req.params.pageNo == 1,
+      pageLast: req.params.pageNo == vals.length,
       pageNo: req.params.pageNo,
       pageNoNext: pageFront,
       pageNoBack: pageBack,
       pageNoCap: vals.length,
-      user: loggedUser.name
+      user: loggedUser.name,
+      query: finalQuery
     });
   })
   .catch(errorFn);
-
 
   });
 
@@ -207,6 +268,61 @@ function add(server) {
     });
   });
 
+  const processPatients = (search, patientModel, requestModel) => {
+    return patientModel
+      .find()
+      .lean()
+      .then(patients => {
+        // Filter patients based on search query
+        const filteredPatients = patients.filter(patient => {
+          if (search && patient.name.toLowerCase().includes(search.toLowerCase())) {
+            return true;
+          }
+          return false;
+        });
+  
+        // Determine which patients to process
+        const patientsToProcess = search ? filteredPatients : patients;
+  
+        // Create an array of promises to fetch request data for each patient
+        const promises = patientsToProcess.map(patient => {
+          return requestModel
+            .find({ patientID: patient.patientID })
+            .lean()
+            .then(requests => {
+              const dates = requests.map(request => {
+                return {
+                  date: new Date(request.dateStart),
+                  remarks: request.remarks
+                };
+              });
+              console.log(patient.patientID);
+              console.log(patient.name);
+              console.log(dates);
+              let  latestDate = new Array();
+              
+              if(dates.length === 0){
+                latestDate = {
+                  date: new Date(1960, 0, 1), 
+                  remarks: ""
+                }
+              }else{
+                dates.sort((a, b) => b.date - a.date);
+                latestDate = dates[0];
+              }
+              return {
+                patientID: patient.patientID,
+                name: patient.name,
+                latestDate: latestDate.date,
+                remarks: latestDate.remarks
+              };
+            });
+        });
+  
+        // Return a promise that resolves when all patient data is processed
+        return Promise.all(promises);
+      });
+  };
   server.post("/login-validation", function (req, resp) {
     userModel.findOne({ username: req.body.username }).lean().then(function (user) {
       if (user != undefined && user._id != null) {
@@ -228,71 +344,280 @@ function add(server) {
     });
 
   server.get('/viewpatients', function(req, resp){
-      patientModel
-        .find()
-        .lean()
-        .then(function(patients){
-          const filteredPatients = patients.filter(patient => {
-            if (req.query.search && patient.name.toLowerCase().includes(req.query.search.toLowerCase())) {
-                return true;
-            }
-            return false;
-          });
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients("", patientModel, requestModel)
+      .then(patientData => {
+        // Sort by most recent
+        patientData.sort((a, b) => {
+          return b.latestDate - a.latestDate; // Newest to oldest
+        });
+        
+        // Format dates
+        patientData.forEach(patient => {
+          const options = { month: 'long', day: 'numeric', year: 'numeric' };
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
 
-          const patientsToProcess = req.query.search ? filteredPatients : patients;
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
+        });
+        
+        // limit to first 5 initially
+        pageData = patientData.slice(0, 5);
 
-          const promises = patientsToProcess.map(patient => {
-            return requestModel
-              .find({patient: patient.patientID})
-              .lean()
-              .then(function(requests){
-                const dates = requests.map(request => new Date(request.dateStart));
-                const latestDate = new Date(Math.max(...dates));
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
 
-                return {
-                  patientID: patient.patientID,
-                  name: patient.name,
-                  latestDate: latestDate,
-                  remarks: patient.remarks
-                };
-              });
-          });
-
-          return Promise.all(promises)
-            .then(patientData => {
-              // Format dates
-              patientData.forEach(patient => {
-                const options = { month: 'long', day: 'numeric', year: 'numeric' };
-                patient.latestDate = patient.latestDate.toLocaleDateString('en-US', options);
-              });
-
-              // Sort patientData by name  A-Z
-              patientData.sort((a, b) => {
-                const nameA = a.name.toUpperCase();
-                const nameB = b.name.toUpperCase();
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-              });
-              
-              //check
-              console.log(patientData);
-
-              resp.render('view_patients', {
-                layout: 'index',
-                title: 'Laboratory Information System',
-                patientData: patientData,
-                user: loggedUser.name
-              });
-          });
-        })
-        .catch(errorFn);
+        resp.render('view_patients', {
+          layout: 'index',
+          title: 'Laboratory Information System',
+          pageData: pageData,
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
+        });
+      });
   });
 
+  server.post("/search-Patients", function(req, resp){
+    let sort = req.body.sort;
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients(req.body.search.trim(), patientModel, requestModel)
+      .then(patientData => {
+
+        // Sort Last Name
+        if(sort === 'N'){
+          let name = req.body.name;
+          patientData.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if(name[name.length-1] === 'Z'){  //if A-Z change to Z-A
+              if (nameA < nameB) {
+                  return -1;
+              }
+              if (nameA > nameB) {
+                  return 1;
+              }
+            }else{
+              if (nameA < nameB) {
+                return 1;
+              }
+              if (nameA > nameB) {
+                  return -1;
+              }
+            }
+            return 0;
+        });
+        }
+
+        // Sort by Date
+        if(sort === 'D'){
+          let date = req.body.date;
+        patientData.sort((a, b) => {
+          if (date[0] === 'R') {
+            return b.latestDate - a.latestDate; // Newest to oldest
+          } else {
+            return a.latestDate - b.latestDate; // Oldest to newest
+          }
+        });
+        }
+        
+        patientData.forEach(patient => {
+          const options = { month: 'long', day: 'numeric', year: 'numeric' };
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
+        });
+        
+        // limit to first 5
+        pageData = patientData.slice(0, 5);
+        
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
+
+        resp.json({
+          pageData: pageData, 
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
+        });
+      });
+
+  });
+
+  server.post("/sort-Patients", function(req, resp){
+    let search = req.body.hasSearched === 'true' ? req.body.search.trim() : "";
+    let pageData = new Array();
+    let lockNext = false;
+    let lockBack = false;
+    let start = 1;
+    let end;
+    processPatients(search, patientModel, requestModel)
+      .then(patientData => {
+        
+        let nameBtn_text = "";
+        if(req.body.name){
+          let name = req.body.name;
+          nameBtn_text = name[name.length-1] !== 'Z' ? "Last Name A-Z" : "Last Name Z-A";
+          patientData.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if(name[name.length-1] !== 'Z'){  //if A-Z change to Z-A
+              if (nameA < nameB) {
+                  return -1;
+              }
+              if (nameA > nameB) {
+                  return 1;
+              }
+            }else{
+              if (nameA < nameB) {
+                return 1;
+              }
+              if (nameA > nameB) {
+                  return -1;
+              }
+            }
+            return 0;
+          });
+        }
+
+        let dateBtn_text = "";
+        if(req.body.date){
+          let date = req.body.date;
+          dateBtn_text = date[0] !== 'R' ? "Recently Modified" : "Oldest Modified";
+          patientData.sort((a, b) => {
+            if (date[0] !== 'R') {
+              return b.latestDate - a.latestDate; // Newest to oldest
+            } else {
+              return a.latestDate - b.latestDate; // Oldest to newest
+            }
+          });
+        }
+        
+        patientData.forEach(patient => {
+          const options = { month: 'long', day: 'numeric', year: 'numeric' };
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
+        });
+
+        // limit to first 5
+        pageData = patientData.slice(0, 5);
+        
+        // chedck for Locks
+        end = Math.ceil(patientData.length/5);
+        start = end === 0 ? 0 : start;
+        lockNext = start === end ? true : false;
+        lockBack = start === 1 || start === 0 ? true : false;
+        
+        resp.json({
+          pageData: pageData, 
+          nameBtn_text: nameBtn_text, 
+          dateBtn_text: dateBtn_text, 
+          start: start,
+          end: end,
+          lockNext: lockNext,
+          lockBack: lockBack
+        });
+    });
+  });
+
+  server.post("/move-Page", function(req, resp){
+    let search = req.body.hasSearched === 'true' ? req.body.search.trim() : "";
+    let pageDetails = req.body.pageNum.trim().split(" ");
+    let sort = req.body.sort;
+    let start = parseInt(pageDetails[0]);
+    let end = pageDetails[3];
+
+    processPatients(search, patientModel, requestModel)
+      .then(patientData => {
+        let pageData = new Array();
+
+        // Sort Last Name
+        if(sort === 'N'){
+          let name = req.body.name;
+          patientData.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if(name[name.length-1] === 'Z'){  //if A-Z change to Z-A
+              if (nameA < nameB) {
+                  return -1;
+              }
+              if (nameA > nameB) {
+                  return 1;
+              }
+            }else{
+              if (nameA < nameB) {
+                return 1;
+              }
+              if (nameA > nameB) {
+                  return -1;
+              }
+            }
+            return 0;
+        });
+        }
+
+        // Sort by Date
+        if(sort === 'D'){
+          let date = req.body.date;
+        patientData.sort((a, b) => {
+          if (date[0] === 'R') {
+            return b.latestDate - a.latestDate; // Newest to oldest
+          } else {
+            return a.latestDate - b.latestDate; // Oldest to newest
+          }
+        });
+        }
+
+        start += parseInt(req.body.move) ? 1 : -1;
+        let lockNext = start === parseInt(end) ? true : false;
+        let lockBack = start === 1 ? true : false;
+        
+        pageData = patientData.slice(start*5 - 5, start*5);
+
+        patientData.forEach(patient => {
+          const options = { month: 'long', day: 'numeric', year: 'numeric' };
+          
+          const defaultDate = new Date(1960, 0, 1).getTime();
+
+          patient.latestDate = (new Date(patient.latestDate).getTime() !== defaultDate)
+            ? new Date(patient.latestDate).toLocaleDateString('en-US', options)
+            : "No Requests";
+        });
+
+        resp.json({
+          pageData: pageData, 
+          start: start, 
+          end: end, 
+          lockNext: lockNext, 
+          lockBack: lockBack
+        });
+    });
+  });
   });
 
   //adds to the database the user details upon registering
@@ -454,3 +779,5 @@ function add(server) {
 }
 
 module.exports.add = add;
+
+//?search={{searchWord}}&lowerdate={{lowDate}}&upperdate={{upDate}}&status={{requestStatus}}&category={{requestCategory}}&tests={{testName}}

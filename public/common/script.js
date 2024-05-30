@@ -11,15 +11,78 @@ $(document).ready(function(){
       });//fn+post
   });//btn
 
-  $.post('chatbot-answer',
-      { msg: $('#msg-txt').val() },
-      function(data, status){
-        if(status === 'success'){
-          $('#message-area').append("<tr><td><span>"+data.original+"</span></td></tr>");
-          $('#message-area').append("<tr><td><span>"+data.response+"</span></td></tr>");
-          $('#msg-txt').val('');
-        }//if
-      });//fn+post
+  function getSomeValueFromUrl() {
+    var pathArray = window.location.pathname.split('/');
+    return pathArray[pathArray.length - 1]; // Get the last segment of the URL path
+}
+
+  $("#backButton").click(function(){
+      var backValue = getSomeValueFromUrl() - 1;
+      if (backValue) {
+          $.post('/main/' + backValue, // Replace with your actual data endpoint
+          {},
+          function(data, status){
+              if(status === 'success'){
+                  var $tableBody = $('#data-table tbody');
+                  $tableBody.empty(); // Clear any existing rows
+  
+                  // Iterate over the data and append rows to the table
+                  $.each(data, function(index, item){
+                      var row = `<tr data-patient-id="${item.patientID}" data-patient-name="${item.patientName}" data-status="${item.status}" data-remarks="${item.remarks}" data-date-start="${item.dateStart}" data-date-end="${item.dateEnd}">
+                          <th class="item-container number"><h5>${index + 1}</h5></th>
+                          <td class="item-container"><h5>${item.patientID}</h5></td>
+                          <td class="item-container"><h5>${item.patientName}</h5></td>
+                          <td class="item-container"><h5>${item.category}</h5></td>
+                          <td class="item-container status"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
+                          <h5 class="status-item ${item.barColor}">${item.status}</h5></a></td>
+                          <td class="item-container"><h5>${item.remarks}</h5></td>
+                          <td class="item-container date"><h5>${item.dateStart}</h5></td>
+                          <td class="item-container date"><h5>${item.dateEnd}</h5></td>
+                      </tr>`;
+                      $tableBody.append(row);
+                  });
+              } else {
+                  console.error('Failed to fetch data');
+              }
+          });
+      } else {
+          console.error('someValue not found in URL');
+      }
+  });
+
+  $("#nextButton").click(function(){
+    var nextValue = getSomeValueFromUrl() + 1;
+    if (nextValue) {
+        $.post('/main/' + nextValue, // Replace with your actual data endpoint
+        {},
+        function(data, status){
+            if(status === 'success'){
+                var $tableBody = $('#data-table tbody');
+                $tableBody.empty(); // Clear any existing rows
+
+                // Iterate over the data and append rows to the table
+                $.each(data, function(index, item){
+                    var row = `<tr data-patient-id="${item.patientID}" data-patient-name="${item.patientName}" data-status="${item.status}" data-remarks="${item.remarks}" data-date-start="${item.dateStart}" data-date-end="${item.dateEnd}">
+                        <th class="item-container number"><h5>${index + 1}</h5></th>
+                        <td class="item-container"><h5>${item.patientID}</h5></td>
+                        <td class="item-container"><h5>${item.patientName}</h5></td>
+                        <td class="item-container"><h5>${item.category}</h5></td>
+                        <td class="item-container status"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
+                        <h5 class="status-item ${item.barColor}">${item.status}</h5></a></td>
+                        <td class="item-container"><h5>${item.remarks}</h5></td>
+                        <td class="item-container date"><h5>${item.dateStart}</h5></td>
+                        <td class="item-container date"><h5>${item.dateEnd}</h5></td>
+                    </tr>`;
+                    $tableBody.append(row);
+                });
+            } else {
+                console.error('Failed to fetch data');
+            }
+        });
+    } else {
+        console.error('someValue not found in URL');
+    }
+});
 
 $('.Hematology, .ClinicalMicroscopy, .Chemistry, .Serology').change(function() {
     if ($('.Hematology:checked').length) {
@@ -65,7 +128,7 @@ function confirmPatientRequest(){
   var category = ''
   if (($('#searchbtn').is(':visible'))) {
     alert('Please select a patient!');
-  } else  if ($('.Hematology:checked, .ClinicalMicroscopy:checked, .Chemistry:checked, .Serotology:checked').length < 1) {
+  } else  if ($('.Hematology:checked, .ClinicalMicroscopy:checked, .Chemistry:checked, .Serology:checked').length < 1) {
     alert('Please select at least one (1) test!');
   } else {
     document.getElementById('confirmModalLabel').innerText = 'Confirming Patient Request';

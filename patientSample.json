@@ -7,7 +7,8 @@
         "age": 20,
         "phoneNo": "09287092589",
         "email": "princebuencamino@gmail.com",
-        "address": "122 Golden Hour, Penacony Dreamscape"
+        "address": "122 Golden Hour, Penacony Dreamscape",
+        "remarks": "Caffeine addict"
     },
     {
         "patientID": 1001,
@@ -17,7 +18,8 @@
         "age": 21,
         "phoneNo": "09171234567",
         "email": "maria.garcia@gmail.com",
-        "address": "456 Sunrise St, Dreamville"
+        "address": "456 Sunrise St, Dreamville",
+        "remarks": "Pending hematology test"
     },
     {
         "patientID": 1002,
@@ -27,7 +29,8 @@
         "age": 24,
         "phoneNo": "09081234567",
         "email": "juan.delacruz@example.com",
-        "address": "789 Sunset Blvd, Newtown"
+        "address": "789 Sunset Blvd, Newtown",
+        "remarks": "Not yet paid"
     },
     {
         "patientID": 1003,
@@ -37,7 +40,8 @@
         "age": 22,
         "phoneNo": "09391234567",
         "email": "ana.reyes@example.com",
-        "address": "1011 Moonlight Ave, Star City"
+        "address": "1011 Moonlight Ave, Star City",
+        "remarks": "lorem ipsum"
     },
     {
         "patientID": 1004,
@@ -47,6 +51,80 @@
         "age": 24,
         "phoneNo": "09201234567",
         "email": "miguel.santos@example.com",
-        "address": "1213 Sunshine Rd, Happy Town"
+        "address": "1213 Sunshine Rd, Happy Town",
+        "remarks": "lorem ipsum"
+    },
+    {
+        "patientID": 1005,
+        "name": "Villanueva, Carla R.",
+        "sex": "F",
+        "birthday": { "$date": "2000-12-05T00:00:00.000Z" },
+        "age": 23,
+        "phoneNo": "09181234567",
+        "email": "carla.villanueva@example.com",
+        "address": "1415 Rainbow Dr, Magic City",
+        "remarks": "lorem ipsum"
+    },
+    {
+        "patientID": 1006,
+        "name": "Mendoza, Luis P.",
+        "sex": "M",
+        "birthday": { "$date": "2002-07-22T00:00:00.000Z" },
+        "age": 21,
+        "phoneNo": "09161234567",
+        "email": "luis.mendoza@example.com",
+        "address": "1617 Cloud Nine St, Dreamland"
+    },
+    {
+        "patientID": 1007,
+        "name": "Rivera, Sofia T.",
+        "sex": "F",
+        "birthday": { "$date": "1998-02-28T00:00:00.000Z" },
+        "age": 26,
+        "phoneNo": "09211234567",
+        "email": "sofia.rivera@example.com",
+        "address": "1819 Starry Lane, Comet Town"
+    },
+    {
+        "patientID": 1008,
+        "name": "Gonzales, Marco J.",
+        "sex": "M",
+        "birthday": { "$date": "1997-10-14T00:00:00.000Z" },
+        "age": 26,
+        "phoneNo": "09381234567",
+        "email": "marco.gonzales@example.com",
+        "address": "2021 Lunar Way, Space City"
+    },
+    {
+        "patientID": 1009,
+        "name": "Ramos, Elena Q.",
+        "sex": "F",
+        "birthday": { "$date": "2003-04-18T00:00:00.000Z" },
+        "age": 21,
+        "phoneNo": "09271234567",
+        "email": "elena.ramos@example.com",
+        "address": "2223 Stellar St, Galaxy Town"
+    },
+    {
+        "patientID": 1010,
+        "name": "Torres, Daniel K.",
+        "sex": "M",
+        "birthday": { "$date": "1996-03-05T00:00:00.000Z" },
+        "age": 28,
+        "phoneNo": "09151234567",
+        "email": "daniel.torres@example.com",
+        "address": "2425 Orbit Ave, Cosmos City"
+    },
+    {
+        "patientID": 1011,
+        "name": "Lopez, Clara H.",
+        "sex": "F",
+        "birthday": { "$date": "2004-09-12T00:00:00.000Z" },
+        "age": 19,
+        "phoneNo": "09291234567",
+        "email": "clara.lopez@example.com",
+        "address": "2627 Solar Rd, Universe Town"
     }
+
+    
 ]

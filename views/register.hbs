@@ -6,13 +6,11 @@
         <form action="/adduser-db" method="post">
             <div class="spacer">
                 <h1 class="text-center fw-bold mb-3">Register Account</h1>
-                Full Name
-                <div class="d-flex justify-content-evenly mb-3 gap-5">
-                    <input type="text" class="form-control" name="fname" placeholder="First Name"
-                        required>
+                <label class="form-label">Full Name</label>
+                <div class="d-flex justify-content-evenly mb-3 gap-3">
+                    <input type="text" class="form-control" name="fname" placeholder="First Name" required>
                     <input type="text" class="form-control" name="mname" placeholder="Middle Name">
-                    <input type="text" class="form-control" name="lname" placeholder="Last Name"
-                        required>
+                    <input type="text" class="form-control" name="lname" placeholder="Last Name" required>
                 </div>
                 <div class="mb-3">
                     <label for="sex" class="form-label">Sex</label>
@@ -23,7 +21,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="pnum" class="form-label">Phone Number</label>
-                    <input type="number" class="form-control" id="pnum" name="pnum" placeholder="(09XX) XXX XXXX" min="09000000000" max="09999999999"required>
+                    <input type="text" class="form-control" id="pnum" name="pnum" placeholder="(09XX) XXX XXXX" required>
                 </div>
                 <div>
                     <div class="mb-3">
@@ -32,17 +30,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="username@bioscopic.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" minlength="8"
-                            required>
+                        <input type="password" class="form-control" id="password" name="password" minlength="8" required>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="prc" class="form-label">PRC License no.</label>
+                    <label for="prc" class="form-label">PRC License No. (Optional)</label>
                     <input type="text" class="form-control" id="prc" name="prc">
                 </div>
             </div>
