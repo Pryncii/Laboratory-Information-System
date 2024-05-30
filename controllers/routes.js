@@ -751,23 +751,30 @@ function add(server) {
 
   
   server.post('/update-status-request-db', function(req, resp){
-    const { requestID, status, startDate, finishDate, remarks } = req.body;
+    const { status, dateStart, dateEnd, remarks } = req.body;
 
-    requestModel.findOneAndUpdate(
-        { requestID: requestID }, 
-        { status: status, dateStart: startDate, dateEnd: finishDate, remarks: remarks }, 
-        { new: true } // Return the updated document
-    ).then(function(updatedRequest) {
-        if (updatedRequest) {
-            resp.status(200).json({ success: true, updatedRequest: updatedRequest });
-        } else {
-            resp.status(404).json({ success: false, message: "Request not found" });
-        }
-    }).catch(function(error) {
+    requestModel.findOneAndUpdate({
+          status: status,
+          dateStart: dateStart, 
+          dateEnd: dateEnd, 
+          remarks: remarks
+        },
+        { new: true }
+    )
+    .then(function(updatedRequest) {
+      if (updatedRequest) {
+        // If the update was successful, redirect back to the main page
+        resp.redirect('/main');
+    } else {
+        // If the request was not found, respond with a 404 error
+        resp.status(404).json({ success: false, message: "Request not found" });
+    }
+    })
+    .catch(function(error) {
         console.error(error);
         resp.status(500).json({ success: false, message: "Error updating request" });
     });
-  });
+});
 
 }
 

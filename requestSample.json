@@ -1,5 +1,6 @@
 [
     {
+        "requestID": 1000,
         "patientID":  1000,
         "medtechID": 100,
         "category": "Hematology",
@@ -9,6 +10,7 @@
         "remarks": "Making good progress with his blood pressure"
     },
     {
+        "requestID": 1001,
         "patientID":  1001,
         "medtechID": 100,
         "category": "Clinical Microscopy",
@@ -18,6 +20,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1002,
         "patientID":  1002,
         "medtechID": 100,
         "category": "Chemistry",
@@ -27,6 +30,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1003,
         "patientID":  1003,
         "medtechID": 100,
         "category": "Serology",
@@ -36,6 +40,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1004,
         "patientID":  1004,
         "medtechID": 100,
         "category": "Hematology",
@@ -45,6 +50,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1005,
         "patientID":  1000,
         "medtechID": 100,
         "category": "Clinical Microscopy",
@@ -54,6 +60,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1006,
         "patientID":  1001,
         "medtechID": 100,
         "category": "Chemistry",
@@ -63,6 +70,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1007,
         "patientID":  1002,
         "medtechID": 100,
         "category": "Serology",
@@ -72,6 +80,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1008,
         "patientID":  1003,
         "medtechID": 100,
         "category": "Hematology",
@@ -81,6 +90,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1009,
         "patientID":  1004,
         "medtechID": 100,
         "category": "Clinical Microscopy",
@@ -90,6 +100,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1010,
         "patientID":  1000,
         "medtechID": 100,
         "category": "Chemistry",
@@ -99,6 +110,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1011,
         "patientID":  1001,
         "medtechID": 100,
         "category": "Serology",
@@ -108,6 +120,7 @@
         "remarks": ""
     },
     {
+        "requestID": 1012,
         "patientID":  1002,
         "medtechID": 100,
         "category": "Hematology",

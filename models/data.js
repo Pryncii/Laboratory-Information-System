@@ -31,6 +31,7 @@ const patientSchema = new mongoose.Schema({
 const patientModel = mongoose.model('patients', patientSchema);
 
 const requestSchema = new mongoose.Schema({
+    requestID: {type: Number},
     patientID: {type: Number},
     medtechID:{type: Number},
     category: {type: String},
