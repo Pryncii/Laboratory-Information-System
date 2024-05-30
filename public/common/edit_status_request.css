@@ -93,7 +93,7 @@
     background-color: var(--secondary-bg-color);
 }
 
-#patient-id {
+#patient-id, #request-id {
     color:#4A6BA1;
     font-size: 16px;
 }
