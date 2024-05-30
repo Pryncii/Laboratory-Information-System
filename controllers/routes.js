@@ -229,7 +229,7 @@ function add(server) {
 
     if (querySearch.length > 0){
       finalQuery = "?";
-      finalQuery += querySearch.join("&");f
+      finalQuery += querySearch.join("&");
     } else {
       finalQuery = "";
     }
@@ -383,7 +383,8 @@ function add(server) {
           start: start,
           end: end,
           lockNext: lockNext,
-          lockBack: lockBack
+          lockBack: lockBack,
+          user: loggedUser.name
         });
       });
   });
@@ -549,7 +550,7 @@ function add(server) {
     let search = req.body.hasSearched === 'true' ? req.body.search.trim() : "";
     let pageDetails = req.body.pageNum.trim().split(" ");
     let sort = req.body.sort;
-    let start = parseInt(pageDetails[0]);
+    let start = parseInt(pageDetails[1]);
     let end = pageDetails[3];
 
     processPatients(search, patientModel, requestModel)

@@ -13,8 +13,8 @@
 
         <div class="form-box">
             <div class="norm">
-                <input class="input-item form-control" type="text" id="search" name="search" placeholder="Search">
-                <button class="btn-item btn btn-primary btn-lg" type="submit">SEARCH</button>
+                <input class="input-item form-control" type="text" name="search" id="search-field" placeholder="Search">
+                <button class="btn-item btn btn-primary btn-lg" id="search-btn" type="submit">SEARCH</button>
             </div>
 
             <div class="adv">
@@ -43,13 +43,23 @@
             </table>
         </div>
 
-        <div id="pageNumber page-container">
-            <h5>Page {{start}} of {{end}}</h5>
+        <div class="test-content mt-0">
+            <!-- ======= Buttons ======= -->
+            <table class="test-items">
+                <tr>
+                    <th class="btn-container float-start">
+                        <button class="btn btn-primary btn-lg" type="button" id="back-btn" disabled="true">BACK</button>
+                    </th>
+                    <th id="pageNumber" class="page-container text-center">
+                        <h5>Page {{start}} of {{end}}</h5>
+                    </th>
+                    <th class="btn-container float-end">
+                        <button class="btn btn-primary btn-lg" type="button" id="next-btn">NEXT</button>
+                    </th>
+                </tr>
+            </table>
         </div>
-        <div class="nextback-buttons">  
-            <button class="btn btn-primary btn-lg" type="button" id="back-btn" disabled="true">Back</button>
-            <button class="btn btn-primary btn-lg" type="button" id="next-btn">Next</button>
-        </div>
+
         <input type="hidden" name="hidden-chosenSort" id="hidden-chosenSort" value="D">
         <input type="hidden" name="hidden-search" id="hidden-search" value="false">
     </div>

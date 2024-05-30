@@ -12,7 +12,7 @@ $(document).ready(function(){
             if(status === 'success'){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
-                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 $("#hidden-search").val("true");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
@@ -46,7 +46,7 @@ $(document).ready(function(){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
                 $("#sortName-btn").text(data.nameBtn_text);
-                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 $("#hidden-chosenSort").val("N");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
@@ -80,7 +80,7 @@ $(document).ready(function(){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
                 $("#sortDate-btn").text(data.dateBtn_text);
-                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 $("#hidden-chosenSort").val("D");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
@@ -117,7 +117,7 @@ $(document).ready(function(){
             if(status === 'success'){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
-                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
                 table.innerHTML = "";
@@ -153,7 +153,7 @@ $(document).ready(function(){
             if(status === 'success'){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
-                $("#pageNumber").text(data.start + " out of " + data.end);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
                 table.innerHTML = "";
