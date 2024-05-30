@@ -229,7 +229,7 @@ function add(server) {
 
     if (querySearch.length > 0){
       finalQuery = "?";
-      finalQuery += querySearch.join("&");f
+      finalQuery += querySearch.join("&");
     } else {
       finalQuery = "";
     }
