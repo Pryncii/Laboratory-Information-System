@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const statusSelect = document.getElementById("editstatus");
-    const startDateGroup = document.getElementById("start-date-group");
-    const finishDateGroup = document.getElementById("finish-date-group");
-    const startDateInput = document.getElementById("start-date");
-    const finishDateInput = document.getElementById("finish-date");
+    let statusSelect = document.getElementById("editstatus");
+    let startDateGroup = document.getElementById("start-date-group");
+    let finishDateGroup = document.getElementById("finish-date-group");
+    let startDateInput = document.getElementById("start-date");
+    let finishDateInput = document.getElementById("finish-date");
+    let reqIDval = document.getElementById("request-id");
 
     startDateGroup.style.display = "none";
     finishDateGroup.style.display = "none";
 
     statusSelect.addEventListener("change", function() {
-        const currentDate = new Date().toISOString().split("T")[0];
+        let currentDate = new Date().toISOString().split("T")[0];
         
         if (statusSelect.value === "in_progress") {
             startDateGroup.style.display = "block";
@@ -25,18 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const form = document.getElementById("status-form");
+    let form = document.getElementById("status-form");
     form.addEventListener("submit", function(event) {
         event.preventDefault();
         
 
-        const formData = {
+        let formData = {
+            requestID: parseInt(reqIDval.outerText),
             status: statusSelect.value,
             startDate: startDateInput.value,
             finishDate: finishDateInput.value,
             remarks: document.getElementById("remarks").value
         };
         
+        console.log(formData);
+
         const url = "/update-status-request-db";
 
         fetch(url, {
@@ -46,17 +50,12 @@ document.addEventListener("DOMContentLoaded", function() {
             },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
-        .then(data => {
-            form.reset();
-            const modal = bootstrap.Modal.getInstance(document.getElementById("statusModal"));
-            modal.hide();
-        })
+        .then(window.location.reload())
         .catch((error) => {
             console.error("Error:", error);
         });
     });
-        // Get the modal element
+    // Get the modal element
     var statusModal = document.getElementById("statusModal");
 
     // Listen for the modal opening event
@@ -70,8 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
         var remarks = button.closest("tr").dataset.remarks;
         var requestID = button.closest("tr").dataset.requestId;
 
-        console.log(patientID);
-        console.log(requestID);
         // Populate the modal with the extracted data
         var modalTitle = statusModal.querySelector(".modal-title");
         var userName = statusModal.querySelector("#user-name");
@@ -82,8 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         modalTitle.textContent = "Edit Status";
         userName.textContent = patientName;
         patientId.textContent = "Patient ID: " + patientID;
-        requestId.textContent = "Request ID: " + requestID;
+        requestId.textContent = requestID;
         remarksTextarea.placeholder = remarks;
     });
-
 });

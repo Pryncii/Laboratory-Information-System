@@ -728,6 +728,7 @@ function add(server) {
     let patientID = req.query.patientID;
     let medtechID = loggedUser.medtechID;
     let category = req.query.category;
+    let baseNumber = 1000;
     if(category == "ClinicalMicroscopy")
     {
       category = "Clinical Microscopy";
@@ -737,7 +738,10 @@ function add(server) {
     let dateEnd = null;
     let remarks = "";
 
+    requestModel.find({})
+    .then(function(requests) {
     const requestInstance = requestModel({
+      requestID: baseNumber + requests.length,
       patientID: patientID,
       medtechID: medtechID,
       category: category,
@@ -750,30 +754,31 @@ function add(server) {
       resp.redirect("/patient-request");
     });
   });
+  });
 
   
   server.post('/update-status-request-db', function(req, resp){
-    const { status, dateStart, dateEnd, remarks } = req.body;
+    const { requestID, status, remarks } = req.body;
+    let dateEnd;
+    let date = new Date();
+    let utc_8 = date.getTime() + (date.getTimezoneOffset() * 60000);
+    let pstoffset = 8 * 60 * 60 * 1000;
+    let pst = new Date(utc_8 + pstoffset);
 
-    console.log(req.body.id);
-    console.log("update stuff");
-    console.log(status);
-    console.log(dateStart);
-    console.log(dateEnd);
-    console.log(remarks);
+    if(status === "Completed")
+      dateEnd = pst;
+    
     const updateValues = {
       $set:
       {
         status: status,
-        dateStart: dateStart, 
-        dateEnd: dateEnd, 
+        dateEnd: dateEnd,
         remarks: remarks
       }
     }
       
-
-    requestModel.updateOne(updateQuery, updateValues)
-    .then(function(updatedRequest) {
+    requestModel.updateOne({ requestID: requestID }, updateValues)
+    .then(async function(updatedRequest) {
       if (updatedRequest) {
         // If the update was successful, redirect back to the main page
         resp.redirect('/main/1');
@@ -787,7 +792,6 @@ function add(server) {
         resp.status(500).json({ success: false, message: "Error updating request" });
     });
 });
-
 }
 
 module.exports.add = add;
