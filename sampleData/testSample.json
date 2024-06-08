@@ -1,6 +1,6 @@
 [
     {
-      "requestId": 1000,
+      "requestID": 1000,
       "hemoglobin": 14.2,
       "hematocrit": 42.5,
       "rbcCount": 5.2,
@@ -14,7 +14,7 @@
       "plateletCount": 250000
     },
     {
-      "requestId": 1001,
+      "requestID": 1001,
       "hemoglobin": 13.5,
       "hematocrit": 40.0,
       "rbcCount": 4.8,
@@ -27,7 +27,7 @@
       "withPlateletCount": false
     },
     {
-      "requestId": 1002,
+      "requestID": 1002,
       "hemoglobin": 15.0,
       "hematocrit": 45.0,
       "rbcCount": 5.5,
@@ -85,7 +85,7 @@
         "mucusThread": "Present"
       },
     {
-        "requestId": 1005,
+        "requestID": 1005,
         "fbs": 90,
         "cholesterol": 180,
         "triglycerides": 150,
@@ -98,7 +98,7 @@
         "hba1c": 5.6
     },
     {
-        "requestId": 1006,
+        "requestID": 1006,
         "fbs": 85,
         "creatinine": 0.9,
         "cholesterol": 190,
@@ -110,7 +110,7 @@
         "hba1c": 5.8
     },
     {
-        "requestId": 1007,
+        "requestID": 1007,
         "fbs": 95,
         "creatinine": 0.7,
         "uricAcid": 5.0,
@@ -124,13 +124,13 @@
         "hba1c": 5.4
     }, 
     {
-        "requestId": 1008,
+        "requestID": 1008,
         "hbsAg": "Negative",
         "rprVdrl": "Non-reactive",
         "dengueDuo": "Positive"
     },
     {
-        "requestId": 1009,
+        "requestID": 1009,
         "hbsAg": "Positive",
         "pregnancyTest": "Negative"
     }
