@@ -42,6 +42,7 @@ function add(server) {
   }
 
   server.get('/', function (req, resp) {
+    /*
     const hematologyInstance = hematologyModel({
       requestId: 1000,
       hemoglobin: 14.2,
@@ -57,8 +58,10 @@ function add(server) {
       plateletCount: 20000
     });
     hematologyInstance.save().then(function (user) {
-      resp.redirect('/login'); //CHANGE THIS
+     //CHANGE THIS
     }).catch(errorFn);
+    */
+    resp.redirect('/login');
   });
 
   server.get('/login', function (req, resp) {
