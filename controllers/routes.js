@@ -42,7 +42,23 @@ function add(server) {
   }
 
   server.get('/', function (req, resp) {
-    resp.redirect("/login");
+    const hematologyInstance = hematologyModel({
+      requestId: 1000,
+      hemoglobin: 14.2,
+      hematocrit: 42.5,
+      rbcCount: 5.2,
+      wbcCount: 7.5,
+      neutrophil: 55,
+      lymphocyte: 35,
+      monocyte: 6,
+      eosinophil: 3,
+      basophil: 1,
+      withPlateletCount: true,
+      plateletCount: 20000
+    });
+    hematologyInstance.save().then(function (user) {
+      resp.redirect('/login'); //CHANGE THIS
+    }).catch(errorFn);
   });
 
   server.get('/login', function (req, resp) {

@@ -67,8 +67,6 @@ const hematologySchema = new mongoose.Schema({
     }
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const hematologyModel = mongoose.model('hematology', hematologySchema);
-
 const urinalysisSchema = new mongoose.Schema({
     requestId: { type: Number },
     color: { type: String },
@@ -101,9 +99,6 @@ const fecalysisSchema = new mongoose.Schema({
     yeastCell: { type: Number }
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const urinalysisModel = mongoose.model('urinalysis', urinalysisSchema);
-const fecalysisModel = mongoose.model('fecalysis', fecalysisSchema);
-
 const chemistrySchema = new mongoose.Schema({
     requestId: { type: Number },
     fbs: { type: Number },
@@ -120,8 +115,6 @@ const chemistrySchema = new mongoose.Schema({
     hba1c: { type: Number }
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const chemistryModel = mongoose.model('chemistry', chemistrySchema);
-
 const serologySchema = new mongoose.Schema({
     requestId: { type: Number },
     hbsAg: { type: String },
@@ -131,9 +124,13 @@ const serologySchema = new mongoose.Schema({
     dengueDuo: { type: String }
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const serologyModel = mongoose.model('serology', serologySchema);
+const serologyModel = mongoose.model('serology', serologySchema, 'tests');
 
 const baseTestSchema = new mongoose.Schema({}, { discriminatorKey: 'type' });
+const hematologyModel = mongoose.model('hematology', hematologySchema, 'tests');
+const urinalysisModel = mongoose.model('urinalysis', urinalysisSchema, 'tests');
+const fecalysisModel = mongoose.model('fecalysis', fecalysisSchema, 'tests');
+const chemistryModel = mongoose.model('chemistry', chemistrySchema, 'tests');
 const allTestModel = mongoose.model('Test', baseTestSchema, 'tests');
 
 
