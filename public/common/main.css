@@ -16,6 +16,10 @@ table { table-layout: fixed; }
     text-align: center;
 }
 
+.flag {
+    color: red;
+}
+
 .item-label, .number { 
     border: 2px solid #FFF8F3 !important;
     border-radius: 10px;

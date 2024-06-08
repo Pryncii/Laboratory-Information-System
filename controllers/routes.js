@@ -303,8 +303,8 @@ function add(server) {
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
           remarks: item.remarks,
           barColor: statusColor,
-          flag: flagStatus
         });
+        flagStatus = "";
         
         counts += 1;
         patientNo += 1;
