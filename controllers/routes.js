@@ -11,6 +11,13 @@ function add(server) {
   const userModel = appdata.userModel;
   const patientModel = appdata.patientModel;
   const requestModel = appdata.requestModel;
+  const hematologyModel = appdata.hematologyModel;
+  const urinalysisModel = appdata.urinalysisModel;
+  const fecalysisModel = appdata.fecalysisModel;
+  const chemistryModel = appdata.chemistryModel;
+  const serologyModel = appdata.serologyModel;
+  // Use this model to look for the corresponding test
+  const allTestModel = appdata.allTestModel;
 
   function errorFn(err) {
     console.log('Error found. Please trace!');

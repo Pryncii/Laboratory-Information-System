@@ -65,11 +65,12 @@ const hematologySchema = new mongoose.Schema({
         message: 'plateletCount is required if withPlateletCount is true'
       }
     }
-  }, { versionKey: false });
+  }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const hematologyModel = mongoose.model('tests', hematologySchema);
+const hematologyModel = mongoose.model('hematology', hematologySchema);
 
 const urinalysisSchema = new mongoose.Schema({
+    requestId: { type: Number },
     color: { type: String },
     transparency: { type: String },
     pH: { type: Number },
@@ -81,9 +82,10 @@ const urinalysisSchema = new mongoose.Schema({
     bacteria: { type: String },
     epithelialCells: { type: String },
     mucusThread: { type: String }
-  }, { versionKey: false });
+  }, { versionKey: false }, { discriminatorKey: 'type' });
 
 const fecalysisSchema = new mongoose.Schema({
+    requestId: { type: Number },
     color: { type: String },
     consistency: { type: String },
     wbc: { type: Number },
@@ -97,10 +99,10 @@ const fecalysisSchema = new mongoose.Schema({
     pusCells: { type: Number },
     erythrocyte: { type: Number },
     yeastCell: { type: Number }
-  }, { versionKey: false });
+  }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const urinalysisModel = mongoose.model('tests', urinalysisSchema);
-const fecalysisModel = mongoose.model('tests', fecalysisSchema);
+const urinalysisModel = mongoose.model('urinalysis', urinalysisSchema);
+const fecalysisModel = mongoose.model('fecalysis', fecalysisSchema);
 
 const chemistrySchema = new mongoose.Schema({
     requestId: { type: Number },
@@ -116,9 +118,9 @@ const chemistrySchema = new mongoose.Schema({
     sgpt: { type: Number },
     sgot: { type: Number },
     hba1c: { type: Number }
-  }, { versionKey: false });
+  }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const chemistryModel = mongoose.model('tests', chemistrySchema);
+const chemistryModel = mongoose.model('chemistry', chemistrySchema);
 
 const serologySchema = new mongoose.Schema({
     requestId: { type: Number },
@@ -127,9 +129,12 @@ const serologySchema = new mongoose.Schema({
     pregnancyTest: { type: String },
     dengueNs1: { type: String },
     dengueDuo: { type: String }
-  }, { versionKey: false });
+  }, { versionKey: false }, { discriminatorKey: 'type' });
 
-const serologyModel = mongoose.model('tests', serologySchema);
+const serologyModel = mongoose.model('serology', serologySchema);
+
+const baseTestSchema = new mongoose.Schema({}, { discriminatorKey: 'type' });
+const allTestModel = mongoose.model('Test', baseTestSchema, 'tests');
 
 
 let appdata = {
@@ -141,7 +146,8 @@ let appdata = {
     'urinalysisModel' : urinalysisModel,
     'fecalysisModel'  : fecalysisModel,
     'chemistryModel' : chemistryModel,
-    'serologyModel' : serologyModel
+    'serologyModel' : serologyModel,
+    'allTestModel' : allTestModel
 };
 
 module.exports.appdata = appdata;
