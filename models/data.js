@@ -99,15 +99,8 @@ const fecalysisSchema = new mongoose.Schema({
     yeastCell: { type: Number }
   }, { versionKey: false });
 
-const clinicalMicroscopySchema = new mongoose.Schema({
-    requestID : {type: Number},
-    hasUrinalysis: {type: Boolean},
-    hasFecalysis: {type: Boolean},
-    fecalysis: [fecalysisSchema],
-    urinalysis: [urinalysisSchema]
-}, { versionKey: false });
-
-const clinicalMicroscopyModel = mongoose.model('tests', clinicalMicroscopySchema);
+const urinalysisModel = mongoose.model('tests', urinalysisSchema);
+const fecalysisModel = mongoose.model('tests', fecalysisSchema);
 
 const chemistrySchema = new mongoose.Schema({
     requestId: { type: Number },
@@ -145,7 +138,8 @@ let appdata = {
     'userModel'      : userModel,
     'requestModel'   : requestModel,
     'hematologyModel' : hematologyModel,
-    'clinicalMicroscopyModel' : clinicalMicroscopyModel,
+    'urinalysisModel' : urinalysisModel,
+    'fecalysisModel'  : fecalysisModel,
     'chemistryModel' : chemistryModel,
     'serologyModel' : serologyModel
 };
