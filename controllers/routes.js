@@ -17,6 +17,8 @@ function add(server) {
   const chemistryModel = appdata.chemistryModel;
   const serologyModel = appdata.serologyModel;
   // Use this model to look for the corresponding test
+  // Note: Can't query specific values of tests, use other
+  // Models to query a specific category
   const allTestModel = appdata.allTestModel;
 
   function errorFn(err) {
@@ -166,11 +168,118 @@ function add(server) {
     let subval = [];
     let statusColor;
     let patientNo = 1;
+    let flagStatus = "";
 
     for (const item of requests) {
       try {
         const patients = await patientModel.findOne({patientID: item.patientID});
         const medtechs = await userModel.findOne({medtechID: item.medtechID});
+        //Check the value of each test in chemistry and add a flag if out of range
+        if(item.category == "Chemistry"){
+          const tests = await chemistryModel.findOne({requestID: item.requestID});
+          if (tests && tests.fbs != null) {
+            if (tests.fbs < 75.0) {
+                flagStatus = "LOW";
+            } else if (tests.fbs > 115.0) {
+                flagStatus = "HIGH";
+            }
+          }
+          
+          if (tests && tests.rbs != null) {
+              if (tests.rbs > 140) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.creatinine != null) {
+              if (tests.creatinine < 0.7 && patients.sex === "M") {
+                  flagStatus = "LOW";
+              } else if (tests.creatinine > 1.4 && patients.sex === "M") {
+                  flagStatus = "HIGH";
+              } else if (tests.creatinine < 0.6 && patients.sex === "F") {
+                  flagStatus = "LOW";
+              } else if (tests.creatinine > 1.1 && patients.sex === "F") {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.uricAcid != null) {
+              if (tests.uricAcid < 2.5) {
+                  flagStatus = "LOW";
+              } else if (tests.uricAcid > 7.0) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.cholesterol != null) {
+              if (tests.cholesterol > 200) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.triglycerides != null) {
+              if (tests.triglycerides > 150) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.hdl != null) {
+              if (tests.hdl < 30) {
+                  flagStatus = "LOW";
+              } else if (tests.hdl > 70 && patients.sex === "M") {
+                  flagStatus = "LOW";
+              } else if (tests.hdl > 85 && patients.sex === "F") {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.ldl != null) {
+              if (tests.ldl > 130) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.vldl != null) {
+              if (tests.vldl < 8) {
+                  flagStatus = "LOW";
+              } else if (tests.vldl > 33) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.bun != null) {
+              if (tests.bun < 1.7) {
+                  flagStatus = "LOW";
+              } else if (tests.bun > 8.3) {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.sgpt != null) {
+              if (tests.sgpt > 40 && patients.sex === "M") {
+                  flagStatus = "HIGH";
+              } else if (tests.sgpt > 31 && patients.sex === "F") {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.sgot != null) {
+              if (tests.sgot > 37 && patients.sex === "M") {
+                  flagStatus = "HIGH";
+              } else if (tests.sgot > 31 && patients.sex === "F") {
+                  flagStatus = "HIGH";
+              }
+          }
+          
+          if (tests && tests.hba1c != null) {
+              if (tests.hba1c < 4.5) {
+                  flagStatus = "LOW";
+              } else if (tests.hba1c > 6.5) {
+                  flagStatus = "HIGH";
+              }
+          }
+        }
+      
 
         if(item.status == "Completed"){
           statusColor = "c";
@@ -195,6 +304,7 @@ function add(server) {
           remarks: item.remarks,
           barColor: statusColor,
         });
+        flagStatus = "";
         
         counts += 1;
         patientNo += 1;
@@ -818,7 +928,10 @@ function add(server) {
         resp.status(500).json({ success: false, message: "Error updating request" });
     });
 });
+
 }
+
+
 
 module.exports.add = add;
 

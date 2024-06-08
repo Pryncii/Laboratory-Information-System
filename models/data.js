@@ -45,7 +45,7 @@ const requestModel = mongoose.model('requests', requestSchema);
 
 
 const hematologySchema = new mongoose.Schema({
-    requestId: { type: Number },
+    requestID: { type: Number },
     hemoglobin: { type: Number },
     hematocrit: { type: Number },
     rbcCount: { type: Number },
@@ -68,7 +68,7 @@ const hematologySchema = new mongoose.Schema({
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
 const urinalysisSchema = new mongoose.Schema({
-    requestId: { type: Number },
+    requestID: { type: Number },
     color: { type: String },
     transparency: { type: String },
     pH: { type: Number },
@@ -83,7 +83,7 @@ const urinalysisSchema = new mongoose.Schema({
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
 const fecalysisSchema = new mongoose.Schema({
-    requestId: { type: Number },
+    requestID: { type: Number },
     color: { type: String },
     consistency: { type: String },
     wbc: { type: Number },
@@ -100,7 +100,7 @@ const fecalysisSchema = new mongoose.Schema({
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
 const chemistrySchema = new mongoose.Schema({
-    requestId: { type: Number },
+    requestID: { type: Number },
     fbs: { type: Number },
     rbs: {type: Number},
     creatinine: { type: Number },
@@ -117,7 +117,7 @@ const chemistrySchema = new mongoose.Schema({
   }, { versionKey: false }, { discriminatorKey: 'type' });
 
 const serologySchema = new mongoose.Schema({
-    requestId: { type: Number },
+    requestID: { type: Number },
     hbsAg: { type: String },
     rprVdrl: { type: String },
     pregnancyTest: { type: String },

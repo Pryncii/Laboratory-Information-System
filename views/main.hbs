@@ -93,7 +93,6 @@
                 <th class="item-label remarks"><h5>Remarks</h5></th>
                 <th class="item-label date"><h5>Date Requested</h5></th>
                 <th class="item-label date"><h5>Date Completed</h5></th>
-                <th class="item-label flags"><h5>Flag</h5></th>
             </tr>
             {{#each data}}
                 <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}" 
@@ -108,7 +107,6 @@
                     <td class="item-container"><h5>{{remarks}}</h5></th>
                     <td class="item-container date"><h5>{{dateStart}}</h5></th>
                     <td class="item-container date"><h5>{{dateEnd}}</h5></th>
-                    <td class="item-container date"><h5></h5></th>
                 </tr>
             {{/each}}
         </table>
