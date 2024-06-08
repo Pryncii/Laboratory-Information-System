@@ -102,6 +102,7 @@ const fecalysisSchema = new mongoose.Schema({
 const chemistrySchema = new mongoose.Schema({
     requestId: { type: Number },
     fbs: { type: Number },
+    rbs: {type: Number},
     creatinine: { type: Number },
     uricAcid: { type: Number },
     cholesterol: { type: Number },
