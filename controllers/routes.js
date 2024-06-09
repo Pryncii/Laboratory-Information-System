@@ -4,6 +4,7 @@ const { query } = require("express");
 const { Int32 } = require("mongodb");
 const saltRounds = 10;
 var loggedUser;
+var userFname;
 
 function add(server) {
   const responder = require('../models/data');
@@ -370,7 +371,9 @@ function add(server) {
     } else {
       finalQuery = "";
     }
-    
+
+    userFname = loggedUser.name.split(" ");
+
     resp.render('main', {
       layout: 'index',
       title: 'Main - Laboratory Information System',
@@ -382,6 +385,7 @@ function add(server) {
       pageNoBack: pageBack,
       pageNoCap: vals.length,
       user: loggedUser.name,
+      fname: userFname[1],
       query: finalQuery
     });
   })
@@ -401,7 +405,8 @@ function add(server) {
     resp.render('addpatient',{
       layout: 'index',
       title: 'Add Patient - Laboratory Information System',
-      user: loggedUser.name
+      user: loggedUser.name,
+      fname: userFname[1],
     });
   });
 
@@ -521,7 +526,8 @@ function add(server) {
           end: end,
           lockNext: lockNext,
           lockBack: lockBack,
-          user: loggedUser.name
+          user: loggedUser.name,
+          fname: userFname[1]
         });
       });
   });
@@ -855,7 +861,8 @@ function add(server) {
         layout: 'index',
         title: 'Laboratory Information System - Patient Request',
         patient: patient,
-        user: loggedUser.name
+        user: loggedUser.name,
+        fname: userFname[1]
       });
     });
   });
