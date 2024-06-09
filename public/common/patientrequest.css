@@ -52,7 +52,6 @@ table {
 }
 
 .row-test-info {
-    height: 150px;
     flex-direction: column;
     padding: 10px;
     padding-left: 20px;
