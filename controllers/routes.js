@@ -291,13 +291,16 @@ function add(server) {
 
         // console.log(patients);
 
+        let sep_test = item.test.split(", ");
+        // console.log(sep_test);
+
         subval.push({
           patientNo: patientNo,
           requestID: item.requestID,
           patientID: patients.patientID,
           patientName: patients.name,
           medtech: medtechs.name,
-          category: item.category,
+          test: sep_test,
           status: item.status,
           dateStart: item.dateStart ? item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }): '',
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
