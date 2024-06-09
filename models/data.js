@@ -35,6 +35,7 @@ const requestSchema = new mongoose.Schema({
     patientID: {type: Number},
     medtechID:{type: Number},
     category: {type: String},
+    test: {type: String},
     status: {type: String},
     dateStart: {type: Date},
     dateEnd: {type: Date},

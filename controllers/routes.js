@@ -864,11 +864,8 @@ function add(server) {
     let patientID = req.query.patientID;
     let medtechID = loggedUser.medtechID;
     let category = req.query.category;
+    let test = req.query.test;
     let baseNumber = 1000;
-    if(category == "ClinicalMicroscopy")
-    {
-      category = "Clinical Microscopy";
-    }
     let status = 'Requested';
     let dateStart = new Date();
     let dateEnd = null;
@@ -881,17 +878,17 @@ function add(server) {
       patientID: patientID,
       medtechID: medtechID,
       category: category,
+      test: test,
       status: status,
       dateStart: dateStart,
       dateEnd: dateEnd,
       remarks: remarks
     });
-    requestInstance.save().then(function () {
+    requestInstance.save().then(async function () {
       resp.redirect("/patient-request");
     });
   });
   });
-
   
   server.post('/update-status-request-db', function(req, resp){
     const { requestID, status, remarks } = req.body;
