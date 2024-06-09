@@ -114,6 +114,11 @@ $(document).ready(function(){
       $('#H-2').prop('disabled', true).prop('checked', false);
     }
   });
+
+  $(".clickable-row").click(function(){
+    var targetModal = $(this).data("bs-target");
+    $(targetModal).modal('show');
+  });
 })
 
 function confirmPatientRequest(){

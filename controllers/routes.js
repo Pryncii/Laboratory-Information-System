@@ -297,7 +297,7 @@ function add(server) {
           patientID: patients.patientID,
           patientName: patients.name,
           medtech: medtechs.name,
-          category: item.category,
+          test: item.test,
           status: item.status,
           dateStart: item.dateStart ? item.dateStart.toLocaleString('en-US', { timeZone: 'UTC' }): '',
           dateEnd: item.dateEnd ? item.dateEnd.toLocaleString('en-US', {timeZone: 'UTC'}) : '',
