@@ -100,4 +100,3 @@ table { table-layout: fixed; }
 .ip { background-color: rgba(238, 232, 144, 0.623); }
 .ip:hover { background-color: rgba(206, 195, 41, 0.623); }
 .page-container { color: #0D1D58; }
-.tests { display: inline; }
