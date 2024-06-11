@@ -421,6 +421,33 @@ function add(server) {
         });
     });
 
+    server.post("/login-validation", function (req, resp) {
+        userModel
+            .findOne({ username: req.body.username })
+            .lean()
+            .then(function (user) {
+                if (user != undefined && user._id != null) {
+                    bcrypt.compare(
+                        req.body.password,
+                        user.password,
+                        function (err, result) {
+                            if (result) {
+                                loggedUser = user;
+                                resp.redirect("/main/1");
+                                return;
+                            } else {
+                                resp.redirect("/login");
+                                return;
+                            }
+                        }
+                    );
+                } else {
+                    resp.redirect("/login");
+                    return;
+                }
+            });
+    });
+
     const processPatients = (search, patientModel, requestModel) => {
         return patientModel
             .find()
@@ -479,33 +506,6 @@ function add(server) {
                 return Promise.all(promises);
             });
     };
-
-    server.post("/login-validation", function (req, resp) {
-        userModel
-            .findOne({ username: req.body.username })
-            .lean()
-            .then(function (user) {
-                if (user != undefined && user._id != null) {
-                    bcrypt.compare(
-                        req.body.password,
-                        user.password,
-                        function (err, result) {
-                            if (result) {
-                                loggedUser = user;
-                                resp.redirect("/main/1");
-                                return;
-                            } else {
-                                resp.redirect("/login");
-                                return;
-                            }
-                        }
-                    );
-                } else {
-                    resp.redirect("/login");
-                    return;
-                }
-            });
-    });
 
     server.get("/viewpatients", function (req, resp) {
         let pageData = new Array();
@@ -697,6 +697,55 @@ function add(server) {
             });
 
             // limit to first 5
+            pageData = patientData.slice(0, 5);
+
+            // chedck for Locks
+            end = Math.ceil(patientData.length / 5);
+            start = end === 0 ? 0 : start;
+            lockNext = start === end ? true : false;
+            lockBack = start === 1 || start === 0 ? true : false;
+
+            resp.json({
+                pageData: pageData,
+                nameBtn_text: nameBtn_text,
+                dateBtn_text: dateBtn_text,
+                start: start,
+                end: end,
+                lockNext: lockNext,
+                lockBack: lockBack,
+            });
+        });
+    });
+
+    server.post("/reset-Page", function(req,resp) {
+        let pageData = new Array();
+        let lockNext = false;
+        let lockBack = false;
+        let start = 1;
+        let end;
+        let nameBtn_text = "Last Name A-Z";
+        let dateBtn_text = "Recently Modified";
+
+
+        processPatients("", patientModel, requestModel).then((patientData) => {
+            // Sort by most recent
+            patientData.sort((a, b) => {
+                return b.latestDate - a.latestDate; // Newest to oldest
+            });
+
+            // Format dates
+            patientData.forEach((patient) => {
+                const options = { month: "long", day: "numeric", year: "numeric" };
+
+                const defaultDate = new Date(1960, 0, 1).getTime();
+
+                patient.latestDate =
+                    new Date(patient.latestDate).getTime() !== defaultDate
+                        ? new Date(patient.latestDate).toLocaleDateString("en-US", options)
+                        : "No Requests";
+            });
+
+            // limit to first 5 initially
             pageData = patientData.slice(0, 5);
 
             // chedck for Locks
