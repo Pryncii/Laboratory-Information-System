@@ -29,7 +29,12 @@ function checkAgeToBday() {
             return false;
         }
     }
-    else return true;
+    else {
+        $(".agebday-notmatch").hide();
+        $('#age').css("border", "none");
+        $('#bday').css("border", "none");
+        return true;
+    }
 }
 
 function confirmPatientReg() {
