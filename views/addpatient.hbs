@@ -13,7 +13,7 @@
 
     <!-- ======= Registration Details ======= -->
     <div class="reg-content">
-        <form action="/addpatient-db" method="post" onsubmit="return confirm('Proceed with registering a new patient?');">
+        <form action="/addpatient-db" method="post" onsubmit="return confirmPatientReg();">
         <div id="message">
 
         </div>
@@ -27,19 +27,32 @@
                     <th class="item-container"><input class="input-item form-control" type="text" id="lname" name="lname" placeholder="Last Name" required></th>
                 </tr>
                 <tr>
-                    <th class="item-label"><h5>Age</h5></th>
                     <th class="item-label"><h5>Sex</h5></th>
-                    <th class="item-label"><h5>Birthday</h5></th>
+                    <th class="item-label"><h5 id="bday-lbl">Birthday</h5></th>
+                    <th class="item-label"><h5 id="age-lbl">Age</h5></th>
                 </tr>
                 <tr>
-                    <th class="item-container"><input class="input-item form-control" type="number" id="age" name="age" min="0" required></th>
                     <th class="item-container"> 
                         <select class="input-item form-control" name="sex" id="sex">
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                         </select>
+                        <div class="agebday-notmatch">
+                            <br>
+                        </div>
                     </th>
-                    <th class="item-container"><input class="input-item form-control" type="date" id="bday" name="bday"></th>
+                    <th class="item-container">
+                        <input class="input-item form-control" type="date" id="bday" name="bday">
+                        <div class="agebday-notmatch">
+                            Birthday does not match with age.
+                        </div>
+                    </th>
+                    <th class="item-container">
+                        <input class="input-item form-control" type="number" id="age" name="age" min="0" required>
+                        <div class="agebday-notmatch">
+                            Age does not match with birthday.
+                        </div>
+                    </th>
                 </tr>
             </table>
             <table class="reg-items">
