@@ -1,13 +1,13 @@
-function checkAgeToBday(event){
-    let bday = $("#bday").val() ? new Date($("#bday").val()) : false;
+function checkAgeToBday() {
+    let bday = $("#bday").val() ? new Date($("#bday").val()) : false; // assign false if no value
     let age = parseInt($("#age").val());
-    if(age && bday){
-        $("#message").text(age +" "+bday);
-        let now = new Date();
 
+    if(age && bday) {
+        $("#message").text(age + " " + bday);
+        let now = new Date();
         let checkAge = now.getFullYear() - bday.getFullYear();
 
-        const birthMonth = bday.getMonth();
+        const bdayMonth = bday.getMonth();
         const nowMonth = now.getMonth();
         const bdayDay = bday.getDate();
         const nowDay = now.getDate();
@@ -16,16 +16,28 @@ function checkAgeToBday(event){
             checkAge--;
         }
 
-        if(age == checkAge){
-            $("#message").text("yay");
+        if(age == checkAge) {
+            $(".agebday-notmatch").hide();
+            $('#age').css("border", "none");
+            $('#bday').css("border", "none");
+            return true;
         }
-        else{
-            $("#message").text("nooooo");
-            //insert html changes
+        else {
+            $(".agebday-notmatch").show();
+            $('#age').css("border", "1px solid red");
+            $('#bday').css("border", "1px solid red");
+            return false;
         }
     }
-    else{
-        $("#message").text("no age and or bday");
+    else return true;
+}
+
+function confirmPatientReg() {
+    if(checkAgeToBday())
+        return confirm('Proceed with registering a new patient?');
+    else {
+        alert('Invalid birthday and age.');
+        return false;
     }
 }
 
