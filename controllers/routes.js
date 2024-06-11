@@ -885,11 +885,10 @@ function add(server) {
         const { requestID, status, remarks } = req.body;
         let dateEnd;
         let date = new Date();
-        let utc_8 = date.getTime() + date.getTimezoneOffset() * 60000;
-        let pstoffset = 8 * 60 * 60 * 1000;
-        let pst = new Date(utc_8 + pstoffset);
+        console.log("====================" + date);
+        
 
-        if (status === "Completed") dateEnd = pst;
+        if (status === "Completed") dateEnd = new Date(date.getTime() + (8 * 60 * 60 * 1000));
 
         const updateValues = {
             $set: {
