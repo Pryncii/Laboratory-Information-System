@@ -101,6 +101,36 @@ $(document).ready(function(){
         });//fn+post
     });//btn
 
+    $("#reset-btn").click(function(){
+        $.post(
+          "reset-Page",
+          {
+
+          },
+          function(data, status){
+              if(status === 'success'){
+                $("#next-btn").attr("disabled", data.lockNext);
+                $("#back-btn").attr("disabled", data.lockBack);
+                $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
+                let pageData = data.pageData;
+                let table = document.getElementById("pageData");
+                table.innerHTML = "";
+                let patients = "";
+                for(let i = 0; i < pageData.length; i++){
+                    patient = pageData[i];
+                    patients += `
+                        <tr>
+                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container"><h5>${patient.latestDate}</h5></td> 
+                            <td class="item-container"><h5>${patient.remarks}</h5></td>
+                        </tr>
+                    `
+                }
+                table.innerHTML = patients;
+              }//if
+          });//fn+post
+      });//btn
+
     $("#back-btn").click(function(){
       $.post(
         "move-Page",
