@@ -778,8 +778,11 @@ function add(server) {
             .find({})
             .then(function (patients) {
                 //add to the database patient details
+                let lname = req.body.lname.trim()[0].toUpperCase() + req.body.lname.trim().slice(1);
+                let fname = req.body.fname.trim()[0].toUpperCase() + req.body.fname.trim().slice(1);
+                let minit = req.body.mname.trim()[0].toUpperCase();
                 var actualName =
-                    req.body.lname + ", " + req.body.fname + " " + req.body.mname;
+                    lname + ", " + fname + " " + minit + ".";
                 const patientInstance = patientModel({
                     patientID: baseNo + patients.length,
                     name: setDefault(actualName),
@@ -796,9 +799,19 @@ function add(server) {
                     .save()
                     .then(function (patient) {
                         //add patient to db
-                        resp.redirect("/addpatient?=success");
+                        resp.redirect("/patient-request");
                     })
                     .catch(errorFn);
+            })
+            .catch(errorFn);
+    });
+
+    server.post("/addpatient-duplicate", function (req, resp) {
+        patientModel
+            .find({name: req.body.patient_name, age: req.body.age, sex: req.body.sex})
+            .then(function (patients) {
+                let dup = patients.length ? true : false;
+                resp.json({dup : dup});
             })
             .catch(errorFn);
     });
