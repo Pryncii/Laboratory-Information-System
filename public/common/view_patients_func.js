@@ -111,6 +111,10 @@ $(document).ready(function(){
               if(status === 'success'){
                 $("#next-btn").attr("disabled", data.lockNext);
                 $("#back-btn").attr("disabled", data.lockBack);
+                $("#sortName-btn").text("Last Name A-Z");
+                $("#sortDate-btn").text("Recently Modified");
+                $("#hidden-search").val("false");
+                $("#hidden-chosenSort").val("D");
                 $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");

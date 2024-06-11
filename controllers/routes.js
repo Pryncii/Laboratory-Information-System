@@ -479,9 +479,6 @@ function add(server) {
                                     remarks: request.remarks,
                                 };
                             });
-                            console.log(patient.patientID);
-                            console.log(patient.name);
-                            console.log(dates);
                             let latestDate = new Array();
 
                             if (dates.length === 0) {
