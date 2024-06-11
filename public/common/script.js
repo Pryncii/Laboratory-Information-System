@@ -14,7 +14,7 @@ $(document).ready(function(){
   function getSomeValueFromUrl() {
     var pathArray = window.location.pathname.split('/');
     return pathArray[pathArray.length - 1]; // Get the last segment of the URL path
-}
+  }
 
   $("#backButton").click(function(){
       var backValue = getSomeValueFromUrl() - 1;
@@ -82,31 +82,35 @@ $(document).ready(function(){
     } else {
         console.error('someValue not found in URL');
     }
-});
-  
-  $("#selectPatient").change(function() {
-      var selectedName = $("#selectPatient").val();
-      let nameParts = selectedName.split(',');
-      let lastName = nameParts[0].trim();
-      if (lastName.includes(' ')) {
-        let lastNameParts = lastName.split(' ');
-        lastName = lastNameParts.join('');
-      }
-      let firstName = nameParts[1].trim().split(' ');
-      firstName.pop();
-      if (firstName.length > 1) {
-        firstName = firstName.join('');
-      }
-      $("[id$='-phoneno']").hide();
-      $("[id$='-email']").hide();
-      $("[id$='-sex']").hide();
-      $("[id$='-age']").hide();
-      $('#' + firstName + '-' + lastName + '-phoneno').show();
-      $('#' + firstName + '-' + lastName + '-email').show();
-      $('#' + firstName + '-' + lastName + '-sex').show();
-      $('#' + firstName + '-' + lastName + '-age').show();
   });
-  
+
+  $("#selectPatient").change(function() {
+    var selectedName = $("#selectPatient").val();
+    let nameParts = selectedName.split(',');
+    let lastName = nameParts[0].trim();
+
+    if (lastName.includes(' ')) {
+      let lastNameParts = lastName.split(' ');
+      lastName = lastNameParts.join('');
+    }
+
+    let firstName = nameParts[1].trim().split(' ');
+    firstName.pop();
+
+    if (firstName.length > 1) {
+      firstName = firstName.join('');
+    }
+
+    $("[id$='-phoneno']").hide();
+    $("[id$='-email']").hide();
+    $("[id$='-sex']").hide();
+    $("[id$='-age']").hide();
+    $('#' + firstName + '-' + lastName + '-phoneno').show();
+    $('#' + firstName + '-' + lastName + '-email').show();
+    $('#' + firstName + '-' + lastName + '-sex').show();
+    $('#' + firstName + '-' + lastName + '-age').show();
+  });
+
   $('#H-1').change(function() {
     if ($(this).is(':checked')) {
       $('#H-2').prop('disabled', false);
@@ -114,12 +118,7 @@ $(document).ready(function(){
       $('#H-2').prop('disabled', true).prop('checked', false);
     }
   });
-
-  $(".clickable-row").click(function(){
-    var targetModal = $(this).data("bs-target");
-    $(targetModal).modal('show');
-  });
-})
+});
 
 function confirmPatientRequest(){
   var patientName = document.getElementById('selectPatient').value;
