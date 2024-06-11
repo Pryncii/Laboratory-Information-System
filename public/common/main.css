@@ -95,6 +95,44 @@ table { table-layout: fixed; }
 }
 .status-item:hover { background-color: rgb(175, 175, 175); }
 
+.cbc, .cbc-platelet {
+    background-color: #0D1D58;
+    color: #FFF8F3;
+}
+
+.custom-checkbox-wrapper .btn-check, .invisible {
+    display: none;
+}
+
+.custom-checkbox-wrapper .custom-btn {
+    border: 2px solid #0D1D58;
+    background-color: transparent;
+    color: #0D1D58;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox-wrapper .custom-btn:hover {
+    background-color: #0D1D58;
+    color: white;
+    border-color: white;
+}
+
+.custom-checkbox-wrapper .btn-check:checked + .custom-btn {
+    background-color: #0D1D58;
+    color: white;
+    border-color: white;
+}
+
+.custom-checkbox-wrapper .btn-check:focus + .custom-btn,
+.custom-checkbox-wrapper .btn-check:active + .custom-btn {
+    outline: none;
+    border-color: white;
+}
+
+
+
 .c { background-color: rgba(112, 253, 112, 0.623); }
 .c:hover { background-color:rgba(23, 219, 23, 0.623); }
 .ip { background-color: rgba(238, 232, 144, 0.623); }
