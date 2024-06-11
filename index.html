@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Form Input</title>
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fill in your details</h1>
+    <form id="pdfForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <label for="glucose">Glucose:</label>
+        <input type="text" id="glucose" name="glucose" required><br><br>
+
+        <label for="creatinine">Creatinine:</label>
+        <input type="text" id="creatinine" name="creatinine" required><br><br>
+
+        <label for="uricAcid">Uric Acid:</label>
+        <input type="text" id="uricAcid" name="uricAcid" required><br><br>
+
+        <label for="cholesterolTotal">Cholesterol Total:</label>
+        <input type="text" id="cholesterolTotal" name="cholesterolTotal" required><br><br>
+
+        <label for="cholesterolHDL">Cholesterol HDL:</label>
+        <input type="text" id="cholesterolHDL" name="cholesterolHDL" required><br><br>
+
+        <label for="cholesterolLDL">Cholesterol LDL:</label>
+        <input type="text" id="cholesterolLDL" name="cholesterolLDL" required><br><br>
+
+        <label for="triglyceride">Triglyceride:</label>
+        <input type="text" id="triglyceride" name="triglyceride" required><br><br>
+
+        <button type="submit">Generate PDF</button>
+    </form>
+
+    <!-- The Modal -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Generated PDF</h2>
+            <iframe id="pdfFrame" style="width:100%; height:500px;"></iframe>
+            <button id="downloadBtn">Download PDF</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('pdfForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/generate-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                // Display the PDF in the iframe
+                const pdfFrame = document.getElementById('pdfFrame');
+                pdfFrame.src = url;
+
+                // Show the modal
+                const modal = document.getElementById('pdfModal');
+                modal.style.display = 'block';
+
+                // Enable the download button
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Result_${data.lastName}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                };
+            } else {
+                console.error('Failed to generate PDF');
+            }
+        });
+
+        // Close the modal when the user clicks on <span> (x)
+        document.querySelector('.close').onclick = function() {
+            const modal = document.getElementById('pdfModal');
+            modal.style.display = 'none';
+        };
+
+        // Close the modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('pdfModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
