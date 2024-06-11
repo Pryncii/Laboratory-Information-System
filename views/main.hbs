@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="/common/loginregister.css">
 <link rel="stylesheet" href="/common/edit_status_request.css">
 <script type="text/javascript" src="/common/edit_status_request.js"></script>
+<script type="text/javascript" src="/common/category_test_search.js"></script>
 
 
  <div class="main-content">
@@ -62,8 +63,8 @@
                                     <select class="form-select adv-item" id="category" name="category">
                                         <option value="AA">All</option>
                                         <option value="Hematology">Hematology</option>
-                                        <option value="Chemistry">Chemistry</option>
                                         <option value="Clinical Microscopy">Clinical Microscopy</option>
+                                        <option value="Chemistry">Chemistry</option>
                                         <option value="Serology">Serology</option>
                                     </select>
                                  </div>
@@ -71,10 +72,37 @@
                                     <label for="date">Test</label>
                                     <select class="form-select adv-item" id="tests" name="tests">
                                         <option value="AAA">All</option>
-                                        <option value="t1">Test 1</option>
-                                        <option value="t2">Test 2</option>
-                                        <option value="t3">Test 3</option>
-                                        <option value="t4">Test 4</option>
+
+                                        <option value="CBC" class="h-cat">CBC</option>
+                                        <option value="CBC with Platelet Count" class="h-cat">CBC with Platelet Count</option>
+                                        <option value="ESR" class="h-cat">ESR</option>
+                                        <option value="Blood Type with Rh" class="h-cat">Blood Type with Rh</option>
+                                        <option value="Clotting Time" class="h-cat">Clotting Time</option>
+                                        <option value="Bleeding Time" class="h-cat">Bleeding Time</option>
+
+                                        <option value="Urinalysis" class="cm-cat">Urinalysis</option>
+                                        <option value="Fecalysis" class="cm-cat">Fecalysis</option>
+                                        <option value="FOBT" class="cm-cat">FOBT</option>
+                                        
+                                        <option value="FBS" class="c-cat">FBS</option>
+                                        <option value="Creatinine" class="c-cat">Creatinine</option>
+                                        <option value="Uric Acid" class="c-cat">Uric Acid</option>
+                                        <option value="Cholesterol" class="c-cat">Cholesterol</option>
+                                        <option value="Triglycerides" class="c-cat">Triglycerides</option>
+                                        <option value="HDL" class="c-cat">HDL</option>
+                                        <option value="LDL" class="c-cat">LDL</option>
+                                        <option value="VLDL" class="c-cat">VLDL</option>
+                                        <option value="BUN" class="c-cat">BUN</option>
+                                        <option value="SGPT" class="c-cat">SGPT</option>
+                                        <option value="SGOT" class="c-cat">SGOT</option>
+                                        <option value="HbA1c" class="c-cat">HbA1c</option>
+                                        
+                                        <option value="HbsAg" class="s-cat">HbsAg</option>
+                                        <option value="RPR/VDRL" class="s-cat">RPR/VDRL</option>
+                                        <option value="Serum Pregnancy Test" class="s-cat">Serum Pregnancy Test</option>
+                                        <option value="Urine Pregnancy Test" class="s-cat">Urine Pregnancy Test</option>
+                                        <option value="Dengue NS1" class="s-cat">Dengue NS1</option>
+                                        <option value="Dengue Duo" class="s-cat">Dengue Duo</option>
                                     </select>
                                  </div>
                             </div>

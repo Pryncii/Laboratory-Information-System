@@ -102,6 +102,7 @@ function add(server) {
             searchQuery.$and.push({
                 $or: [
                     { category: regex },
+                    { test: regex },
                     { status: regex },
                     { remarks: regex },
                     { patientID: { $in: listofID } },
@@ -145,9 +146,15 @@ function add(server) {
             searchQuery.$and.push({ category: req.query.category });
         }
 
-        // Check if category is defined and non-empty
+        // Check if test is defined and non-empty
+        if (req.query.tests !== "AAA" && req.query.tests !== undefined) {
+            // Add test query to the search query
+            searchQuery.$and.push({ test: req.query.tests });
+        }
+
+        // Check if status is defined and non-empty
         if (req.query.status !== "A" && req.query.status !== undefined) {
-            // Add category query to the search query
+            // Add status query to the search query
             searchQuery.$and.push({ status: req.query.status });
         }
 
@@ -163,8 +170,8 @@ function add(server) {
             .then(async function (requests) {
                 requests = requests.reverse();
 
-                console.log("requests");
-                console.log(requests);
+                // console.log("requests");
+                // console.log(requests);
 
                 console.log("List successful");
                 let vals = [];
@@ -856,7 +863,7 @@ function add(server) {
         let test = req.query.test;
         let baseNumber = 1000;
         let status = "Requested";
-        let dateStart = new Date();
+        let dateStart = new Date(new Date().getTime() + (8 * 60 * 60 * 1000));
         let dateEnd = null;
         let remarks = "";
 
