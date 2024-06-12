@@ -778,13 +778,14 @@ function add(server) {
             .find({})
             .then(function (patients) {
                 //add to the database patient details
-                let lname = req.body.lname.trim()[0].toUpperCase() + req.body.lname.trim().slice(1);
-                let fname = req.body.fname.trim()[0].toUpperCase() + req.body.fname.trim().slice(1);
+                let lname = req.body.lname.trim()[0].toUpperCase() + req.body.lname.trim().toLowerCase().slice(1);
+                let fname = req.body.fname.trim()[0].toUpperCase() + req.body.fname.trim().toLowerCase().slice(1);
                 let minit = req.body.mname.trim()[0].toUpperCase();
                 var actualName =
                     lname + ", " + fname + " " + minit + ".";
+                let patientID = baseNo + patients.length;
                 const patientInstance = patientModel({
-                    patientID: baseNo + patients.length,
+                    patientID: patientID,
                     name: setDefault(actualName),
                     sex: setDefault(req.body.sex),
                     birthday: setDefaultDate(req.body.bday),
@@ -799,7 +800,7 @@ function add(server) {
                     .save()
                     .then(function (patient) {
                         //add patient to db
-                        resp.redirect("/patient-request");
+                        resp.redirect("/patient-request?id=" + patientID);
                     })
                     .catch(errorFn);
             })
@@ -818,6 +819,7 @@ function add(server) {
 
     //add request here
     server.get("/patient-request", function (req, resp) {
+        let patientname = "";
         patientModel.find().then(function (person) {
             let patient = new Array();
             for (const instance of person) {
@@ -852,13 +854,20 @@ function add(server) {
                     return lastNameComparison;
                 });
             }
+            if(req.query.id){
+                for(let i = 0; i < patient.length; i++){
+                    patientname = patient[i].patientID == req.query.id ? patient[i].name : "";
+                }
+            }
             resp.render("patientrequest", {
                 layout: "index",
                 title: "Laboratory Information System - Patient Request",
                 patient: patient,
                 user: loggedUser.name,
                 fname: userFname[1],
+                patientname: patientname
             });
+            
         });
     });
 

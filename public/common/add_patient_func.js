@@ -36,8 +36,8 @@ function checkAgeToBday() {
 
 function confirmPatientReg() {
     if (checkAgeToBday()) {
-        let lname = $('#lname').val().trim()[0].toUpperCase() + $('#lname').val().trim().slice(1);
-        let fname = $('#fname').val().trim()[0].toUpperCase() + $('#fname').val().trim().slice(1);
+        let lname = $('#lname').val().trim()[0].toUpperCase() + $('#lname').val().trim().toLowerCase().slice(1);
+        let fname = $('#fname').val().trim()[0].toUpperCase() + $('#fname').val().trim().toLowerCase().slice(1);
         let minit = $('#mname').val().trim()[0].toUpperCase();
         let patient_name = lname + ", " + fname + " " + minit + ".";
         let sex = $('#sex').val();
