@@ -149,7 +149,8 @@ function add(server) {
         // Check if test is defined and non-empty
         if (req.query.tests !== "AAA" && req.query.tests !== undefined) {
             // Add test query to the search query
-            searchQuery.$and.push({ test: req.query.tests });
+            regex2 = new RegExp(req.query.tests, "i");
+            searchQuery.$and.push({ test: regex2 });
         }
 
         // Check if status is defined and non-empty
