@@ -819,8 +819,8 @@ function add(server) {
 
     //add request here
     server.get("/patient-request", function (req, resp) {
-        let patientname = "";
         patientModel.find().then(function (person) {
+            let patientname = "";
             let patient = new Array();
             for (const instance of person) {
                 let nameParts = instance.name.split(",");
@@ -831,9 +831,8 @@ function add(server) {
                 }
                 let firstName = nameParts[1].trim().split(" ");
                 firstName.pop();
-                if (firstName.length > 1) {
-                    firstName = firstName.join("");
-                }
+                firstName = firstName.join("");
+                
                 patient.push({
                     patientID: instance.patientID,
                     name: instance.name,
@@ -856,7 +855,10 @@ function add(server) {
             }
             if(req.query.id){
                 for(let i = 0; i < patient.length; i++){
-                    patientname = patient[i].patientID == req.query.id ? patient[i].name : "";
+                    if(patient[i].patientID == req.query.id){
+                        patientname = patient[i].name;
+                        break;
+                    }
                 }
             }
             resp.render("patientrequest", {
