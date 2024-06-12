@@ -894,7 +894,7 @@ function add(server) {
 
         // Based on the selected checkbox, add a test instance schema that
         // Corresponds to the actual request
-
+        
         requestModel.find({}).then(async function (requests) {
             // check for the category
             let hemoglobinVal;
