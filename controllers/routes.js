@@ -868,7 +868,7 @@ function add(server) {
         let dateEnd = null;
         let remarks = "";
 
-        requestModel.find({}).then(function (requests) {
+        requestModel.find({}).then(async function (requests) {
             const requestInstance = requestModel({
                 requestID: baseNumber + requests.length,
                 patientID: patientID,
