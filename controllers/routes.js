@@ -213,6 +213,7 @@ function add(server) {
                             patientName: patients.name,
                             medtech: medtechs.name,
                             test: item.test,
+                            category: item.category,
                             status: item.status,
                             dateStart: item.dateStart
                                 ? item.dateStart.toLocaleString("en-US", { timeZone: "UTC" })
