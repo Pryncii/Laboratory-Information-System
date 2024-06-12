@@ -868,7 +868,214 @@ function add(server) {
         let dateEnd = null;
         let remarks = "";
 
+
+        // Based on the selected checkbox, add a test instance schema that
+        // Corresponds to the actual request
+
         requestModel.find({}).then(async function (requests) {
+            // check for the category
+            let hemoglobinVal;
+            let hematocritVal;
+            let rbcCountVal;
+            let wbcCountVal;
+            let neutrophilVal;
+            let lymphocyteVal;
+            let monocyteVal;
+            let eosinophilVal;
+            let basophilVal;
+            let withPlateletCountVal;
+            let plateletCountVal;
+            let esrVal;
+            let bloodWithRhVal;
+            let clottingTimeVal;
+            let bleedingTimeVal;
+            if(category == "Hematology"){
+                if(test.includes('CBC')){
+                    // Make an instance of the schema and save
+                    withPlateletCountVal = false;
+                    if (test.includes('CBC with Platelet Count')) {
+                        withPlateletCountVal = true;
+
+                    }
+
+                }
+
+                if(test.includes('ESR')){
+                }
+                if(test.includes('Blood Type with Rh')){
+
+                }
+                if(test.includes('Clotting Time')){
+                }
+                if(test.includes('Bleeding Time')){
+
+                }
+                const hematologyInstance = new hematologyModel({
+                    requestID: baseNumber + requests.length,
+                    hemoglobin: hemoglobinVal,
+                    hematocrit: hematocritVal,
+                    rbcCount: rbcCountVal,
+                    wbcCount: wbcCountVal,
+                    neutrophil: neutrophilVal,
+                    lymphocyte: lymphocyteVal,
+                    monocyte: monocyteVal,
+                    eosinophil: eosinophilVal,
+                    basophil: basophilVal,
+                    withPlateletCount: withPlateletCountVal,
+                    plateletCount: plateletCountVal,
+                    esr: esrVal,
+                    bloodWithRh: bloodWithRhVal,
+                    clottingTime: clottingTimeVal,
+                    bleedingTime: bleedingTimeVal
+                });
+
+                hematologyInstance.save()
+
+            } else if (category == "Clinical Microscopy") {
+                if(test.includes('Urinalysis')){
+
+                    const urinalysisInstance = new urinalysisModel({
+                        requestID: baseNumber + requests.length,
+                        color: "",
+                        transparency: "",
+                        pH: -1,
+                        specificGravity: -1,
+                        sugar: "",
+                        protein: "",
+                        pus: -1,
+                        rbc: -1,
+                        bacteria: "",
+                        epithelialCells: "",
+                        mucusThread: ""
+                    });
+                    urinalysisInstance.save()
+                    
+                }
+                if(test.includes('Fecalysis')){
+
+                    const fecalysisInstance = new fecalysisModel({
+                        requestID: baseNumber + requests.length,
+                        color: "",
+                        consistency: "",
+                        wbc: -1,
+                        rbc: -1,
+                        bacteria: "",
+                        ovaParasite: "",
+                        fatGlobule: "",
+                        bileCrystal: "",
+                        vegetableFiber: "",
+                        meatFiber: "",
+                        pusCells: -1,
+                        erythrocyte: -1,
+                        yeastCell: -1
+                    });
+                    fecalysisInstance.save()
+
+                }
+                if(test.includes('FOBT')){
+                    console.log('coming soon');
+                }
+
+            } else if (category == "Chemistry") {
+                let fbsVal;
+                let rbsVal;
+                let creatinineVal;
+                let uricAcidVal;
+                let cholesterolVal;
+                let triglyceridesVal;
+                let hdlVal;
+                let ldlVal;
+                let vldlVal;
+                let bunVal;
+                let sgptVal;
+                let sgotVal;
+                let hba1cVal;
+                if (test.includes('Creatinine')) {
+                    // Code for Creatinine
+                }
+                if (test.includes('Uric Acid')) {
+                    // Code for Uric Acid
+                }
+                if (test.includes('Cholesterol')) {
+                    // Code for Cholesterol
+                }
+                if (test.includes('Triglycerides')) {
+                    // Code for Triglycerides
+                }
+                if (test.includes('HDL')) {
+                    // Code for HDL
+                }
+                if (test.includes('LDL')) {
+                    // Code for LDL
+                }
+                if (test.includes('VLDL')) {
+                    // Code for VLDL
+                }
+                if (test.includes('BUN')) {
+                    // Code for BUN
+                }
+                if (test.includes('SGPT')) {
+                    // Code for SGPT
+                }
+                if (test.includes('SGOT')) {
+                    
+                }
+                if (test.includes('HbA1c')) {
+                    
+                }
+                const chemistryInstance = new chemistryModel({
+                    requestID: baseNumber + requests.length,
+                    fbs: fbsVal,
+                    rbs: rbsVal,
+                    creatinine: creatinineVal,
+                    uricAcid: uricAcidVal,
+                    cholesterol: cholesterolVal,
+                    triglycerides: triglyceridesVal,
+                    hdl: hdlVal,
+                    ldl: ldlVal,
+                    vldl: vldlVal,
+                    bun: bunVal,
+                    sgpt: sgptVal,
+                    sgot: sgotVal,
+                    hba1c: hba1cVal
+                });
+                chemistryInstance.save()
+
+            } else if (category == "Serology") {
+                let hbsAgVal;
+                let rprVdrlVal;
+                let pregnancyTestVal;
+                let dengueNs1Val;
+                let dengueDuoVal;
+                if(test.includes('HbsAg')){
+
+                }
+                if(test.includes('RPR/VDRL')){
+
+                }
+                if(test.includes('Serum Pregnancy Test')){
+
+                }
+                if(test.includes('Urine Pregnancy Test')){
+
+                }
+                if(test.includes('Dengue NS1')){
+
+                }
+                if(test.includes('Dengue Duo')){
+
+                }
+                const serologyInstance = new serologyModel({
+                    requestID: baseNumber + requests.length,
+                    hbsAg: hbsAgVal,
+                    rprVdrl: rprVdrlVal,
+                    pregnancyTest: pregnancyTestVal,
+                    dengueNs1: dengueNs1Val,
+                    dengueDuo: dengueDuoVal
+                });
+                serologyInstance.save()
+
+            }
             const requestInstance = requestModel({
                 requestID: baseNumber + requests.length,
                 patientID: patientID,
@@ -881,7 +1088,7 @@ function add(server) {
                 remarks: remarks,
             });
             requestInstance.save().then(async function () {
-                resp.redirect("/patient-request");
+                resp.redirect("/main/1");
             });
         });
     });
