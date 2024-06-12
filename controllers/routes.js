@@ -1090,7 +1090,7 @@ function add(server) {
                 let hbsAgVal;
                 let rprVdrlVal;
                 let pregnancyTestUrineVal;
-                let pregnancyTestSerumVal
+                let pregnancyTestSerumVal;
                 let dengueNs1Val;
                 let dengueDuoVal;
                 if(test.includes('HbsAg')){
@@ -1117,7 +1117,8 @@ function add(server) {
                     requestID: baseNumber + requests.length,
                     hbsAg: hbsAgVal,
                     rprVdrl: rprVdrlVal,
-                    pregnancyTestSerum: pregnancyTestVal,
+                    pregnancyTestSerum: pregnancyTestSerumVal,
+                    pregnancyTestUrine: pregnancyTestUrineVal,
                     dengueNs1: dengueNs1Val,
                     dengueDuo: dengueDuoVal
                 });
