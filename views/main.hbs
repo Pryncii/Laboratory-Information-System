@@ -11,7 +11,7 @@
     <!-- ======= Title ======= -->
     <div class="_title container-fluid">
         <h1>Requested/Ongoing Lab Tests</h1>
-        <h2 id="time"></h2>
+      <h2 id="time"></h2>
     </div>
 
     <div class="test-content">
@@ -125,12 +125,12 @@
             </tr>
             {{#each data}}
                 <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}" 
-                data-status="{{status}}" data-remarks="{{remarks}}" class="clickable-row" data-bs-toggle="modal" data-bs-target="#">
+                data-status="{{status}}" data-remarks="{{remarks}}" data-bs-toggle="modal" data-bs-target="#Modal-{{requestID}}" role="button" onclick="generateTemplate('{{requestID}}', '{{category}}')">
                     <th class="item-container number"><h5>{{patientNo}}</h5></th>
                     <th class="item-container"><h5>{{requestID}}</h5></th>
                     <td class="item-container"><h5>{{patientID}}</h5></th>
                     <td class="item-container"><h5>{{patientName}}</h5></th>
-                    <td class="item-container"><h5>{{test}}</h5></td>
+                    <td class="item-container"><h5>{{test}}</h5></th>
                     <td class="item-container status"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
                     <h5 class="status-item {{barColor}}">{{status}}</h5></a></th>
                     <td class="item-container"><h5>{{remarks}}</h5></th>
@@ -211,6 +211,35 @@
             </div>
         </div>
     </div>
+    {{#each data}}
+    <div class="modal fade modal-lg" id="Modal-{{requestID}}" tabindex="-1" aria-labelledby="ModalLabel-{{requestID}}" aria-hidden="true">
+        <!-- Modal content -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel-{{requestID}}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="form-header">
+                            <div class="form-title">
+                                <h1>{{patientName}}</h1>
+                                Patient ID: {{patientID}}<br>
+                                Request ID: {{requestID}}
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="d-flex justify-content-center align-items-center my-2 w-100" id="{{requestID}}-header"></div>
+                            <div id="{{requestID}}-content"></div>
+                            <div class="my-3" id="{{requestID}}-submit"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
     </div>
  </div>
 
