@@ -891,24 +891,27 @@ function add(server) {
             let bleedingTimeVal;
             if(category == "Hematology"){
                 if(test.includes('CBC')){
+                    hemoglobinVal = hematocritVal = rbcCountVal = wbcCountVal = neutrophilVal = lymphocyteVal = monocyteVal = eosinophilVal = basophilVal = -1;
                     // Make an instance of the schema and save
                     withPlateletCountVal = false;
                     if (test.includes('CBC with Platelet Count')) {
                         withPlateletCountVal = true;
+                        plateletCountVal = -1;
 
                     }
-
                 }
 
                 if(test.includes('ESR')){
+                    esrVal = -1;
                 }
                 if(test.includes('Blood Type with Rh')){
-
+                    bloodWithRhVal = -1;
                 }
                 if(test.includes('Clotting Time')){
+                    clottingTimeVal = -1;
                 }
                 if(test.includes('Bleeding Time')){
-
+                    bleedingTimeVal = -1;
                 }
                 const hematologyInstance = new hematologyModel({
                     requestID: baseNumber + requests.length,
@@ -990,38 +993,57 @@ function add(server) {
                 let sgptVal;
                 let sgotVal;
                 let hba1cVal;
+                if (test.includes('fbs')) {
+                    // Code for Creatinine
+                    fbsVal = -1;
+                }
+                if (test.includes('rbs')) {
+                    // Code for Creatinine
+                    rbsVal = -1;
+                }
                 if (test.includes('Creatinine')) {
                     // Code for Creatinine
+                    creatinineVal = -1;
                 }
                 if (test.includes('Uric Acid')) {
                     // Code for Uric Acid
+                    uricAcidVal = -1;
                 }
                 if (test.includes('Cholesterol')) {
                     // Code for Cholesterol
+             
+                    cholesterolVal = -1;
                 }
                 if (test.includes('Triglycerides')) {
                     // Code for Triglycerides
+              
+                    triglyceridesVal = -1;
                 }
                 if (test.includes('HDL')) {
-                    // Code for HDL
+                    // Code for HDl
+                    hdlVal = -1;
                 }
                 if (test.includes('LDL')) {
                     // Code for LDL
+                    ldlVal = -1;
                 }
                 if (test.includes('VLDL')) {
                     // Code for VLDL
+                    vldlVal = -1;
                 }
                 if (test.includes('BUN')) {
                     // Code for BUN
+                    bunVal = -1;
                 }
                 if (test.includes('SGPT')) {
                     // Code for SGPT
+                    sgptVal = -1;
                 }
                 if (test.includes('SGOT')) {
-                    
+                    sgotVal = -1;
                 }
                 if (test.includes('HbA1c')) {
-                    
+                    hba1cVal = -1;
                 }
                 const chemistryInstance = new chemistryModel({
                     requestID: baseNumber + requests.length,
@@ -1044,32 +1066,35 @@ function add(server) {
             } else if (category == "Serology") {
                 let hbsAgVal;
                 let rprVdrlVal;
-                let pregnancyTestVal;
+                let pregnancyTestUrineVal;
+                let pregnancyTestSerumVal
                 let dengueNs1Val;
                 let dengueDuoVal;
                 if(test.includes('HbsAg')){
-
+                    hbsAgVal = -1;
                 }
                 if(test.includes('RPR/VDRL')){
+                    rprVdrlVal = "";
 
                 }
                 if(test.includes('Serum Pregnancy Test')){
-
+                    pregnancyTestSerumVal = "";
                 }
                 if(test.includes('Urine Pregnancy Test')){
+                    pregnancyTestUrineVal = "";
 
                 }
                 if(test.includes('Dengue NS1')){
-
+                    dengueNs1Val = "";
                 }
                 if(test.includes('Dengue Duo')){
-
+                    dengueDuoVal = "";
                 }
                 const serologyInstance = new serologyModel({
                     requestID: baseNumber + requests.length,
                     hbsAg: hbsAgVal,
                     rprVdrl: rprVdrlVal,
-                    pregnancyTest: pregnancyTestVal,
+                    pregnancyTestSerum: pregnancyTestVal,
                     dengueNs1: dengueNs1Val,
                     dengueDuo: dengueDuoVal
                 });
