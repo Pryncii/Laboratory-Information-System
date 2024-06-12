@@ -13,17 +13,14 @@
 
     <!-- ======= Registration Details ======= -->
     <div class="reg-content">
-        <form action="/addpatient-db" method="post" onsubmit="return confirmPatientReg();">
-        <div id="message">
-
-        </div>
+        <form action="/addpatient-db" method="post" id="addpatient-form" onsubmit="return confirmPatientReg();">
             <table class="reg-items">
                 <tr>
                     <th class="item-label"><h5>Full Name</h5></th>
                 </tr>
                 <tr>
                     <th class="item-container"><input class="input-item form-control" type="text" id="fname" name="fname" placeholder="First Name" required></th>
-                    <th class="item-container"><input class="input-item form-control" type="text" id="mname" name="mname" placeholder="Middle Name"></th>
+                    <th class="item-container"><input class="input-item form-control" type="text" id="mname" name="mname" placeholder="Middle Name/Initial"></th>
                     <th class="item-container"><input class="input-item form-control" type="text" id="lname" name="lname" placeholder="Last Name" required></th>
                 </tr>
                 <tr>
