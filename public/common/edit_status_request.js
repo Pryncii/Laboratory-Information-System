@@ -93,6 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.style.display = "none";
         }
     };
+
+    document.getElementById('pdfModal').onclick = function () {
+        const modal = document.getElementById("pdfModla");
+        modal.style.display = "block";
+    }
 });
 
 function flag(parameter, value, gender) {
@@ -138,6 +143,8 @@ function flag2(parameter, value) {
     } else {
         return "Normal";
     }
+
+
 }
 
 function generateTemplate(requestID, category) {
@@ -278,7 +285,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="submit" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Clinical Microscopy") {
@@ -377,7 +384,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="submit" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Chemistry") {
@@ -537,7 +544,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="submit" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Serology") {
@@ -589,7 +596,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="submit" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
                 </div>
             `;
     }
@@ -958,4 +965,9 @@ function saveChanges(requestID, category){
             }
         
     });//fn+post
+}
+
+function showPDFModal() {
+    const modal = document.getElementById('pdfModal');
+    modal.style.display = "block";
 }
