@@ -193,8 +193,8 @@ function add(server) {
                         });
                         //Check the value of each test in chemistry and add a flag if out of range
                         const tests = await chemistryModel.findOne({
-                          requestID: item.requestID,
-                      });
+                            requestID: item.requestID,
+                        });
 
                         if (item.status == "Completed") {
                             statusColor = "c";
@@ -311,7 +311,7 @@ function add(server) {
             .catch(errorFn);
     });
 
-    server.post("/main/:id/save-edit-request", function (req, resp){
+    server.post("/main/:id/save-edit-request", function (req, resp) {
         let category = req.body.category;
         let data = req.body.data[0];
         let requestID = req.body.requestID;
@@ -319,8 +319,8 @@ function add(server) {
         console.log(data);
         console.log(requestID);
         let updateData;
-        if(category === "Hematology") {
-            if(data.pltc){
+        if (category === "Hematology") {
+            if (data.pltc) {
                 updateData = {
                     hemoglobin: data.hemo,
                     hematocrit: data.hema,
@@ -332,8 +332,8 @@ function add(server) {
                     eosinophil: data.eosi,
                     basophil: data.baso,
                     plateletCount: data.pltc
-                  };
-            }else{
+                };
+            } else {
                 updateData = {
                     hemoglobin: data.hemo,
                     hematocrit: data.hema,
@@ -344,19 +344,19 @@ function add(server) {
                     monocyte: data.mono,
                     eosinophil: data.eosi,
                     basophil: data.baso,
-                  };
+                };
             }
             hematologyModel
-            .findOneAndUpdate(
-              { requestID: requestID },
-              { $set: updateData }, // Use $set to only update specified fields
-              { new: true, upsert: true }
-            )
-            .then(function (test) {
-              console.log("successfully updated test");
-            })
-            .catch(errorFn);
-            
+                .findOneAndUpdate(
+                    { requestID: requestID },
+                    { $set: updateData }, // Use $set to only update specified fields
+                    { new: true, upsert: true }
+                )
+                .then(function (test) {
+                    console.log("successfully updated test");
+                })
+                .catch(errorFn);
+
         } else if (category === "Urinalysis") {
             updateData = {
                 color: data.clr,
@@ -370,18 +370,18 @@ function add(server) {
                 bacteria: data.bac,
                 epithelialCells: data.epi,
                 mucusThread: data.muc
-              };
-              urinalysisModel
-              .findOneAndUpdate(
-                { requestID: requestID },
-                { $set: updateData }, // Use $set to update only the specified fields
-                { new: true, upsert: true }
-              )
-              .then(function (test) {
-                console.log("successfully updated test");
-              })
-              .catch(errorFn);
-            
+            };
+            urinalysisModel
+                .findOneAndUpdate(
+                    { requestID: requestID },
+                    { $set: updateData }, // Use $set to update only the specified fields
+                    { new: true, upsert: true }
+                )
+                .then(function (test) {
+                    console.log("successfully updated test");
+                })
+                .catch(errorFn);
+
         } else if (category === "Fecalysis") {
             updateData = {
                 color: data.clr,
@@ -397,19 +397,19 @@ function add(server) {
                 pusCells: data.pus,
                 erythrocyte: data.eryth,
                 yeastCell: data.yeast
-              };
-              
-              fecalysisModel
-              .findOneAndUpdate(
-                { requestID: requestID },
-                { $set: updateData }, // Use $set to update only the specified fields
-                { new: true, upsert: true }
-              )
-              .then(function (test) {
-                console.log("successfully updated test");
-              })
-              .catch(errorFn);
-            
+            };
+
+            fecalysisModel
+                .findOneAndUpdate(
+                    { requestID: requestID },
+                    { $set: updateData }, // Use $set to update only the specified fields
+                    { new: true, upsert: true }
+                )
+                .then(function (test) {
+                    console.log("successfully updated test");
+                })
+                .catch(errorFn);
+
         } else if (category === "Chemistry") {
             updateData = {
                 fbs: data.fbs,
@@ -424,19 +424,19 @@ function add(server) {
                 sgpt: data.sgpt,
                 sgot: data.sgot,
                 hba1c: data.hba1c
-              };
-            
+            };
+
             chemistryModel
-            .findOneAndUpdate(
-              { requestID: requestID },
-              { $set: updateData }, // Use $set to update only the specified fields
-              { new: true, upsert: true }
-            )
-            .then(function (test) {
-              console.log("successfully updated test");
-            })
-            .catch(errorFn);
-            
+                .findOneAndUpdate(
+                    { requestID: requestID },
+                    { $set: updateData }, // Use $set to update only the specified fields
+                    { new: true, upsert: true }
+                )
+                .then(function (test) {
+                    console.log("successfully updated test");
+                })
+                .catch(errorFn);
+
         } else if (category === "Serology") {
             updateData = {
                 requestID: requestID,
@@ -447,20 +447,20 @@ function add(server) {
                 dengueNs1: data.dengN,
                 dengueDuo: data.dengD,
             };
-            
+
             serologyModel
-            .findOneAndUpdate(
-                { requestID: requestID },
-                { $set: updateData }, // Use $set to update only the specified fields
-                { new: true, upsert: true }
-            )
-            .then(function (test) {
-                console.log("successfully updated test");
-            })
-            .catch(errorFn);
-            
+                .findOneAndUpdate(
+                    { requestID: requestID },
+                    { $set: updateData }, // Use $set to update only the specified fields
+                    { new: true, upsert: true }
+                )
+                .then(function (test) {
+                    console.log("successfully updated test");
+                })
+                .catch(errorFn);
+
         }
-        
+
         resp.json({ redirect: "/main/1" });
     });
 
@@ -773,7 +773,7 @@ function add(server) {
         });
     });
 
-    server.post("/reset-Page", function(req,resp) {
+    server.post("/reset-Page", function (req, resp) {
         let pageData = new Array();
         let lockNext = false;
         let lockBack = false;
@@ -896,7 +896,7 @@ function add(server) {
             });
         });
     });
-    
+
     //adds to the database the user details upon registering
     server.post("/adduser-db", function (req, resp) {
         userModel
@@ -945,8 +945,7 @@ function add(server) {
                 let minit;
                 var actualName;
 
-                if(req.body.mname !== "")
-                {
+                if (req.body.mname !== "") {
                     minit = req.body.mname.trim()[0].toUpperCase();
                     actualName = lname + ", " + fname + " " + minit + ".";
                 } else actualName = lname + ", " + fname;
@@ -977,10 +976,10 @@ function add(server) {
 
     server.post("/addpatient-duplicate", function (req, resp) {
         patientModel
-            .find({name: req.body.patient_name, age: req.body.age, sex: req.body.sex})
+            .find({ name: req.body.patient_name, age: req.body.age, sex: req.body.sex })
             .then(function (patients) {
                 let dup = patients.length ? true : false;
-                resp.json({dup : dup});
+                resp.json({ dup: dup });
             })
             .catch(errorFn);
     });
@@ -1022,9 +1021,9 @@ function add(server) {
                     return lastNameComparison;
                 });
             }
-            if(req.query.id){
-                for(let i = 0; i < patient.length; i++){
-                    if(patient[i].patientID == req.query.id){
+            if (req.query.id) {
+                for (let i = 0; i < patient.length; i++) {
+                    if (patient[i].patientID == req.query.id) {
                         patientname = patient[i].name;
                         break;
                     }
@@ -1038,7 +1037,7 @@ function add(server) {
                 fname: userFname[1],
                 patientname: patientname
             });
-            
+
         });
     });
 
@@ -1056,7 +1055,7 @@ function add(server) {
 
         // Based on the selected checkbox, add a test instance schema that
         // Corresponds to the actual request
-        
+
         requestModel.find({}).then(async function (requests) {
             // check for the category
             let hemoglobinVal;
@@ -1074,8 +1073,8 @@ function add(server) {
             let bloodWithRhVal;
             let clottingTimeVal;
             let bleedingTimeVal;
-            if(category == "Hematology"){
-                if(test.includes('CBC')){
+            if (category == "Hematology") {
+                if (test.includes('CBC')) {
                     hemoglobinVal = hematocritVal = rbcCountVal = wbcCountVal = neutrophilVal = lymphocyteVal = monocyteVal = eosinophilVal = basophilVal = -1;
                     // Make an instance of the schema and save
                     withPlateletCountVal = false;
@@ -1086,16 +1085,16 @@ function add(server) {
                     }
                 }
 
-                if(test.includes('ESR')){
+                if (test.includes('ESR')) {
                     esrVal = -1;
                 }
-                if(test.includes('Blood Type with Rh')){
+                if (test.includes('Blood Type with Rh')) {
                     bloodWithRhVal = -1;
                 }
-                if(test.includes('Clotting Time')){
+                if (test.includes('Clotting Time')) {
                     clottingTimeVal = -1;
                 }
-                if(test.includes('Bleeding Time')){
+                if (test.includes('Bleeding Time')) {
                     bleedingTimeVal = -1;
                 }
                 const hematologyInstance = new hematologyModel({
@@ -1120,7 +1119,7 @@ function add(server) {
                 hematologyInstance.save()
 
             } else if (category == "Clinical Microscopy") {
-                if(test.includes('Urinalysis')){
+                if (test.includes('Urinalysis')) {
 
                     const urinalysisInstance = new urinalysisModel({
                         requestID: baseNumber + requests.length,
@@ -1137,9 +1136,9 @@ function add(server) {
                         mucusThread: ""
                     });
                     urinalysisInstance.save()
-                    
+
                 }
-                if(test.includes('Fecalysis')){
+                if (test.includes('Fecalysis')) {
 
                     const fecalysisInstance = new fecalysisModel({
                         requestID: baseNumber + requests.length,
@@ -1160,7 +1159,7 @@ function add(server) {
                     fecalysisInstance.save()
 
                 }
-                if(test.includes('FOBT')){
+                if (test.includes('FOBT')) {
                     console.log('coming soon');
                 }
 
@@ -1196,12 +1195,12 @@ function add(server) {
                 }
                 if (test.includes('Cholesterol')) {
                     // Code for Cholesterol
-             
+
                     cholesterolVal = -1;
                 }
                 if (test.includes('Triglycerides')) {
                     // Code for Triglycerides
-              
+
                     triglyceridesVal = -1;
                 }
                 if (test.includes('HDL')) {
@@ -1255,24 +1254,24 @@ function add(server) {
                 let pregnancyTestSerumVal;
                 let dengueNs1Val;
                 let dengueDuoVal;
-                if(test.includes('HbsAg')){
+                if (test.includes('HbsAg')) {
                     hbsAgVal = -1;
                 }
-                if(test.includes('RPR/VDRL')){
+                if (test.includes('RPR/VDRL')) {
                     rprVdrlVal = "";
 
                 }
-                if(test.includes('Serum Pregnancy Test')){
+                if (test.includes('Serum Pregnancy Test')) {
                     pregnancyTestSerumVal = "";
                 }
-                if(test.includes('Urine Pregnancy Test')){
+                if (test.includes('Urine Pregnancy Test')) {
                     pregnancyTestUrineVal = "";
 
                 }
-                if(test.includes('Dengue NS1')){
+                if (test.includes('Dengue NS1')) {
                     dengueNs1Val = "";
                 }
-                if(test.includes('Dengue Duo')){
+                if (test.includes('Dengue Duo')) {
                     dengueDuoVal = "";
                 }
                 const serologyInstance = new serologyModel({
@@ -1309,7 +1308,7 @@ function add(server) {
         let dateEnd;
         let date = new Date();
         console.log("====================" + date);
-        
+
 
         if (status === "Completed") dateEnd = new Date(date.getTime() + (8 * 60 * 60 * 1000));
 
@@ -1340,6 +1339,15 @@ function add(server) {
                     .status(500)
                     .json({ success: false, message: "Error updating request" });
             });
+    });
+    server.get("/main/:pageNo/gender/:requestID", function (req, res) {
+        const requestID = req.params.requestID;
+        requestModel.findOne({ requestID: requestID }).lean().then(function (request) {
+            patientModel.findOne({ patientID: request.patientID }).lean().then(function (patient) {
+                const gender = patient.sex;
+                res.json({ gender: gender });
+            })
+        });
     });
 }
 
