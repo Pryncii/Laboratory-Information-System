@@ -204,6 +204,7 @@ function add(server) {
                             patientID: patients.patientID,
                             patientName: patients.name,
                             medtech: medtechs.name,
+                            category: item.category,
                             test: item.test,
                             status: item.status,
                             dateStart: item.dateStart
@@ -300,6 +301,144 @@ function add(server) {
                 });
             })
             .catch(errorFn);
+    });
+
+    server.post("/main/:id/save-edit-request", function (req, resp){
+        let category = req.body.category;
+        let data = req.body.data[0];
+        let requestID = req.body.requestID;
+        console.log(category);
+        console.log(data);
+        console.log(requestID);
+        if(category === "Hematology") {
+            let hemaInstance;
+            if(data.pltc){
+                hemaInstance = hematologyModel({
+                    requestID: requestID,
+                    hemoglobin: data.hemo,
+                    hematocrit: data.hema,
+                    rbcCount: data.rbc,
+                    wbcCount: data.wbc,
+                    neutrophil: data.neut,
+                    lymphocyte: data.lymp,
+                    monocyte: data.mono,
+                    eosinophil: data.eosi,
+                    basophil: data.baso,
+                    plateletCount: data.pltc
+                });
+            }else{
+                hemaInstance = hematologyModel({
+                    requestID: requestID,
+                    hemoglobin: data.hemo,
+                    hematocrit: data.hema,
+                    rbcCount: data.rbc,
+                    wbcCount: data.wbc,
+                    neutrophil: data.neut,
+                    lymphocyte: data.lymp,
+                    monocyte: data.mono,
+                    eosinophil: data.eosi,
+                    basophil: data.baso,
+                });
+            }
+            hemaInstance
+                .save()
+                .then(function (test) {
+                    console.log("successfully saved test");
+                })
+                .catch(errorFn);
+            
+        } else if (category === "Urinalysis") {
+            uriInstance = urinalysisModel({
+                requestID: requestID,
+                color: data.clr,
+                transparency: data.trans,
+                pH: data.ph,
+                specificGravity: data.spgrav,
+                sugar: data.sug,
+                protein: data.pro,
+                pus: data.pus,
+                rbc: data.rbc,
+                bacteria: data.bac,
+                epithelialCells: data.epi,
+                mucusThread: data.muc,
+            });
+            
+            uriInstance
+                .save()
+                .then(function (test) {
+                    console.log("successfully saved test");
+                })
+                .catch(errorFn);
+            
+        } else if (category === "Fecalysis") {
+            fecalInstance = fecalysisModel({
+                requestID: requestID,
+                color: data.clr,
+                consistency: data.cons,
+                wbc: data.wbc,
+                rbc: data.rbc,
+                bacteria: data.bac,
+                ovaParasite: data.ovapar,
+                fatGlobule: data.fat,
+                bileCrystal: data.bile,
+                vegetableFiber: data.veg,
+                meatFiber: data.meat,
+                pusCells: data.pus,
+                erythrocyte: data.eryth,
+                yeastCell: data.yeast,
+            });
+            
+            fecalInstance
+                .save()
+                .then(function (test) {
+                    console.log("successfully saved test");
+                })
+                .catch(errorFn);
+            
+        } else if (category === "Chemistry") {
+            chemInstance = chemistryModel({
+                requestID: requestID,
+                fbs: data.fbs,
+                creatinine: data.crt,
+                uricAcid: data.uric,
+                cholesterol: data.chol,
+                triglycerides: data.tri,
+                hdl: data.hdl,
+                ldl: data.ldl,
+                vldl: data.vldl,
+                bun: data.bun,
+                sgpt: data.sgpt,
+                sgot: data.sgot,
+                hba1c: data.hba1c,
+            });
+            
+            chemInstance
+                .save()
+                .then(function (test) {
+                    console.log("successfully saved test");
+                })
+                .catch(errorFn);
+            
+        } else if (category === "Serology") {
+            seroInstance = serologyModel({
+                requestID: requestID,
+                hbsAg: data.hbsag,
+                rprVdrl: data.rprvdrl,
+                pregnancyTest: data.preg,
+                dengueNs1: data.dengN,
+                dengueDuo: data.dengD,
+            });
+            
+            seroInstance
+                .save()
+                .then(function (test) {
+                    console.log("successfully saved test");
+                })
+                .catch(errorFn);
+            
+        }
+        
+        resp.json({ redirect: "/main/1" });
     });
 
     server.get("/register", function (req, resp) {
