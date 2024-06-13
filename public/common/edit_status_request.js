@@ -82,6 +82,18 @@ document.addEventListener("DOMContentLoaded", function() {
         requestId.textContent = requestID;
         remarksTextarea.placeholder = remarks;
     });
+
+    document.querySelector('.close-pdf').onclick = function() {
+        const modal = document.getElementById('pdfModal');
+        modal.style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('pdfModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
 });
 
 function generateTemplate(requestID, category) {
@@ -159,13 +171,13 @@ function generateTemplate(requestID, category) {
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-lymphocite" name="lymphocite" placeholder="">
-                            <label for="lymphocite">Lymphocite</label>
+                            <input type="text" class="form-control text-center" id="${requestID}-lymphocyte" name="lymphocyte" placeholder="">
+                            <label for="lymphocyte">Lymphocite</label>
                         </div>
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" id="${requestID}-lymphocite-flag" class="form-control form-control-sm" disabled>
+                            <input type="text" id="${requestID}-lymphocyte-flag" class="form-control form-control-sm" disabled>
                         </div>
                     </td>
                 </tr>
@@ -222,6 +234,7 @@ function generateTemplate(requestID, category) {
             submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `
     } else if (category === "Clinical Microscopy") {
@@ -320,6 +333,7 @@ function generateTemplate(requestID, category) {
             submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `
     } else if (category === "Chemistry") {
@@ -479,6 +493,7 @@ function generateTemplate(requestID, category) {
             submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `
     } else if (category === "Serology") {
@@ -530,6 +545,7 @@ function generateTemplate(requestID, category) {
             submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `
     }
@@ -734,3 +750,60 @@ function showClinicalMicroscopy(requestID) {
     }
     $(`#${requestID}-content`).html(content);
 }
+
+async function generatePDF(requestID, category) {
+    document.getElementById('pdfModal').style.display = 'block'; // for testing purposes
+    const data = {
+        hemoglobin: document.getElementById(`${requestID}-hemoglobin`).value,
+        hematocrit: document.getElementById(`${requestID}-hematocrit`).value,
+        rbccount: document.getElementById(`${requestID}-rbc-count`).value,
+        wbccount: document.getElementById(`${requestID}-wbc-count`).value,
+        neutrophil: document.getElementById(`${requestID}-neutrophil`).value,
+        lymphocyte: document.getElementById(`${requestID}-lymphocyte`).value,
+        monocyte: document.getElementById(`${requestID}-monocyte`).value,
+        eosinophil: document.getElementById(`${requestID}-eosinophil`).value,
+        basophil: document.getElementById(`${requestID}-basophil`).value
+    };
+
+    try {
+        const pdfDoc = await PDFDocument.load(await readFile('hematology.pdf'));
+        const form = pdfDoc.getForm();
+        var fields = form.getFields();
+
+        // Define the Times New Roman font
+        const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+        // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+        fields.forEach(field => {
+            field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+        });
+
+        // Set values for specific fields by their names
+        form.getTextField('Hemoglobin').setText(data.hemoglobin);
+        form.getTextField('Hematocrit').setText(data.hematocrit);
+        form.getTextField('RBC Count').setText(data.rbccount);
+        form.getTextField('WBC Count').setText(data.wbccount);
+        form.getTextField('Neutrophil').setText(data.neutrophil);
+        form.getTextField('Lymphocyte').setText(data.lymphocyte);
+        form.getTextField('Monocyte').setText(data.monocyte);
+        form.getTextField('Eosinophil').setText(data.eosinophil);
+        form.getTextField('Basophil').setText(data.basophil);
+
+        // Flatten the form to make fields non-editable and set appearances
+        form.flatten();
+
+        // Save the filled and flattened PDF
+        const pdfBytes = await pdfDoc.save();
+
+        // Set response to download the generated PDF
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename=Result_${lastName}.pdf`);
+        res.send(Buffer.from(pdfBytes));
+
+        console.log('PDF generated successfully');  // Log successful generation
+    } catch (error) {
+        console.log('Error generating PDF:', error);  // Log any errors
+        res.status(500).send('Error generating PDF');
+    }
+}
+
