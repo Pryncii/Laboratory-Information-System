@@ -318,11 +318,10 @@ function add(server) {
         console.log(category);
         console.log(data);
         console.log(requestID);
+        let updateData;
         if(category === "Hematology") {
-            let hemaInstance;
             if(data.pltc){
-                hemaInstance = hematologyModel({
-                    requestID: requestID,
+                updateData = {
                     hemoglobin: data.hemo,
                     hematocrit: data.hema,
                     rbcCount: data.rbc,
@@ -333,10 +332,9 @@ function add(server) {
                     eosinophil: data.eosi,
                     basophil: data.baso,
                     plateletCount: data.pltc
-                });
+                  };
             }else{
-                hemaInstance = hematologyModel({
-                    requestID: requestID,
+                updateData = {
                     hemoglobin: data.hemo,
                     hematocrit: data.hema,
                     rbcCount: data.rbc,
@@ -346,18 +344,21 @@ function add(server) {
                     monocyte: data.mono,
                     eosinophil: data.eosi,
                     basophil: data.baso,
-                });
+                  };
             }
-            hemaInstance
-                .save()
-                .then(function (test) {
-                    console.log("successfully saved test");
-                })
-                .catch(errorFn);
+            hematologyModel
+            .findOneAndUpdate(
+              { requestID: requestID },
+              { $set: updateData }, // Use $set to only update specified fields
+              { new: true, upsert: true }
+            )
+            .then(function (test) {
+              console.log("successfully updated test");
+            })
+            .catch(errorFn);
             
         } else if (category === "Urinalysis") {
-            uriInstance = urinalysisModel({
-                requestID: requestID,
+            updateData = {
                 color: data.clr,
                 transparency: data.trans,
                 pH: data.ph,
@@ -368,19 +369,21 @@ function add(server) {
                 rbc: data.rbc,
                 bacteria: data.bac,
                 epithelialCells: data.epi,
-                mucusThread: data.muc,
-            });
-            
-            uriInstance
-                .save()
-                .then(function (test) {
-                    console.log("successfully saved test");
-                })
-                .catch(errorFn);
+                mucusThread: data.muc
+              };
+              urinalysisModel
+              .findOneAndUpdate(
+                { requestID: requestID },
+                { $set: updateData }, // Use $set to update only the specified fields
+                { new: true, upsert: true }
+              )
+              .then(function (test) {
+                console.log("successfully updated test");
+              })
+              .catch(errorFn);
             
         } else if (category === "Fecalysis") {
-            fecalInstance = fecalysisModel({
-                requestID: requestID,
+            updateData = {
                 color: data.clr,
                 consistency: data.cons,
                 wbc: data.wbc,
@@ -393,19 +396,22 @@ function add(server) {
                 meatFiber: data.meat,
                 pusCells: data.pus,
                 erythrocyte: data.eryth,
-                yeastCell: data.yeast,
-            });
-            
-            fecalInstance
-                .save()
-                .then(function (test) {
-                    console.log("successfully saved test");
-                })
-                .catch(errorFn);
+                yeastCell: data.yeast
+              };
+              
+              fecalysisModel
+              .findOneAndUpdate(
+                { requestID: requestID },
+                { $set: updateData }, // Use $set to update only the specified fields
+                { new: true, upsert: true }
+              )
+              .then(function (test) {
+                console.log("successfully updated test");
+              })
+              .catch(errorFn);
             
         } else if (category === "Chemistry") {
-            chemInstance = chemistryModel({
-                requestID: requestID,
+            updateData = {
                 fbs: data.fbs,
                 creatinine: data.crt,
                 uricAcid: data.uric,
@@ -417,32 +423,41 @@ function add(server) {
                 bun: data.bun,
                 sgpt: data.sgpt,
                 sgot: data.sgot,
-                hba1c: data.hba1c,
-            });
+                hba1c: data.hba1c
+              };
             
-            chemInstance
-                .save()
-                .then(function (test) {
-                    console.log("successfully saved test");
-                })
-                .catch(errorFn);
+            chemistryModel
+            .findOneAndUpdate(
+              { requestID: requestID },
+              { $set: updateData }, // Use $set to update only the specified fields
+              { new: true, upsert: true }
+            )
+            .then(function (test) {
+              console.log("successfully updated test");
+            })
+            .catch(errorFn);
             
         } else if (category === "Serology") {
-            seroInstance = serologyModel({
+            updateData = {
                 requestID: requestID,
                 hbsAg: data.hbsag,
                 rprVdrl: data.rprvdrl,
-                pregnancyTest: data.preg,
+                pregnancyTestSerum: data.preg,
+                pregnancyTestUrine: data.preg,
                 dengueNs1: data.dengN,
                 dengueDuo: data.dengD,
-            });
+            };
             
-            seroInstance
-                .save()
-                .then(function (test) {
-                    console.log("successfully saved test");
-                })
-                .catch(errorFn);
+            serologyModel
+            .findOneAndUpdate(
+                { requestID: requestID },
+                { $set: updateData }, // Use $set to update only the specified fields
+                { new: true, upsert: true }
+            )
+            .then(function (test) {
+                console.log("successfully updated test");
+            })
+            .catch(errorFn);
             
         }
         
