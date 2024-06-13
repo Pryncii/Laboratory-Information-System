@@ -1016,4 +1016,4 @@ async function generatePDF(requestID, category) {
         console.log("Error generating PDF:", error); // Log any errors
         res.status(500).send("Error generating PDF");
     }
-}
+}}
