@@ -102,6 +102,7 @@ function add(server) {
             searchQuery.$and.push({
                 $or: [
                     { category: regex },
+                    { test: regex },
                     { status: regex },
                     { remarks: regex },
                     { patientID: { $in: listofID } },
@@ -145,9 +146,16 @@ function add(server) {
             searchQuery.$and.push({ category: req.query.category });
         }
 
-        // Check if category is defined and non-empty
+        // Check if test is defined and non-empty
+        if (req.query.tests !== "AAA" && req.query.tests !== undefined) {
+            // Add test query to the search query
+            regex2 = new RegExp(req.query.tests, "i");
+            searchQuery.$and.push({ test: regex2 });
+        }
+
+        // Check if status is defined and non-empty
         if (req.query.status !== "A" && req.query.status !== undefined) {
-            // Add category query to the search query
+            // Add status query to the search query
             searchQuery.$and.push({ status: req.query.status });
         }
 
@@ -163,8 +171,8 @@ function add(server) {
             .then(async function (requests) {
                 requests = requests.reverse();
 
-                console.log("requests");
-                console.log(requests);
+                // console.log("requests");
+                // console.log(requests);
 
                 console.log("List successful");
                 let vals = [];
@@ -917,10 +925,20 @@ function add(server) {
             .find({})
             .then(function (patients) {
                 //add to the database patient details
-                var actualName =
-                    req.body.lname + ", " + req.body.fname + " " + req.body.mname;
+                let lname = req.body.lname.trim()[0].toUpperCase() + req.body.lname.trim().toLowerCase().slice(1);
+                let fname = req.body.fname.trim()[0].toUpperCase() + req.body.fname.trim().toLowerCase().slice(1);
+                let minit;
+                var actualName;
+
+                if(req.body.mname !== "")
+                {
+                    minit = req.body.mname.trim()[0].toUpperCase();
+                    actualName = lname + ", " + fname + " " + minit + ".";
+                } else actualName = lname + ", " + fname;
+
+                let patientID = baseNo + patients.length;
                 const patientInstance = patientModel({
-                    patientID: baseNo + patients.length,
+                    patientID: patientID,
                     name: setDefault(actualName),
                     sex: setDefault(req.body.sex),
                     birthday: setDefaultDate(req.body.bday),
@@ -935,9 +953,19 @@ function add(server) {
                     .save()
                     .then(function (patient) {
                         //add patient to db
-                        resp.redirect("/addpatient?=success");
+                        resp.redirect("/patient-request?id=" + patientID);
                     })
                     .catch(errorFn);
+            })
+            .catch(errorFn);
+    });
+
+    server.post("/addpatient-duplicate", function (req, resp) {
+        patientModel
+            .find({name: req.body.patient_name, age: req.body.age, sex: req.body.sex})
+            .then(function (patients) {
+                let dup = patients.length ? true : false;
+                resp.json({dup : dup});
             })
             .catch(errorFn);
     });
@@ -945,6 +973,7 @@ function add(server) {
     //add request here
     server.get("/patient-request", function (req, resp) {
         patientModel.find().then(function (person) {
+            let patientname = "";
             let patient = new Array();
             for (const instance of person) {
                 let nameParts = instance.name.split(",");
@@ -957,7 +986,7 @@ function add(server) {
                 firstName.pop();
                 if (firstName.length > 1) {
                     firstName = firstName.join("");
-                }
+                } else firstName = firstName.toString();
                 patient.push({
                     patientID: instance.patientID,
                     name: instance.name,
@@ -978,13 +1007,23 @@ function add(server) {
                     return lastNameComparison;
                 });
             }
+            if(req.query.id){
+                for(let i = 0; i < patient.length; i++){
+                    if(patient[i].patientID == req.query.id){
+                        patientname = patient[i].name;
+                        break;
+                    }
+                }
+            }
             resp.render("patientrequest", {
                 layout: "index",
                 title: "Laboratory Information System - Patient Request",
                 patient: patient,
                 user: loggedUser.name,
                 fname: userFname[1],
+                patientname: patientname
             });
+            
         });
     });
 
@@ -995,11 +1034,244 @@ function add(server) {
         let test = req.query.test;
         let baseNumber = 1000;
         let status = "Requested";
-        let dateStart = new Date();
+        let dateStart = new Date(new Date().getTime() + (8 * 60 * 60 * 1000));
         let dateEnd = null;
         let remarks = "";
 
-        requestModel.find({}).then(function (requests) {
+
+        // Based on the selected checkbox, add a test instance schema that
+        // Corresponds to the actual request
+        
+        requestModel.find({}).then(async function (requests) {
+            // check for the category
+            let hemoglobinVal;
+            let hematocritVal;
+            let rbcCountVal;
+            let wbcCountVal;
+            let neutrophilVal;
+            let lymphocyteVal;
+            let monocyteVal;
+            let eosinophilVal;
+            let basophilVal;
+            let withPlateletCountVal;
+            let plateletCountVal;
+            let esrVal;
+            let bloodWithRhVal;
+            let clottingTimeVal;
+            let bleedingTimeVal;
+            if(category == "Hematology"){
+                if(test.includes('CBC')){
+                    hemoglobinVal = hematocritVal = rbcCountVal = wbcCountVal = neutrophilVal = lymphocyteVal = monocyteVal = eosinophilVal = basophilVal = -1;
+                    // Make an instance of the schema and save
+                    withPlateletCountVal = false;
+                    if (test.includes('CBC with Platelet Count')) {
+                        withPlateletCountVal = true;
+                        plateletCountVal = -1;
+
+                    }
+                }
+
+                if(test.includes('ESR')){
+                    esrVal = -1;
+                }
+                if(test.includes('Blood Type with Rh')){
+                    bloodWithRhVal = -1;
+                }
+                if(test.includes('Clotting Time')){
+                    clottingTimeVal = -1;
+                }
+                if(test.includes('Bleeding Time')){
+                    bleedingTimeVal = -1;
+                }
+                const hematologyInstance = new hematologyModel({
+                    requestID: baseNumber + requests.length,
+                    hemoglobin: hemoglobinVal,
+                    hematocrit: hematocritVal,
+                    rbcCount: rbcCountVal,
+                    wbcCount: wbcCountVal,
+                    neutrophil: neutrophilVal,
+                    lymphocyte: lymphocyteVal,
+                    monocyte: monocyteVal,
+                    eosinophil: eosinophilVal,
+                    basophil: basophilVal,
+                    withPlateletCount: withPlateletCountVal,
+                    plateletCount: plateletCountVal,
+                    esr: esrVal,
+                    bloodWithRh: bloodWithRhVal,
+                    clottingTime: clottingTimeVal,
+                    bleedingTime: bleedingTimeVal
+                });
+
+                hematologyInstance.save()
+
+            } else if (category == "Clinical Microscopy") {
+                if(test.includes('Urinalysis')){
+
+                    const urinalysisInstance = new urinalysisModel({
+                        requestID: baseNumber + requests.length,
+                        color: "",
+                        transparency: "",
+                        pH: -1,
+                        specificGravity: -1,
+                        sugar: "",
+                        protein: "",
+                        pus: -1,
+                        rbc: -1,
+                        bacteria: "",
+                        epithelialCells: "",
+                        mucusThread: ""
+                    });
+                    urinalysisInstance.save()
+                    
+                }
+                if(test.includes('Fecalysis')){
+
+                    const fecalysisInstance = new fecalysisModel({
+                        requestID: baseNumber + requests.length,
+                        color: "",
+                        consistency: "",
+                        wbc: -1,
+                        rbc: -1,
+                        bacteria: "",
+                        ovaParasite: "",
+                        fatGlobule: "",
+                        bileCrystal: "",
+                        vegetableFiber: "",
+                        meatFiber: "",
+                        pusCells: -1,
+                        erythrocyte: -1,
+                        yeastCell: -1
+                    });
+                    fecalysisInstance.save()
+
+                }
+                if(test.includes('FOBT')){
+                    console.log('coming soon');
+                }
+
+            } else if (category == "Chemistry") {
+                let fbsVal;
+                let rbsVal;
+                let creatinineVal;
+                let uricAcidVal;
+                let cholesterolVal;
+                let triglyceridesVal;
+                let hdlVal;
+                let ldlVal;
+                let vldlVal;
+                let bunVal;
+                let sgptVal;
+                let sgotVal;
+                let hba1cVal;
+                if (test.includes('fbs')) {
+                    // Code for Creatinine
+                    fbsVal = -1;
+                }
+                if (test.includes('rbs')) {
+                    // Code for Creatinine
+                    rbsVal = -1;
+                }
+                if (test.includes('Creatinine')) {
+                    // Code for Creatinine
+                    creatinineVal = -1;
+                }
+                if (test.includes('Uric Acid')) {
+                    // Code for Uric Acid
+                    uricAcidVal = -1;
+                }
+                if (test.includes('Cholesterol')) {
+                    // Code for Cholesterol
+             
+                    cholesterolVal = -1;
+                }
+                if (test.includes('Triglycerides')) {
+                    // Code for Triglycerides
+              
+                    triglyceridesVal = -1;
+                }
+                if (test.includes('HDL')) {
+                    // Code for HDl
+                    hdlVal = -1;
+                }
+                if (test.includes('LDL')) {
+                    // Code for LDL
+                    ldlVal = -1;
+                }
+                if (test.includes('VLDL')) {
+                    // Code for VLDL
+                    vldlVal = -1;
+                }
+                if (test.includes('BUN')) {
+                    // Code for BUN
+                    bunVal = -1;
+                }
+                if (test.includes('SGPT')) {
+                    // Code for SGPT
+                    sgptVal = -1;
+                }
+                if (test.includes('SGOT')) {
+                    sgotVal = -1;
+                }
+                if (test.includes('HbA1c')) {
+                    hba1cVal = -1;
+                }
+                const chemistryInstance = new chemistryModel({
+                    requestID: baseNumber + requests.length,
+                    fbs: fbsVal,
+                    rbs: rbsVal,
+                    creatinine: creatinineVal,
+                    uricAcid: uricAcidVal,
+                    cholesterol: cholesterolVal,
+                    triglycerides: triglyceridesVal,
+                    hdl: hdlVal,
+                    ldl: ldlVal,
+                    vldl: vldlVal,
+                    bun: bunVal,
+                    sgpt: sgptVal,
+                    sgot: sgotVal,
+                    hba1c: hba1cVal
+                });
+                chemistryInstance.save()
+
+            } else if (category == "Serology") {
+                let hbsAgVal;
+                let rprVdrlVal;
+                let pregnancyTestUrineVal;
+                let pregnancyTestSerumVal;
+                let dengueNs1Val;
+                let dengueDuoVal;
+                if(test.includes('HbsAg')){
+                    hbsAgVal = -1;
+                }
+                if(test.includes('RPR/VDRL')){
+                    rprVdrlVal = "";
+
+                }
+                if(test.includes('Serum Pregnancy Test')){
+                    pregnancyTestSerumVal = "";
+                }
+                if(test.includes('Urine Pregnancy Test')){
+                    pregnancyTestUrineVal = "";
+
+                }
+                if(test.includes('Dengue NS1')){
+                    dengueNs1Val = "";
+                }
+                if(test.includes('Dengue Duo')){
+                    dengueDuoVal = "";
+                }
+                const serologyInstance = new serologyModel({
+                    requestID: baseNumber + requests.length,
+                    hbsAg: hbsAgVal,
+                    rprVdrl: rprVdrlVal,
+                    pregnancyTestSerum: pregnancyTestSerumVal,
+                    pregnancyTestUrine: pregnancyTestUrineVal,
+                    dengueNs1: dengueNs1Val,
+                    dengueDuo: dengueDuoVal
+                });
+                serologyInstance.save()
+
+            }
             const requestInstance = requestModel({
                 requestID: baseNumber + requests.length,
                 patientID: patientID,
@@ -1012,7 +1284,7 @@ function add(server) {
                 remarks: remarks,
             });
             requestInstance.save().then(async function () {
-                resp.redirect("/patient-request");
+                resp.redirect("/main/1");
             });
         });
     });

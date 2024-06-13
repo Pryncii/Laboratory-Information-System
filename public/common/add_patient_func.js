@@ -2,8 +2,9 @@ function checkAgeToBday() {
     let bday = $("#bday").val() ? new Date($("#bday").val()) : false; // assign false if no value
     let age = parseInt($("#age").val());
 
+    const bdayField = document.getElementById("bday");
+    
     if(age && bday) {
-        $("#message").text(age + " " + bday);
         let now = new Date();
         let checkAge = now.getFullYear() - bday.getFullYear();
 
@@ -17,32 +18,64 @@ function checkAgeToBday() {
         }
 
         if(age == checkAge) {
-            $(".agebday-notmatch").hide();
-            $('#age').css("border", "none");
-            $('#bday').css("border", "none");
+            bdayField.setCustomValidity("");
+            bdayField.reportValidity();
             return true;
         }
         else {
-            $(".agebday-notmatch").show();
-            $('#age').css("border", "1px solid red");
-            $('#bday').css("border", "1px solid red");
+            bdayField.setCustomValidity("Age and birthdate do not match.");
+            bdayField.reportValidity();
             return false;
         }
     }
     else {
-        $(".agebday-notmatch").hide();
-        $('#age').css("border", "none");
-        $('#bday').css("border", "none");
+        bdayField.setCustomValidity("");
+        bdayField.reportValidity();
         return true;
     }
 }
 
 function confirmPatientReg() {
-    if(checkAgeToBday())
-        return confirm('Proceed with registering a new patient?');
-    else {
-        alert('Invalid birthday and age.');
-        return false;
+    if (checkAgeToBday()) {
+        let lname = $('#lname').val().trim()[0].toUpperCase() + $('#lname').val().trim().toLowerCase().slice(1);
+        let fname = $('#fname').val().trim()[0].toUpperCase() + $('#fname').val().trim().toLowerCase().slice(1);
+        let minit;
+        let patient_name;
+        let sex = $('#sex').val();
+        let age = parseInt($("#age").val());
+        let isDuplicate = null;
+
+        if($('#mname').val() == "")
+            patient_name = lname + ", " + fname;
+        else {
+            minit = $('#mname').val().trim()[0].toUpperCase();
+            patient_name = lname + ", " + fname + " " + minit + ".";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/addpatient-duplicate",
+            data: 
+            {
+                patient_name: patient_name,
+                sex: sex,
+                age: age
+            },
+            async: false,
+            success: function(data, status) {
+                if (status === 'success') {
+                    isDuplicate = data.dup;
+                }
+            }
+        });
+        if(isDuplicate){
+            alert("Patient already exists in database.");
+            return !isDuplicate;  // Return true if not duplicate, false otherwise
+        }
+        else
+            return confirm('Proceed to Patient Request?');
+    } else {
+        return false; // Return false if age check fails
     }
 }
 

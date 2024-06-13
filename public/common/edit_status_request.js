@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     let statusSelect = document.getElementById("editstatus");
     let startDateGroup = document.getElementById("start-date-group");
     let finishDateGroup = document.getElementById("finish-date-group");
@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
     startDateGroup.style.display = "none";
     finishDateGroup.style.display = "none";
 
-    statusSelect.addEventListener("change", function() {
+    statusSelect.addEventListener("change", function () {
         let currentDate = new Date().toISOString().split("T")[0];
-        
+
         if (statusSelect.value === "in_progress") {
             startDateGroup.style.display = "block";
             finishDateGroup.style.display = "none";
@@ -27,18 +27,17 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     let form = document.getElementById("status-form");
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
-        
 
         let formData = {
             requestID: parseInt(reqIDval.outerText),
             status: statusSelect.value,
             startDate: startDateInput.value,
             finishDate: finishDateInput.value,
-            remarks: document.getElementById("remarks").value
+            remarks: document.getElementById("remarks").value,
         };
-        
+
         console.log(formData);
 
         const url = "/update-status-request-db";
@@ -46,20 +45,20 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
         })
-        .then(window.location.reload())
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+            .then(window.location.reload())
+            .catch((error) => {
+                console.error("Error:", error);
+            });
     });
     // Get the modal element
     var statusModal = document.getElementById("statusModal");
 
     // Listen for the modal opening event
-    statusModal.addEventListener("show.bs.modal", function(event) {
+    statusModal.addEventListener("show.bs.modal", function (event) {
         // Get the button that triggered the modal
         var button = event.relatedTarget;
 
@@ -82,12 +81,67 @@ document.addEventListener("DOMContentLoaded", function() {
         requestId.textContent = requestID;
         remarksTextarea.placeholder = remarks;
     });
+
+    document.querySelector(".close-pdf").onclick = function () {
+        const modal = document.getElementById("pdfModal");
+        modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        const modal = document.getElementById("pdfModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
 });
 
+function flag(parameter, value, gender) {
+    let ranges = {
+        Hemoglobin: {
+            M: [140.0, 180.0],
+            F: [120.0, 160.0],
+        },
+        Hematocrit: {
+            M: [0.4, 0.54],
+            F: [0.35, 0.48],
+        },
+        RBC: {
+            M: [4.5, 6.0],
+            F: [4.0, 5.5],
+        },
+    };
+    let range = ranges[parameter][gender];
+    if (value > range[1]) {
+        return "HIGH";
+    } else if (value < range[0]) {
+        return "LOW";
+    } else {
+        return "Normal";
+    }
+}
 
+function flag2(parameter, value) {
+    let ranges = {
+        WBC: [5.0, 10.0],
+        Neutrophil: [0.5, 0.75],
+        Lymphocyte: [0.25, 0.4],
+        Monocyte: [0.02, 0.06],
+        Eosinophil: [0.01, 0.04],
+        Basophil: [0, 0.01],
+        Platelet: [145, 450],
+    };
+    let range = ranges[parameter];
+    if (value > range[1]) {
+        return "HIGH";
+    } else if (value < range[0]) {
+        return "LOW";
+    } else {
+        return "Normal";
+    }
+}
 
 function generateTemplate(requestID, category) {
-    if(category === "Hematology") {
+    if (category === "Hematology") {
         header = `
             <div class="item-label p-3 w-50 mx-2">
                 CBC
@@ -96,7 +150,7 @@ function generateTemplate(requestID, category) {
                 <input type="checkbox" class="btn-check" id="${requestID}-platelet-btn" autocomplete="off">
                 <label class="btn btn-outline-primary custom-btn p-3 w-100" for="${requestID}-platelet-btn" onclick="showPlatelets('${requestID}')">with Platelets</label>
             </div>
-        `
+        `;
         content = `
             <table>
                 <tr>
@@ -220,12 +274,13 @@ function generateTemplate(requestID, category) {
                     </td>
                 </tr>
             </table>
-            `
-            submit = `
+            `;
+        submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
-            `
+            `;
     } else if (category === "Clinical Microscopy") {
         header = `
             <div class="custom-checkbox-wrapper p-3 w-50 mx-2">
@@ -236,7 +291,7 @@ function generateTemplate(requestID, category) {
                 <input type="radio" class="btn-check" name="options-outlined" id="${requestID}-fecalysis-btn" autocomplete="off" onclick="showClinicalMicroscopy('${requestID}')">
                 <label class="btn btn-outline-primary custom-btn p-3 w-100" for="${requestID}-fecalysis-btn">Fecalysis</label>
             </div>
-        `
+        `;
         content = `
             <table>
                 <tr>
@@ -318,18 +373,19 @@ function generateTemplate(requestID, category) {
                     </td>
                 </tr>
             </table>
-            `
-            submit = `
+            `;
+        submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
-            `
+            `;
     } else if (category === "Chemistry") {
         header = `
             <div class="item-label p-3 m-2 w-100">
                 Chemistry
             </div>
-        `
+        `;
         content = `
             <table>
                 <tr>
@@ -477,18 +533,19 @@ function generateTemplate(requestID, category) {
                     </td>
                 </tr>
             </table>
-            `
-            submit = `
+            `;
+        submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
-            `
+            `;
     } else if (category === "Serology") {
         header = `
             <div class="item-label p-3 m-2 w-100">
                 Serology
             </div>
-        `
+        `;
         content = `
             <table>
                 <tr>
@@ -528,32 +585,88 @@ function generateTemplate(requestID, category) {
                     </td>
                 </tr>
             </table>
-            `
-            submit = `
+            `;
+        submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
-            `
+            `;
     }
     $(`#${requestID}-header`).html(header);
     $(`#${requestID}-content`).html(content);
     $(`#${requestID}-submit`).html(submit);
-    $(`#${requestID}-urinalysis-btn`).prop('checked', true);
+    $(`#${requestID}-urinalysis-btn`).prop("checked", true);
     $(`#ModalLabel-${requestID}`).html(category);
+    const id = ["hemoglobin", "hematocrit", "rbc-count"];
+    const parameter = ["Hemoglobin", "Hematocrit", "RBC"];
+    for (let i = 0; i < 3; i++) {
+        let input = document.getElementById(requestID + "-" + id[i]);
+        let inputflag = document.getElementById(requestID + "-" + id[i] + "-flag");
+        input.addEventListener("input", function (event) {
+            let index = i;
+            if (input.value === "") {
+                inputflag.value = "";
+            } else {
+                let currentPath = window.location.pathname;
+                let endpoint = currentPath + "/gender/" + requestID;
+                $.get(endpoint, function (data, status) {
+                    if (status === "success") {
+                        const gender = data.gender;
+                        inputflag.value = flag(
+                            parameter[index],
+                            parseFloat(input.value),
+                            gender
+                        );
+                    }
+                });
+            }
+        });
+    }
+    const id2 = [
+        "wbc-count",
+        "neutrophil",
+        "lymphocyte",
+        "monocyte",
+        "eosinophil",
+        "basophil",
+        "platelet",
+    ];
+    const parameter2 = [
+        "WBC",
+        "Neutrophil",
+        "Lymphocyte",
+        "Monocyte",
+        "Eosinophil",
+        "Basophil",
+        "Platelet",
+    ];
+    for (let i = 0; i < 7; i++) {
+        let input = document.getElementById(requestID + "-" + id2[i]);
+        let inputflag = document.getElementById(requestID + "-" + id2[i] + "-flag");
+        input.addEventListener("input", function (event) {
+            let index = i;
+            if (input.value === "") {
+                inputflag.value = "";
+            } else {
+                inputflag.value = flag2(parameter2[index], parseFloat(input.value));
+            }
+        });
+    }
 }
 
 function showPlatelets(requestID) {
-    if ($(`#${requestID}-platelet-btn`).prop('checked')) {
-        $(`#${requestID}-platelet-lbl`).addClass('invisible');
-        $(`#${requestID}-platelet-flag`).addClass('invisible');
+    if ($(`#${requestID}-platelet-btn`).prop("checked")) {
+        $(`#${requestID}-platelet-lbl`).addClass("invisible");
+        $(`#${requestID}-platelet-flag`).addClass("invisible");
     } else {
-        $(`#${requestID}-platelet-lbl`).removeClass('invisible');
-        $(`#${requestID}-platelet-flag`).removeClass('invisible');
+        $(`#${requestID}-platelet-lbl`).removeClass("invisible");
+        $(`#${requestID}-platelet-flag`).removeClass("invisible");
     }
 }
 
 function showClinicalMicroscopy(requestID) {
-    if ($(`#${requestID}-urinalysis-btn`).prop('checked')) {
+    if ($(`#${requestID}-urinalysis-btn`).prop("checked")) {
         content = `
             <table>
                 <tr>
@@ -635,8 +748,8 @@ function showClinicalMicroscopy(requestID) {
                     </td>
                 </tr>
             </table>
-            `
-    } else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
+            `;
+    } else if ($(`#${requestID}-fecalysis-btn`).prop("checked")) {
         content = `
             <table>
                 <tr>
@@ -732,7 +845,7 @@ function showClinicalMicroscopy(requestID) {
                     </td>
                 </tr>
             </table>
-            `
+            `;
     }
     $(`#${requestID}-content`).html(content);
 }
@@ -845,4 +958,62 @@ function saveChanges(requestID, category){
             }
         
     });//fn+post
+
+async function generatePDF(requestID, category) {
+    document.getElementById("pdfModal").style.display = "block"; // for testing purposes
+    const data = {
+        hemoglobin: document.getElementById(`${requestID}-hemoglobin`).value,
+        hematocrit: document.getElementById(`${requestID}-hematocrit`).value,
+        rbccount: document.getElementById(`${requestID}-rbc-count`).value,
+        wbccount: document.getElementById(`${requestID}-wbc-count`).value,
+        neutrophil: document.getElementById(`${requestID}-neutrophil`).value,
+        lymphocyte: document.getElementById(`${requestID}-lymphocyte`).value,
+        monocyte: document.getElementById(`${requestID}-monocyte`).value,
+        eosinophil: document.getElementById(`${requestID}-eosinophil`).value,
+        basophil: document.getElementById(`${requestID}-basophil`).value,
+    };
+
+    try {
+        const pdfDoc = await PDFDocument.load(await readFile("hematology.pdf"));
+        const form = pdfDoc.getForm();
+        var fields = form.getFields();
+
+        // Define the Times New Roman font
+        const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+        // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+        fields.forEach((field) => {
+            field.defaultUpdateAppearances(timesNewRoman, "/TiRo 13 Tf 0 g");
+        });
+
+        // Set values for specific fields by their names
+        form.getTextField("Hemoglobin").setText(data.hemoglobin);
+        form.getTextField("Hematocrit").setText(data.hematocrit);
+        form.getTextField("RBC Count").setText(data.rbccount);
+        form.getTextField("WBC Count").setText(data.wbccount);
+        form.getTextField("Neutrophil").setText(data.neutrophil);
+        form.getTextField("Lymphocyte").setText(data.lymphocyte);
+        form.getTextField("Monocyte").setText(data.monocyte);
+        form.getTextField("Eosinophil").setText(data.eosinophil);
+        form.getTextField("Basophil").setText(data.basophil);
+
+        // Flatten the form to make fields non-editable and set appearances
+        form.flatten();
+
+        // Save the filled and flattened PDF
+        const pdfBytes = await pdfDoc.save();
+
+        // Set response to download the generated PDF
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+            "Content-Disposition",
+            `inline; filename=Result_${lastName}.pdf`
+        );
+        res.send(Buffer.from(pdfBytes));
+
+        console.log("PDF generated successfully"); // Log successful generation
+    } catch (error) {
+        console.log("Error generating PDF:", error); // Log any errors
+        res.status(500).send("Error generating PDF");
+    }
 }
