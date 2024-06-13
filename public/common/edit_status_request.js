@@ -277,7 +277,7 @@ function generateTemplate(requestID, category) {
             `;
         submit = `
                 <div class="my-3">
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
@@ -297,7 +297,7 @@ function generateTemplate(requestID, category) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-color" name="color" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-urinalysis-color" name="color" placeholder="">
                             <label for="color">Color</label>
                         </div>
                     </td>
@@ -353,7 +353,7 @@ function generateTemplate(requestID, category) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-bacteria" name="bacteria" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-urinalysis-bacteria" name="bacteria" placeholder="">
                             <label for="bacteria">Bacteria</label>
                         </div>
                     </td>
@@ -376,7 +376,7 @@ function generateTemplate(requestID, category) {
             `;
         submit = `
                 <div class="my-3">
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
@@ -536,7 +536,7 @@ function generateTemplate(requestID, category) {
             `;
         submit = `
                 <div class="my-3">
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
@@ -588,7 +588,7 @@ function generateTemplate(requestID, category) {
             `;
         submit = `
                 <div class="my-3">
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
@@ -672,7 +672,7 @@ function showClinicalMicroscopy(requestID) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-color" name="color" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-urinalysis-color" name="color" placeholder="">
                             <label for="color">Color</label>
                         </div>
                     </td>
@@ -728,7 +728,7 @@ function showClinicalMicroscopy(requestID) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-bacteria" name="bacteria" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-urinalysis-bacteria" name="bacteria" placeholder="">
                             <label for="bacteria">Bacteria</label>
                         </div>
                     </td>
@@ -755,7 +755,7 @@ function showClinicalMicroscopy(requestID) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-color" name="color" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-fecalysis-color" name="color" placeholder="">
                             <label for="color">Color</label>
                         </div>
                     </td>
@@ -839,7 +839,7 @@ function showClinicalMicroscopy(requestID) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-bacteria" name="bacteria" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-fecalysis-bacteria" name="bacteria" placeholder="">
                             <label for="bacteria">Bacteria</label>
                         </div>
                     </td>
@@ -849,6 +849,115 @@ function showClinicalMicroscopy(requestID) {
     }
     $(`#${requestID}-content`).html(content);
 }
+
+function saveFields(requestID){
+
+}
+
+function saveChanges(requestID, category){
+    let data = [];
+    if(category === "Hematology") {
+        let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
+        ? $("#" + requestID + "-platelet").val() 
+        : "";
+
+        data.push({
+            hemo: $("#" + requestID + "-hemoglobin").val(),
+            hema: $("#" + requestID + "-hematocrit").val(),
+            rbc: $("#" + requestID + "-rbc-count").val(),
+            wbc: $("#" + requestID + "-wbc-count").val(),
+            neut: $("#" + requestID + "-neutrophil").val(),
+            lymp: $("#" + requestID + "-lymphocyte").val(),
+            mono: $("#" + requestID + "-monocyte").val(),
+            eosi: $("#" + requestID + "-eosinophil").val(),
+            baso: $("#" + requestID + "-basophil").val(),
+            pltc: pltc,
+        });
+            
+    } else if (category === "Clinical Microscopy") {
+        if($(`#${requestID}-urinalysis-btn`).prop('checked')){
+            category = "Urinalysis";
+            data.push({
+                clr: $("#" + requestID + "-urinalysis-color").val(),
+                trans: $("#" + requestID + "-transparency").val(),
+                ph: $("#" + requestID + "-ph").val(),
+                spgrav: $("#" + requestID + "-specific-gravity").val(),
+                sug: $("#" + requestID + "-sugar").val(),
+                pro: $("#" + requestID + "-protein").val(),
+                pus: $("#" + requestID + "-pus").val(),
+                rbc: $("#" + requestID + "-rbc").val(),
+                bac: $("#" + requestID + "-urinalysis-bacteria").val(),
+                epi: $("#" + requestID + "-epithelial-cells").val(),
+                muc: $("#" + requestID + "-mucus-thread").val(),
+            });
+        }
+        else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
+            category = "Fecalysis";
+            data.push({
+                clr: $("#" + requestID + "-fecalysis-color").val(),
+                cons: $("#" + requestID + "-consistency").val(),
+                wbc: $("#" + requestID + "-wbc").val(),
+                rbc: $("#" + requestID + "-rbc").val(),
+                ovapar: $("#" + requestID + "-ova-parasite").val(),
+                fat: $("#" + requestID + "-fat-globule").val(),
+                bile: $("#" + requestID + "-bile-crystal").val(),
+                veg: $("#" + requestID + "-vegetable-fiber").val(),
+                meat: $("#" + requestID + "-meat-fiber").val(),
+                pus: $("#" + requestID + "-pus-cells").val(),
+                eryth: $("#" + requestID + "-erythrocyte").val(),
+                yeast: $("#" + requestID + "-yeast-cell").val(),
+                bac: $("#" + requestID + "-fecalysis-bacteria").val(),
+            });
+        }
+        
+    } else if (category === "Chemistry") {  
+        category = "Chemistry";
+        data.push({
+            fbs: $("#" + requestID + "-fbs").val(),
+            crt: $("#" + requestID + "-creatinine").val(),
+            uric: $("#" + requestID + "-uric-acid").val(),
+            chol: $("#" + requestID + "-cholesterol").val(),
+            tri: $("#" + requestID + "-triglycerides").val(),
+            hdl: $("#" + requestID + "-hdl").val(),
+            ldl: $("#" + requestID + "-ldl").val(),
+            vldl: $("#" + requestID + "-vldl").val(),
+            bun: $("#" + requestID + "-bun").val(),
+            sgpt: $("#" + requestID + "-sgpt").val(),
+            sgot: $("#" + requestID + "-sgot").val(),
+            hba1c: $("#" + requestID + "-hba1c").val(),
+        });
+        
+    } else if (category === "Serology") {
+        category = "Serology";
+        data.push({
+            hbsag: $("#" + requestID + "-hbsag").val(),
+            rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
+            preg: $("#" + requestID + "-pregnancy-test").val(),
+            dengN: $("#" + requestID + "-dengue-ns1").val(),
+            dengD: $("#" + requestID + "-dengue-duo").val(),
+        });
+    }
+
+    let currentPath = window.location.pathname;
+    let endpoint = currentPath + "/save-edit-request";
+
+   
+    $('#Modal-' + requestID).modal('hide');
+
+    $.post(
+        endpoint,
+        {
+            requestID: requestID,
+            category: category,
+            data: data,
+        },
+        function(response, status) {
+            if (status === 'success' && response.redirect) {
+                // Redirect to the new URL
+                window.location.href = response.redirect;
+            }
+        
+    });//fn+post
 
 async function generatePDF(requestID, category) {
     document.getElementById("pdfModal").style.display = "block"; // for testing purposes
