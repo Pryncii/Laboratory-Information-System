@@ -212,8 +212,8 @@ function add(server) {
                             patientID: patients.patientID,
                             patientName: patients.name,
                             medtech: medtechs.name,
-                            test: item.test,
                             category: item.category,
+                            test: item.test,
                             status: item.status,
                             dateStart: item.dateStart
                                 ? item.dateStart.toLocaleString("en-US", { timeZone: "UTC" })
@@ -789,9 +789,15 @@ function add(server) {
                 //add to the database patient details
                 let lname = req.body.lname.trim()[0].toUpperCase() + req.body.lname.trim().toLowerCase().slice(1);
                 let fname = req.body.fname.trim()[0].toUpperCase() + req.body.fname.trim().toLowerCase().slice(1);
-                let minit = req.body.mname.trim()[0].toUpperCase();
-                var actualName =
-                    lname + ", " + fname + " " + minit + ".";
+                let minit;
+                var actualName;
+
+                if(req.body.mname !== "")
+                {
+                    minit = req.body.mname.trim()[0].toUpperCase();
+                    actualName = lname + ", " + fname + " " + minit + ".";
+                } else actualName = lname + ", " + fname;
+
                 let patientID = baseNo + patients.length;
                 const patientInstance = patientModel({
                     patientID: patientID,
@@ -842,7 +848,8 @@ function add(server) {
                 firstName.pop();
                 if (firstName.length > 1) {
                     firstName = firstName.join("");
-                }
+                } else firstName = firstName.toString();
+
                 patient.push({
                     patientID: instance.patientID,
                     name: instance.name,
