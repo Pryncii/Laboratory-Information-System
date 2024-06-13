@@ -3,6 +3,7 @@ function checkAgeToBday() {
     let age = parseInt($("#age").val());
 
     const bdayField = document.getElementById("bday");
+    
     if(age && bday) {
         let now = new Date();
         let checkAge = now.getFullYear() - bday.getFullYear();
@@ -22,7 +23,7 @@ function checkAgeToBday() {
             return true;
         }
         else {
-            bdayField.setCustomValidity("Age and Birthdate do not match");
+            bdayField.setCustomValidity("Age and birthdate do not match.");
             bdayField.reportValidity();
             return false;
         }
@@ -38,12 +39,18 @@ function confirmPatientReg() {
     if (checkAgeToBday()) {
         let lname = $('#lname').val().trim()[0].toUpperCase() + $('#lname').val().trim().toLowerCase().slice(1);
         let fname = $('#fname').val().trim()[0].toUpperCase() + $('#fname').val().trim().toLowerCase().slice(1);
-        let minit = $('#mname').val().trim()[0].toUpperCase();
-        let patient_name = lname + ", " + fname + " " + minit + ".";
+        let minit;
+        let patient_name;
         let sex = $('#sex').val();
         let age = parseInt($("#age").val());
-
         let isDuplicate = null;
+
+        if($('#mname').val() == "")
+            patient_name = lname + ", " + fname;
+        else {
+            minit = $('#mname').val().trim()[0].toUpperCase();
+            patient_name = lname + ", " + fname + " " + minit + ".";
+        }
 
         $.ajax({
             type: "POST",
@@ -62,7 +69,7 @@ function confirmPatientReg() {
             }
         });
         if(isDuplicate){
-            alert("Patient Information Already Exists in Database")
+            alert("Patient already exists in database.");
             return !isDuplicate;  // Return true if not duplicate, false otherwise
         }
         else
