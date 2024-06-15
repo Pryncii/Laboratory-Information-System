@@ -83,5 +83,3 @@ $(document).ready(function(){
     $('#bday').on('change', checkAgeToBday);
     $('#age').on('change', checkAgeToBday);
 });//doc
-
-  

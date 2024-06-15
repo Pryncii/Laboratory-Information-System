@@ -1,0 +1,43 @@
+.main-content { margin: 50px; }
+.reg-content { margin: 20px 50px 0px 50px; }
+.title > h1, .item-label, .item-container, .reg-btn { font-family: "Inter"; }
+.title, .item-label { color: #0D1D58; }
+.reg-items, .input-item { width: 100%; }
+.two-col { width: 50%; }
+.item-container { padding: 10px; }
+tr { height: 30px; }
+body { background-color: #FFF8F3 !important; }
+
+.item-label {
+    justify-content: left;
+    padding-left: 10px;
+    padding-top: 20px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.reg-btn {
+    width: 10%;
+    margin: 30px;
+    padding: 10px;
+    font-size: larger;
+    background-color: #0D1D58;
+    border-radius: 10px;
+    color: #FFF8F3;
+    border-width: 0px;
+}
+
+.reg-btn:hover {
+    background-color: #4A6BA1;
+    color: white;
+}
+
+.input-item {
+    background-color: #DDDFE3;
+    border-radius: 5px;
+    border-width: 0px;
+    padding: 15px;
+}

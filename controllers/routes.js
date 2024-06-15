@@ -472,7 +472,7 @@ function add(server) {
     });
 
     server.get("/addpatient", function (req, resp) {
-        resp.render("addpatient", {
+        resp.render("add_patient", {
             layout: "index",
             title: "Add Patient - Laboratory Information System",
             user: loggedUser.name,
@@ -1029,7 +1029,7 @@ function add(server) {
                     }
                 }
             }
-            resp.render("patientrequest", {
+            resp.render("patient_request", {
                 layout: "index",
                 title: "Laboratory Information System - Patient Request",
                 patient: patient,
@@ -1320,8 +1320,7 @@ function add(server) {
             },
         };
 
-        requestModel
-            .updateOne({ requestID: requestID }, updateValues)
+        requestModel.updateOne({ requestID: requestID }, updateValues)
             .then(async function (updatedRequest) {
                 if (updatedRequest) {
                     // If the update was successful, redirect back to the main page
@@ -1340,6 +1339,7 @@ function add(server) {
                     .json({ success: false, message: "Error updating request" });
             });
     });
+
     server.get("/main/:pageNo/gender/:requestID", function (req, res) {
         const requestID = req.params.requestID;
         requestModel.findOne({ requestID: requestID }).lean().then(function (request) {
