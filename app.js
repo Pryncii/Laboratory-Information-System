@@ -24,7 +24,6 @@ const controllers = [
   'view_patients_route'
 ];
 
-// Require middleware modules and use them with app.use()
 controllers.forEach(controller => {
   const model = require('./controllers/' + controller);
   model.add(server);
