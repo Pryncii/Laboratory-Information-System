@@ -25,6 +25,7 @@ app.post('/generate-pdf', async (req, res) => {
         triglyceride
     } = req.body;
 
+
     console.log('Received data:', req.body);  // Log the received data
 
     try {

@@ -2,6 +2,9 @@
 const bcrypt = require("bcrypt");
 const { query } = require("express");
 const { Int32 } = require("mongodb");
+const { PDFDocument, StandardFonts } = require('pdf-lib');
+const { readFile } = require('fs/promises');
+const bodyParser = require('body-parser');
 const saltRounds = 10;
 var loggedUser;
 var userFname;
@@ -17,6 +20,8 @@ function add(server) {
     const fecalysisModel = appdata.fecalysisModel;
     const chemistryModel = appdata.chemistryModel;
     const serologyModel = appdata.serologyModel;
+    server.use(bodyParser.urlencoded({extended: false}));
+    server.use(bodyParser.json());
     // Use this model to look for the corresponding test
     // Note: Can't query specific values of tests, use other
     // Models to query a specific category
@@ -1340,14 +1345,186 @@ function add(server) {
             });
     });
 
-    server.get("/main/:pageNo/gender/:requestID", function (req, res) {
-        const requestID = req.params.requestID;
-        requestModel.findOne({ requestID: requestID }).lean().then(function (request) {
-            patientModel.findOne({ patientID: request.patientID }).lean().then(function (patient) {
-                const gender = patient.sex;
-                res.json({ gender: gender });
-            })
-        });
+    server.post('/generate-pdf-hematology', async (req, res) => {
+        const [{
+            hemo,
+            hema,
+            rbc,
+            wbc,
+            neut,
+            lymp,
+            mono,
+            eosi,
+            baso,
+            pltc
+        }] = req.body;
+
+            console.log('Received data:', req.body);  // Log the received data
+
+            try {
+                const pdfDoc = await PDFDocument.load(await readFile('HematologyTemplate.pdf'));
+                const form = pdfDoc.getForm();
+                const fields = form.getFields();
+        
+                // Define the Times New Roman font
+                const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                console.log(fields.map(field => field.getName())); 
+                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+                });
+    
+                // Set values for specific fields by their names
+                form.getTextField('Hemoglobin').setText(hemo);
+                form.getTextField('Hematocrit').setText(hema);
+                form.getTextField('RBC Count').setText(rbc);
+                form.getTextField('WBC Count').setText(wbc);
+                form.getTextField('Neutrophil').setText(neut);
+                form.getTextField('Lymphocyte').setText(lymp);
+                form.getTextField('Eosinophil').setText(eosi);
+                form.getTextField('Basophil').setText(baso);
+                form.getTextField('Monocyte').setText(mono);
+                form.getTextField('Platelet Count').setText(pltc);
+    
+        
+                // Flatten the form to make fields non-editable and set appearances
+                form.flatten();
+        
+                // Save the filled and flattened PDF
+                const pdfBytes = await pdfDoc.save();
+        
+                // Set response to download the generated PDF
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `inline; filename=Result_test.pdf`);
+                res.send(Buffer.from(pdfBytes));
+        
+                console.log('PDF generated successfully');  // Log successful generation
+            } catch (error) {
+                console.log('Error generating PDF:', error);  // Log any errors
+                res.status(500).send('Error generating PDF');
+            }
+    });
+    server.post('/generate-pdf-clinical-microscopy', async (req, res) => {
+        const [{
+            clr,
+            trans, 
+            ph,
+            spgrav,
+            sug,
+            pro,
+            pus,
+            rbc,
+            bac,
+            epi,
+            muc
+        }] = req.body;
+
+            console.log('Received data:', req.body);  // Log the received data
+
+            try {
+                const pdfDoc = await PDFDocument.load(await readFile('Clinical-Microscopy-Template.pdf'));
+                const form = pdfDoc.getForm();
+                const fields = form.getFields();
+        
+                // Define the Times New Roman font
+                const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                console.log(fields.map(field => field.getName())); 
+                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+                });
+    
+                // Set values for specific fields by their names
+                form.getTextField('Hemoglobin').setText(hemo);
+                form.getTextField('Hematocrit').setText(hema);
+                form.getTextField('RBC Count').setText(rbc);
+                form.getTextField('WBC Count').setText(wbc);
+                form.getTextField('Neutrophil').setText(neut);
+                form.getTextField('Lymphocyte').setText(lymp);
+                form.getTextField('Eosinophil').setText(eosi);
+                form.getTextField('Basophil').setText(baso);
+                form.getTextField('Monocyte').setText(mono);
+                form.getTextField('Platelet Count').setText(pltc);
+    
+        
+                // Flatten the form to make fields non-editable and set appearances
+                form.flatten();
+        
+                // Save the filled and flattened PDF
+                const pdfBytes = await pdfDoc.save();
+        
+                // Set response to download the generated PDF
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `inline; filename=Result_test.pdf`);
+                res.send(Buffer.from(pdfBytes));
+        
+                console.log('PDF generated successfully');  // Log successful generation
+            } catch (error) {
+                console.log('Error generating PDF:', error);  // Log any errors
+                res.status(500).send('Error generating PDF');
+            }
+    });
+    server.post('/generate-pdf-chemistry', async (req, res) => {
+        const [{
+            fbs,
+            crt,
+            uric,
+            chol,
+            tri,
+            hdl,
+            ldl,
+            vldl,
+            bun,
+            sgpt,
+            sgot,
+            hba1c
+        }] = req.body;
+
+            console.log('Received data:', req.body);  // Log the received data
+
+            try {
+                const pdfDoc = await PDFDocument.load(await readFile('Chemistry-Template.pdf'));
+                const form = pdfDoc.getForm();
+                const fields = form.getFields();
+        
+                // Define the Times New Roman font
+                const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                console.log(fields.map(field => field.getName())); 
+                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+                });
+    
+                // Set values for specific fields by their names
+                form.getTextField('Glucose').setText(fbs);
+                form.getTextField('Creatinine').setText(crt);
+                form.getTextField('Uric_Acid').setText(uric);
+                form.getTextField('Cholesterol_Total').setText(chol);
+                form.getTextField('Triglycerides').setText(tri);
+                form.getTextField('Cholesterol_HDL').setText(hdl);
+                form.getTextField('Cholesterol_LDL').setText(ldl);
+                form.getTextField('VLDL').setText(vldl);
+                form.getTextField('BUN').setText(bun);
+                form.getTextField('SGPT').setText(sgpt);
+                form.getTextField('SGOT').setText(sgot);
+                form.getTextField('HBA1C').setText(hba1c);
+        
+                // Flatten the form to make fields non-editable and set appearances
+                form.flatten();
+        
+                // Save the filled and flattened PDF
+                const pdfBytes = await pdfDoc.save();
+        
+                // Set response to download the generated PDF
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `inline; filename=Result_test.pdf`);
+                res.send(Buffer.from(pdfBytes));
+        
+                console.log('PDF generated successfully');  // Log successful generation
+            } catch (error) {
+                console.log('Error generating PDF:', error);  // Log any errors
+                res.status(500).send('Error generating PDF');
+            }
     });
 }
 
