@@ -173,7 +173,7 @@ $(document).ready(function() {
       }
       
       let test = categoryTests[category].join(', ');
-      window.location.href = `/add-patientrequest?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}`;
+      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}`;
     });
   }
   

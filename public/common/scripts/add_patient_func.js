@@ -54,7 +54,7 @@ function confirmPatientReg() {
 
         $.ajax({
             type: "POST",
-            url: "/addpatient-duplicate",
+            url: "/add-patient-duplicate",
             data: 
             {
                 patient_name: patient_name,
