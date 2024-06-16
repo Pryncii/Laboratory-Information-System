@@ -285,7 +285,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','Hematology');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Clinical Microscopy") {
@@ -544,7 +544,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','Chemistry');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Serology") {
@@ -857,10 +857,6 @@ function showClinicalMicroscopy(requestID) {
     $(`#${requestID}-content`).html(content);
 }
 
-function saveFields(requestID){
-
-}
-
 function saveChanges(requestID, category){
     let data = [];
     if(category === "Hematology") {
@@ -967,7 +963,120 @@ function saveChanges(requestID, category){
     });//fn+post
 }
 
-function showPDFModal() {
-    const modal = document.getElementById('pdfModal');
-    modal.style.display = "block";
+async function generatePDF(requestID, category) {
+    let data = [];
+
+    if (category === "Hematology") {
+        category = "hematology";
+        let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
+        ? $("#" + requestID + "-platelet").val() 
+        : "";
+
+        data.push({
+        hemo: $("#" + requestID + "-hemoglobin").val(),
+        hema: $("#" + requestID + "-hematocrit").val(),
+        rbc: $("#" + requestID + "-rbc-count").val(),
+        wbc: $("#" + requestID + "-wbc-count").val(),
+        neut: $("#" + requestID + "-neutrophil").val(),
+        lymp: $("#" + requestID + "-lymphocyte").val(),
+        mono: $("#" + requestID + "-monocyte").val(),
+        eosi: $("#" + requestID + "-eosinophil").val(),
+        baso: $("#" + requestID + "-basophil").val(),
+        pltc: pltc
+        });
+    } else if (category === "Clinical Microscopy") {
+        category = "clinical-microscopy";
+        if($(`#${requestID}-urinalysis-btn`).prop('checked')){
+            data.push({
+                clr: $("#" + requestID + "-urinalysis-color").val(),
+                trans: $("#" + requestID + "-transparency").val(),
+                ph: $("#" + requestID + "-ph").val(),
+                spgrav: $("#" + requestID + "-specific-gravity").val(),
+                sug: $("#" + requestID + "-sugar").val(),
+                pro: $("#" + requestID + "-protein").val(),
+                pus: $("#" + requestID + "-pus").val(),
+                rbc: $("#" + requestID + "-rbc").val(),
+                bac: $("#" + requestID + "-urinalysis-bacteria").val(),
+                epi: $("#" + requestID + "-epithelial-cells").val(),
+                muc: $("#" + requestID + "-mucus-thread").val()
+            });
+        }
+        else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
+            category = "clinical-microscopy";
+            data.push({
+                clr: $("#" + requestID + "-fecalysis-color").val(),
+                cons: $("#" + requestID + "-consistency").val(),
+                wbc: $("#" + requestID + "-wbc").val(),
+                rbc: $("#" + requestID + "-rbc").val(),
+                ovapar: $("#" + requestID + "-ova-parasite").val(),
+                fat: $("#" + requestID + "-fat-globule").val(),
+                bile: $("#" + requestID + "-bile-crystal").val(),
+                veg: $("#" + requestID + "-vegetable-fiber").val(),
+                meat: $("#" + requestID + "-meat-fiber").val(),
+                pus: $("#" + requestID + "-pus-cells").val(),
+                eryth: $("#" + requestID + "-erythrocyte").val(),
+                yeast: $("#" + requestID + "-yeast-cell").val(),
+                bac: $("#" + requestID + "-fecalysis-bacteria").val()
+            });
+        }
+    } else if (category === "Chemistry") {
+        category = "chemistry";
+        data.push({
+            fbs: $("#" + requestID + "-fbs").val(),
+            crt: $("#" + requestID + "-creatinine").val(),
+            uric: $("#" + requestID + "-uric-acid").val(),
+            chol: $("#" + requestID + "-cholesterol").val(),
+            tri: $("#" + requestID + "-triglycerides").val(),
+            hdl: $("#" + requestID + "-hdl").val(),
+            ldl: $("#" + requestID + "-ldl").val(),
+            vldl: $("#" + requestID + "-vldl").val(),
+            bun: $("#" + requestID + "-bun").val(),
+            sgpt: $("#" + requestID + "-sgpt").val(),
+            sgot: $("#" + requestID + "-sgot").val(),
+            hba1c: $("#" + requestID + "-hba1c").val()
+        });
+    } else if (category === "Serology") {
+        category = "serology";
+        data.push({
+            hbsag: $("#" + requestID + "-hbsag").val(),
+            rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
+            preg: $("#" + requestID + "-pregnancy-test").val(),
+            dengN: $("#" + requestID + "-dengue-ns1").val(),
+            dengD: $("#" + requestID + "-dengue-duo").val()
+        });
+    }
+
+    const response = await fetch('/generate-pdf-' + category, {
+        method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // Display the PDF in the iframe
+        const pdfFrame = document.getElementById('pdfFrame');
+        pdfFrame.src = url;
+
+        // Show the modal
+        const modal = document.getElementById('pdfModal');
+        modal.style.display = 'block';
+
+        // Enable the download button
+        const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Result_${data.lastName}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            };
+        } else {
+            console.error('Failed to generate PDF');
+        }
 }
