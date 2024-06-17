@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $("#search-btn").click(function(){
       $.post(
-        "search-Patients",
+        "search-patients",
         {
             name: $("#sortName-btn").text(),
             date: $("#sortDate-btn").text(),
@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     $("#sortName-btn").click(function(){
       $.post(
-        "sort-Patients",
+        "sort-patients",
         {
             name: $("#sortName-btn").text(),
             hasSearched: $("#hidden-search").val(),
@@ -69,7 +69,7 @@ $(document).ready(function(){
 
     $("#sortDate-btn").click(function(){
       $.post(
-        "sort-Patients",
+        "sort-patients",
         {
             date: $("#sortDate-btn").text(),
             hasSearched: $("#hidden-search").val(),
@@ -103,7 +103,7 @@ $(document).ready(function(){
 
     $("#reset-btn").click(function(){
         $.post(
-          "reset-Page",
+          "reset-page",
           {
 
           },
@@ -116,6 +116,7 @@ $(document).ready(function(){
                 $("#hidden-search").val("false");
                 $("#hidden-chosenSort").val("D");
                 $("#pageNumber").html("<h5> Page " + data.start + " of " + data.end + "</h5>");
+                $("#search-field").val("");
                 let pageData = data.pageData;
                 let table = document.getElementById("pageData");
                 table.innerHTML = "";
@@ -137,7 +138,7 @@ $(document).ready(function(){
 
     $("#back-btn").click(function(){
       $.post(
-        "move-Page",
+        "move-page",
         {
             name: $("#sortName-btn").text(),
             date: $("#sortDate-btn").text(),
@@ -173,7 +174,7 @@ $(document).ready(function(){
 
     $("#next-btn").click(function(){
       $.post(
-        "move-Page",
+        "move-page",
         {
             name: $("#sortName-btn").text(),
             date: $("#sortDate-btn").text(),

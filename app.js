@@ -16,11 +16,22 @@ server.use(express.static('public'));
 
 //This part of the code will load the controllers that will interact
 //with the rest of the system.
-const controllers = ['routes'];
-for(var i=0; i<controllers.length; i++){
-  const model = require('./controllers/'+controllers[i]);
+const controllers = [
+  'add_patient_route',
+  'login_register_route',
+  'main_route',
+  'patient_request_route',
+  'view_patients_route'
+];
+
+controllers.forEach(controller => {
+  const model = require('./controllers/' + controller);
   model.add(server);
-}
+});
+
+server.get("/", function (req, resp) {
+  resp.redirect("/login");
+}); 
 
 const port = process.env.PORT | 9090;
 server.listen(port, function(){
