@@ -1406,45 +1406,70 @@ function add(server) {
     });
     server.post('/generate-pdf-clinical-microscopy', async (req, res) => {
         const [{
-            clr,
+            clr_urine,
             trans, 
             ph,
             spgrav,
             sug,
             pro,
-            pus,
-            rbc,
-            bac,
+            pus_urine,
+            rbc_urine,
+            bac_urine,
             epi,
-            muc
+            muc,
+            clr_fecal,
+            consistency,
+            pus_fecal,
+            rbc_fecal,
+            ova,
+            fatGlob,
+            bileCrystal,
+            vegetableFiber,
+            meatFiber,
+            erythrocyte,
+            yeast,
+            bac_fecal
         }] = req.body;
 
-            console.log('Received data:', req.body);  // Log the received data
+        console.log('Received data:', req.body);  // Log the received data
 
-            try {
-                const pdfDoc = await PDFDocument.load(await readFile('ClinicalMicroscopyTemplate.pdf'));
-                const form = pdfDoc.getForm();
-                const fields = form.getFields();
+        try {
+            const pdfDoc = await PDFDocument.load(await readFile('ClinicalMicroscopyTemplate.pdf'));
+            const form = pdfDoc.getForm();
+            const fields = form.getFields();
         
-                // Define the Times New Roman font
-                const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-                console.log(fields.map(field => field.getName())); 
-                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-                fields.forEach(field => {
-                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-                });
-    
-                // Set values for specific fields by their names
-                form.getTextField('Color').setText(clr);
-                form.getTextField('Hematocrit').setText(hema);
-                form.getTextField('RBC Count').setText(rbc);
-                form.getTextField('WBC Count').setText(wbc);
-                form.getTextField('Neutrophil').setText(neut);
-                form.getTextField('Lymphocyte').setText(lymp);
-                form.getTextField('Eosinophil').setText(eosi);
-                form.getTextField('Basophil').setText(baso);
-                form.getTextField('Monocyte').setText(mono);
-                form.getTextField('Platelet Count').setText(pltc);
+            // Define the Times New Roman font
+            const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+            console.log(fields.map(field => field.getName())); 
+            // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+            fields.forEach(field => {
+                field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+            });
+        
+            // Set values for specific fields by their names
+            form.getTextField('Color_Urinal').setText(clr_urine);
+            form.getTextField('Transparency').setText(trans);
+            form.getTextField('pH').setText(ph);
+            form.getTextField('Specific_Gravity').setText(spgrav);
+            form.getTextField('Sugar').setText(sug);
+            form.getTextField('Protein').setText(pro);
+            form.getTextField('Pus_Urinal').setText(pus_urine);
+            form.getTextField('RBC_Urinal').setText(rbc_urine);
+            form.getTextField('Bacteria_Urinal').setText(bac_urine);
+            form.getTextField('Epithelial_Cells').setText(epi);
+            form.getTextField('Mucus_Thread').setText(muc);
+            form.getTextField('Color_Fecal').setText(clr_fecal);
+            form.getTextField('Consistency').setText(consistency);
+            form.getTextField('Pus_Fecal').setText(pus_fecal);
+            form.getTextField('RBC_Fecal').setText(rbc_fecal);
+            form.getTextField('Ova').setText(ova);
+            form.getTextField('Fat_Globule').setText(fatGlob);
+            form.getTextField('Bile_Crystal').setText(bileCrystal);
+            form.getTextField('Vegetable_Fiber').setText(vegetableFiber);
+            form.getTextField('Meat_Fiber').setText(meatFiber);
+            form.getTextField('Erythrocyte').setText(erythrocyte);
+            form.getTextField('Yeast_Cells').setText(yeast);
+            form.getTextField('Bacteria_Fecal').setText(bac_fecal);
     
         
                 // Flatten the form to make fields non-editable and set appearances
@@ -1527,6 +1552,60 @@ function add(server) {
             }
     });
 }
+
+server.post('/generate-pdf-serology', async (req, res) => {
+    const [{
+        hbsAg,
+        urine,
+        RPR,
+        dengueNs1,
+        serum,
+        duo
+    }] = req.body;
+
+        console.log('Received data:', req.body);  // Log the received data
+
+        try {
+            const pdfDoc = await PDFDocument.load(await readFile('SerologyTemplate.pdf'));
+            const form = pdfDoc.getForm();
+            const fields = form.getFields();
+    
+            // Define the Times New Roman font
+            const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+            console.log(fields.map(field => field.getName())); 
+            // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+            fields.forEach(field => {
+                field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+            });
+
+            // Set values for specific fields by their names
+            form.getTextField('HbsAg').setText(hbsAg);
+            form.getTextField('Urine').setText(urine);
+            form.getTextField('RPR').setText(RPR);
+            form.getTextField('NS1').setText(dengueNs1);
+            form.getTextField('Serum').setText(serum);
+            form.getTextField('Duo').setText(duo);
+
+
+    
+            // Flatten the form to make fields non-editable and set appearances
+            form.flatten();
+    
+            // Save the filled and flattened PDF
+            const pdfBytes = await pdfDoc.save();
+    
+            // Set response to download the generated PDF
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `inline; filename=Result_test.pdf`);
+            res.send(Buffer.from(pdfBytes));
+    
+            console.log('PDF generated successfully');  // Log successful generation
+        } catch (error) {
+            console.log('Error generating PDF:', error);  // Log any errors
+            res.status(500).send('Error generating PDF');
+        }
+});
+
 
 module.exports.add = add;
 
