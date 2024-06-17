@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --primary-bg-color: #A1B1C7;
+    --primary-border-color: #4A6BA1;
+    --primary-text-color: #0D1D58;
+    --secondary-bg-color: #DDDFE3;
+    --button-bg-color: #0D1D58;
+    --button-hover-bg-color: #4A6BA1;
+    --button-text-color: #FFF8F3;
+    --overlay-bg-color: rgba(0, 0, 0, 0.4);
+    --modal-bg-color: #fefefe;
+    --modal-border-color: #4A6BA1;
+    --close-btn-color: #000;
+    --close-btn-hover-color: #000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
 .modalPDF {
     display: none;
     position: fixed;
@@ -7,29 +31,87 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--overlay-bg-color);
 }
 
 .modal-content-pdf {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: var(--modal-bg-color);
+    margin: 2.5% auto; /* Reduced from 15% to 10% to raise the modal */
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--modal-border-color);
     width: 80%;
-    max-width: 800px;
+    max-width: 900px;
+    height: 90%; /* Increase the height by 20% (originally 50% of viewport height) */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Make sure the close button is positioned relative to the modal */
 }
 
 .close-pdf {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: none;
+    color: var(--close-btn-color);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+}
+
+.close-pdf::before {
+    content: '\00D7'; /* Unicode for multiplication sign (×) */
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .close-pdf:hover,
 .close-pdf:focus {
-    color: black;
+    color: var(--close-btn-hover-color);
     text-decoration: none;
+    opacity: 1;
+}
+
+.close-pdf:focus {
+    outline: none;
+}
+
+.modal-title {
+    font-size: 20px; /* Reduced font size */
+    color: var(--primary-text-color);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#downloadBtn {
+    width: 50%;
+    margin: 10px;
+    padding: 10px;
+    font-size: larger;
+    background-color: var(--button-bg-color);
+    border-radius: 10px;
+    color: var(--button-text-color);
+    border: none;
     cursor: pointer;
+}
+
+#downloadBtn:hover {
+    background-color: var(--button-hover-bg-color);
+}
+
+#pdfFrame {
+    flex: 1; /* This will make the iframe take up the remaining space in the modal */
+    width: 100%;
 }

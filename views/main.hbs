@@ -246,12 +246,13 @@
         </div>
     </div>
     {{/each}}
-        <div id="pdfModal" class="modalPDF">
-        <div class="modal-content-pdf">
-            <span class="close-pdf">&times;</span>
-            <h2>Generated PDF</h2>
-            <iframe id="pdfFrame" style="width:100%; height:500px;"></iframe>
-            <button id="downloadBtn">Download PDF</button>
+ <div id="pdfModal" class="modalPDF">
+    <div class="modal-content-pdf">
+        <button type="button" class="close-pdf" aria-label="Close"></button>
+        <h2 class="modal-title">Generated PDF</h2>
+        <iframe id="pdfFrame" style="width:100%; height:500px;"></iframe>
+        <div class="btn-container">
+            <button id="downloadBtn" class="reg-btn">Download PDF</button>
         </div>
     </div>
     </div>

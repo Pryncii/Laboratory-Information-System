@@ -1422,7 +1422,7 @@ function add(server) {
             console.log('Received data:', req.body);  // Log the received data
 
             try {
-                const pdfDoc = await PDFDocument.load(await readFile('Clinical-Microscopy-Template.pdf'));
+                const pdfDoc = await PDFDocument.load(await readFile('ClinicalMicroscopyTemplate.pdf'));
                 const form = pdfDoc.getForm();
                 const fields = form.getFields();
         
@@ -1435,7 +1435,7 @@ function add(server) {
                 });
     
                 // Set values for specific fields by their names
-                form.getTextField('Hemoglobin').setText(hemo);
+                form.getTextField('Color').setText(clr);
                 form.getTextField('Hematocrit').setText(hema);
                 form.getTextField('RBC Count').setText(rbc);
                 form.getTextField('WBC Count').setText(wbc);
