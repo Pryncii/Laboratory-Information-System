@@ -285,7 +285,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','Hematology');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Clinical Microscopy") {
@@ -384,7 +384,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Chemistry") {
@@ -544,7 +544,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','Chemistry');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Serology") {
@@ -596,7 +596,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="showPDFModal();">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
                 </div>
             `;
     }
