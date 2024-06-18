@@ -1,3 +1,5 @@
+const { Query } = require("mongoose");
+
 document.addEventListener("DOMContentLoaded", function () {
     let statusSelect = document.getElementById("editstatus");
     let startDateGroup = document.getElementById("start-date-group");
@@ -81,23 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
         requestId.textContent = requestID;
         remarksTextarea.placeholder = remarks;
     });
-
-    document.querySelector(".close-pdf").onclick = function () {
-        const modal = document.getElementById("pdfModal");
-        modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        const modal = document.getElementById("pdfModal");
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    document.getElementById('pdfModal').onclick = function () {
-        const modal = document.getElementById("pdfModla");
-        modal.style.display = "block";
-    }
 });
 
 function flag(parameter, value, gender) {
@@ -1066,12 +1051,22 @@ async function generatePDF(requestID, category) {
         const modal = document.getElementById('pdfModal');
         modal.style.display = 'block';
 
+        document.querySelector(".close-pdf").onclick = function () {
+            const modal = document.getElementById("pdfModal");
+            modal.style.display = "none";
+        };
+    
+        document.getElementById('pdfModal').onclick = function () {
+            const modal = document.getElementById("pdfModal");
+            modal.style.display = "none";
+        }
+
         // Enable the download button
         const downloadBtn = document.getElementById('downloadBtn');
             downloadBtn.onclick = () => {
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Result_${data.lastName}.pdf`;
+                a.download = `Result_${requestID}.pdf`;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();

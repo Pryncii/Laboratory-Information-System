@@ -1375,7 +1375,7 @@ function add(server) {
                 });
     
                 // Set values for specific fields by their names
-                form.getTextField('Hemoglobin').setText(hemo);
+               form.getTextField('Hemoglobin').setText(hemo);
                 form.getTextField('Hematocrit').setText(hema);
                 form.getTextField('RBC Count').setText(rbc);
                 form.getTextField('WBC Count').setText(wbc);
