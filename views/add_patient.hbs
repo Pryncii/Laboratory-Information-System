@@ -34,38 +34,33 @@
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                         </select>
-                        <div class="agebday-notmatch">
-                            <br>
-                        </div>
                     </th>
                     <th class="item-container">
                         <input class="input-item form-control" type="date" id="bday" name="bday">
-                        <div class="agebday-notmatch">
-                            Birthday does not match with age.
-                        </div>
                     </th>
                     <th class="item-container">
                         <input class="input-item form-control" type="number" id="age" name="age" min="0" required>
-                        <div class="agebday-notmatch">
-                            Age does not match with birthday.
-                        </div>
                     </th>
                 </tr>
             </table>
             <table class="reg-items">
                 <tr>
-                    <th class="item-label two-col"><h5>Phone Number</h5></th>
-                    <th class="item-label two-col"><h5>Email</h5></th>
+                    <th class="item-label"><h5>Phone Number</h5></th>
+                    <th class="item-label"><h5>Email</h5></th>
+                    <th class="item-label"><span class="checkbox-flex"><input class="form-check-input checkbox-item" type="checkbox" value="PWD" id="PWD"><h5>PWD ID</h5></span></th>
+                    <th class="item-label"><span class="checkbox-flex"><input class="form-check-input checkbox-item" type="checkbox" value="Senior" id="Senior"><h5>Senior ID</h5></span></th>
                 </tr>
                 <tr>
                     <th class="item-container"><input class="input-item form-control" type="text" id="pnum" name="pnum"></th>
                     <th class="item-container"><input class="input-item form-control" type="text" id="email" name="email" placeholder="username@bioscopic.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></th>
+                    <th class="item-container"><input class="input-item form-control" type="text" id="pwd" name="pwd" placeholder="PWD ID No." disabled></th>
+                    <th class="item-container"><input class="input-item form-control" type="text" id="senior" name="senior" placeholder="Senior ID No." disabled></th>
                 </tr>
                 <tr>
                     <th class="item-label"><h5>Address</h5></th>
                 </tr>
                 <tr>
-                    <th class="item-container" colspan="2"><input class="input-item form-control" type="text" id="address" name="address"></th>
+                    <th class="item-container" colspan="4"><input class="input-item form-control" type="text" id="address" name="address"></th>
                 </tr>
             </table>
             <div class="btn-container" colspan="2"><input class="reg-btn btn btn-primary btn-lg" type="submit" value="REGISTER"></div>

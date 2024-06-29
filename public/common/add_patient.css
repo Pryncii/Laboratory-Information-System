@@ -27,9 +27,5 @@ body { background-color: #FFF8F3 !important; }
     padding: 15px;
 }
 
-.agebday-notmatch {
-    color: red;
-    font-weight: lighter;
-    margin-top: 5px;
-    display: none;
-}
+.checkbox-flex { display: flex; }
+.checkbox-item { margin-right: 10px; }

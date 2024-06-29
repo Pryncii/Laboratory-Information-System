@@ -27,6 +27,8 @@ const patientSchema = new mongoose.Schema(
         age: { type: Number },
         phoneNo: { type: String },
         email: { type: String },
+        pwdID: { type: Number },
+        seniorID: { type: Number },
         address: { type: String },
         remarks: { type: String },
     },

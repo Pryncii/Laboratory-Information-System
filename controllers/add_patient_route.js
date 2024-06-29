@@ -52,6 +52,8 @@ function add(router) {
                     age: helper.setDefaultNo(req.body.age),
                     phoneNo: helper.setDefault(req.body.pnum),
                     email: helper.setDefault(req.body.email),
+                    pwdID: helper.setDefaultNo(req.body.pwd),
+                    seniorID: helper.setDefaultNo(req.body.senior),
                     address: helper.setDefault(req.body.address),
                     remarks: "",
                 });

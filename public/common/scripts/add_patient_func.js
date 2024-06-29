@@ -82,4 +82,20 @@ function confirmPatientReg() {
 $(document).ready(function(){
     $('#bday').on('change', checkAgeToBday);
     $('#age').on('change', checkAgeToBday);
+    
+    function toggleInputs() {
+        if ($('#PWD').is(':checked')) {
+            $('#pwd').prop('disabled', false);
+        } else {
+            $('#pwd').prop('disabled', true);
+        }
+
+        if ($('#Senior').is(':checked')) {
+            $('#senior').prop('disabled', false);
+        } else {
+            $('#senior').prop('disabled', true);
+        }
+    }
+    
+    $('#PWD, #Senior').on('change', toggleInputs);
 });//doc

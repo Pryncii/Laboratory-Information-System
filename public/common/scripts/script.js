@@ -22,7 +22,7 @@ function startTime() {
   month = checkTime(month);
 
   const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const formattedDateTime = weekdays[weekday] + ", " + day + "/" + month + "/" + year + " " + h + ":" + m + ":" + s + " " + ampm;
+  const formattedDateTime = weekdays[weekday] + ", " + month + "/" + day + "/" + year + " " + h + ":" + m + ":" + s + " " + ampm;
   document.getElementById('time').innerHTML = formattedDateTime;
   
   setTimeout(startTime, 1000);
