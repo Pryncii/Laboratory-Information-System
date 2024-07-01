@@ -8,7 +8,8 @@
         "status": "Requested",
         "dateStart": { "$date": "2023-09-25T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": "Making good progress with his blood pressure"
+        "remarks": "Making good progress with his blood pressure",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1001,
@@ -19,7 +20,8 @@
         "status": "In Progress",
         "dateStart": { "$date": "2023-09-26T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1002,
@@ -30,7 +32,8 @@
         "status": "Completed",
         "dateStart": { "$date": "2023-09-27T00:00:00.000Z" },
         "dateEnd": { "$date": "2023-09-28T00:00:00.000Z" },
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1003,
@@ -41,7 +44,8 @@
         "status": "Requested",
         "dateStart": { "$date": "2023-09-29T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1004,
@@ -52,7 +56,8 @@
         "status": "In Progress",
         "dateStart": { "$date": "2023-09-30T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1005,
@@ -63,7 +68,8 @@
         "status": "Completed",
         "dateStart": { "$date": "2023-10-01T00:00:00.000Z" },
         "dateEnd": { "$date": "2023-10-02T00:00:00.000Z" },
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1006,
@@ -74,7 +80,8 @@
         "status": "Requested",
         "dateStart": { "$date": "2023-10-03T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1007,
@@ -85,7 +92,8 @@
         "status": "In Progress",
         "dateStart": { "$date": "2023-10-04T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1008,
@@ -96,7 +104,8 @@
         "status": "Completed",
         "dateStart": { "$date": "2023-10-05T00:00:00.000Z" },
         "dateEnd": { "$date": "2023-10-06T00:00:00.000Z" },
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     },
     {
         "requestID": 1009,
@@ -107,6 +116,7 @@
         "status": "Requested",
         "dateStart": { "$date": "2023-10-07T00:00:00.000Z" },
         "dateEnd": "N/A",
-        "remarks": ""
+        "remarks": "",
+        "payStatus": "Unpaid"
     }
 ]

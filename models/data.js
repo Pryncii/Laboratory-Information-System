@@ -48,6 +48,7 @@ const requestSchema = new mongoose.Schema(
         dateStart: { type: Date },
         dateEnd: { type: Date },
         remarks: { type: String },
+        payStatus: { type: String }
     },
     { versionKey: false }
 );
