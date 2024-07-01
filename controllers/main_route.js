@@ -387,8 +387,8 @@ function add(router) {
                 requestID: requestID,
                 hbsAg: data.hbsag,
                 rprVdrl: data.rprvdrl,
-                pregnancyTestSerum: data.preg,
-                pregnancyTestUrine: data.preg,
+                pregnancyTestSerum: data.pregs,
+                pregnancyTestUrine: data.pregu,
                 dengueNs1: data.dengN,
                 dengueDuo: data.dengD,
             };

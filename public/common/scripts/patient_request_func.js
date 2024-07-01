@@ -141,7 +141,8 @@ $(document).ready(function() {
       categoryTests[category] = [];
     });
   
-    categories.forEach(function(category) {
+    categories.forEach(function(category, index) {
+      setTimeout(function() {
       if (category == "Hematology") {
           if ($('#H-1:checked').length && $('#H-2:checked').length) {
             categoryTests[category].push('CBC with Platelet Count');
@@ -183,8 +184,8 @@ $(document).ready(function() {
       }
       
       let test = categoryTests[category].join(', ');
-
-      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}&payStatus=${payStatus}`;
+      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}`;
+    },  index * 100)
     });
   }
   
