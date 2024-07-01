@@ -565,18 +565,24 @@ function generateTemplate(requestID, category) {
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-pregnancy-test" name="pregnancy-test" placeholder=""> 
-                            <label for="pregnancy-test">Pregnancy Test (UA/SERUM)</label>
+                            <input type="text" class="form-control text-center" id="${requestID}-pregnancy-test-serum" name="pregnancy-test-serum" placeholder=""> 
+                            <label for="pregnancy-test">Pregnancy Test (SERUM)</label>
                         </div>
                     </td>
+                    <td>
+                        <div class="form-floating m-2">
+                            <input type="text" class="form-control text-center" id="${requestID}-pregnancy-test-urine" name="pregnancy-test-urine" placeholder=""> 
+                            <label for="pregnancy-test">Pregnancy Test (UA)</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <div class="form-floating m-2">
                             <input type="text" class="form-control text-center" id="${requestID}-dengue-ns1" name="dengue-ns1" placeholder="">
                             <label for="dengue-ns1">DENGUE NS1</label>
                         </div>
                     </td>
-                </tr>
-                <tr>
                     <td>
                         <div class="form-floating m-2">
                             <input type="text" class="form-control text-center" id="${requestID}-dengue-duo" name="dengue-duo" placeholder="">
@@ -932,7 +938,8 @@ function saveChanges(requestID, category){
         data.push({
             hbsag: $("#" + requestID + "-hbsag").val(),
             rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-            preg: $("#" + requestID + "-pregnancy-test").val(),
+            pregs: $("#" + requestID + "-pregnancy-test-serum").val(),
+            pregu: $("#" + requestID + "-pregnancy-test-urine").val(),
             dengN: $("#" + requestID + "-dengue-ns1").val(),
             dengD: $("#" + requestID + "-dengue-duo").val(),
         });
