@@ -6,10 +6,16 @@ body { background-color: #FFF8F3 !important; }
 table { table-layout: fixed; }
 .item-label, .item-container, .page-container { padding: 10px; }
 .number { width: 4%; }
-.remarks, .input-item { width: 25%; }
+.remarks { width: 20%; }
+.input-item { width: 25%; }
 .adv-item { border: 1px solid #0D1D58; }
 .row { margin: 7px; }
 .adv-icon { margin: 0px 7px 0px 7px; }
+
+.id-item {
+    width: 7% !important;
+    text-align: center;
+}
 
 .date, .status {
     width: 10%;

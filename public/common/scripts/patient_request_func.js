@@ -33,6 +33,16 @@ $(document).ready(function() {
         $('#H-2').prop('disabled', true).prop('checked', false);
       }
     });
+
+    $('#wPayment').click(function() {
+        payStatus = "Paid";
+        addRequest(payStatus);
+    });
+
+    $('#woPayment').click(function() {
+        payStatus = "Unpaid";
+        addRequest(payStatus);
+    });
   });
   
   function confirmPatientRequest() {
@@ -101,7 +111,7 @@ $(document).ready(function() {
     $('#confirmModal').modal('hide');
   }
   
-  function addRequest() {
+  function addRequest(payStatus) {
     let patientID, medtechID;
   
     var selectedName = $("#selectPatient").val();
@@ -173,7 +183,8 @@ $(document).ready(function() {
       }
       
       let test = categoryTests[category].join(', ');
-      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}`;
+
+      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}&payStatus=${payStatus}`;
     });
   }
   

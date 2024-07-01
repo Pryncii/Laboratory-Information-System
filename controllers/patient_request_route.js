@@ -85,6 +85,7 @@ function add(router) {
         let dateStart = new Date(new Date().getTime() + (8 * 60 * 60 * 1000));
         let dateEnd = null;
         let remarks = "";
+        let payStatus = req.query.payStatus;
 
 
         // Based on the selected checkbox, add a test instance schema that
@@ -330,6 +331,7 @@ function add(router) {
                 dateStart: dateStart,
                 dateEnd: dateEnd,
                 remarks: remarks,
+                payStatus: payStatus
             });
             requestInstance.save().then(async function () {
                 resp.redirect("/main/1");

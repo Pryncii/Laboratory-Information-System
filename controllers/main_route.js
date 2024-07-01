@@ -167,6 +167,7 @@ function add(router) {
                                 : "",
                             remarks: item.remarks,
                             barColor: statusColor,
+                            payStatus: item.payStatus
                         });
                         flagStatus = "";
 
