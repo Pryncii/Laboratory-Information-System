@@ -143,49 +143,50 @@ $(document).ready(function() {
   
     categories.forEach(function(category, index) {
       setTimeout(function() {
-      if (category == "Hematology") {
-          if ($('#H-1:checked').length && $('#H-2:checked').length) {
-            categoryTests[category].push('CBC with Platelet Count');
-          } else if ($('#H-1:checked').length) { categoryTests[category].push('CBC'); }
-          if ($('#H-3:checked').length) { categoryTests[category].push('ESR'); }
-          if ($('#H-4:checked').length) { categoryTests[category].push('Blood Type with Rh'); }
-          if ($('#H-5:checked').length) { categoryTests[category].push('Clotting Time'); }
-          if ($('#H-6:checked').length) { categoryTests[category].push('Bleeding Time'); }
-      }
-  
-      if (category == "Clinical Microscopy") {
-        if ($('#CM-1:checked').length) { categoryTests[category].push('Urinalysis'); }
-        if ($('#CM-2:checked').length) { categoryTests[category].push('Fecalysis'); }
-        if ($('#CM-3:checked').length) { categoryTests[category].push('FOBT'); }
-      }
-  
-      if (category == "Chemistry") {
-        if ($('#C-1:checked').length) { categoryTests[category].push('FBS'); }
-        if ($('#C-2:checked').length) { categoryTests[category].push('Creatinine'); }
-        if ($('#C-3:checked').length) { categoryTests[category].push('Uric Acid'); }
-        if ($('#C-4:checked').length) { categoryTests[category].push('Cholesterol'); }
-        if ($('#C-5:checked').length) { categoryTests[category].push('Triglycerides'); }
-        if ($('#C-6:checked').length) { categoryTests[category].push('HDL'); }
-        if ($('#C-7:checked').length) { categoryTests[category].push('LDL'); }
-        if ($('#C-8:checked').length) { categoryTests[category].push('VLDL'); }
-        if ($('#C-9:checked').length) { categoryTests[category].push('BUN'); }
-        if ($('#C-10:checked').length) { categoryTests[category].push('SGPT'); }
-        if ($('#C-11:checked').length) { categoryTests[category].push('SGOT'); }
-        if ($('#C-12:checked').length) { categoryTests[category].push('HbA1c'); }
-      }
-  
-      if (category == "Serology") {
-        if ($('#S-1:checked').length) { categoryTests[category].push('HbsAg'); }
-        if ($('#S-2:checked').length) { categoryTests[category].push('RPR/VDRL'); }
-        if ($('#S-3:checked').length) { categoryTests[category].push('Serum Pregnancy Test'); }
-        if ($('#S-4:checked').length) { categoryTests[category].push('Urine Pregnancy Test'); }
-        if ($('#S-5:checked').length) { categoryTests[category].push('Dengue NS1'); }
-        if ($('#S-6:checked').length) { categoryTests[category].push('Dengue Duo'); }
-      }
-      
-      let test = categoryTests[category].join(', ');
-      window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}`;
-    },  index * 100)
+        if (category == "Hematology") {
+            if ($('#H-1:checked').length && $('#H-2:checked').length) {
+              categoryTests[category].push('CBC with Platelet Count');
+            } else if ($('#H-1:checked').length) { categoryTests[category].push('CBC'); }
+            if ($('#H-3:checked').length) { categoryTests[category].push('ESR'); }
+            if ($('#H-4:checked').length) { categoryTests[category].push('Blood Type with Rh'); }
+            if ($('#H-5:checked').length) { categoryTests[category].push('Clotting Time'); }
+            if ($('#H-6:checked').length) { categoryTests[category].push('Bleeding Time'); }
+        }
+    
+        if (category == "Clinical Microscopy") {
+          if ($('#CM-1:checked').length) { categoryTests[category].push('Urinalysis'); }
+          if ($('#CM-2:checked').length) { categoryTests[category].push('Fecalysis'); }
+          if ($('#CM-3:checked').length) { categoryTests[category].push('FOBT'); }
+        }
+    
+        if (category == "Chemistry") {
+          if ($('#C-1:checked').length) { categoryTests[category].push('FBS'); }
+          if ($('#C-2:checked').length) { categoryTests[category].push('Creatinine'); }
+          if ($('#C-3:checked').length) { categoryTests[category].push('Uric Acid'); }
+          if ($('#C-4:checked').length) { categoryTests[category].push('Cholesterol'); }
+          if ($('#C-5:checked').length) { categoryTests[category].push('Triglycerides'); }
+          if ($('#C-6:checked').length) { categoryTests[category].push('HDL'); }
+          if ($('#C-7:checked').length) { categoryTests[category].push('LDL'); }
+          if ($('#C-8:checked').length) { categoryTests[category].push('VLDL'); }
+          if ($('#C-9:checked').length) { categoryTests[category].push('BUN'); }
+          if ($('#C-10:checked').length) { categoryTests[category].push('SGPT'); }
+          if ($('#C-11:checked').length) { categoryTests[category].push('SGOT'); }
+          if ($('#C-12:checked').length) { categoryTests[category].push('HbA1c'); }
+        }
+    
+        if (category == "Serology") {
+          if ($('#S-1:checked').length) { categoryTests[category].push('HbsAg'); }
+          if ($('#S-2:checked').length) { categoryTests[category].push('RPR/VDRL'); }
+          if ($('#S-3:checked').length) { categoryTests[category].push('Serum Pregnancy Test'); }
+          if ($('#S-4:checked').length) { categoryTests[category].push('Urine Pregnancy Test'); }
+          if ($('#S-5:checked').length) { categoryTests[category].push('Dengue NS1'); }
+          if ($('#S-6:checked').length) { categoryTests[category].push('Dengue Duo'); }
+        }
+        
+        let test = categoryTests[category].join(', ');
+
+        window.location.href = `/add-patient-request?patientID=${patientID}&medtechID=${medtechID}&category=${category}&test=${test}&payStatus=${payStatus}`;
+      },  index * 100)
     });
   }
   

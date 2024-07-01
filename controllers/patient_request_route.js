@@ -334,7 +334,9 @@ function add(router) {
                 payStatus: payStatus
             });
             requestInstance.save().then(async function () {
-                resp.redirect("/main/1");
+                setTimeout(function() {
+                    resp.redirect("/main/1");
+                }, 500);
             });
         });
     });

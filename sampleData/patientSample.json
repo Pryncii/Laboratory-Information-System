@@ -7,8 +7,8 @@
         "age": 20,
         "phoneNo": "09287092589",
         "email": "princebuencamino@gmail.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "122 Golden Hour, Penacony Dreamscape",
         "remarks": "Caffeine addict"
     },
@@ -20,8 +20,8 @@
         "age": 21,
         "phoneNo": "09171234567",
         "email": "maria.garcia@gmail.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "456 Sunrise St, Dreamville",
         "remarks": "Pending hematology test"
     },
@@ -33,8 +33,8 @@
         "age": 24,
         "phoneNo": "09081234567",
         "email": "juan.delacruz@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "789 Sunset Blvd, Newtown",
         "remarks": "Not yet paid"
     },
@@ -46,8 +46,8 @@
         "age": 22,
         "phoneNo": "09391234567",
         "email": "ana.reyes@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "1011 Moonlight Ave, Star City",
         "remarks": "lorem ipsum"
     },
@@ -59,8 +59,8 @@
         "age": 24,
         "phoneNo": "09201234567",
         "email": "miguel.santos@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "1213 Sunshine Rd, Happy Town",
         "remarks": "lorem ipsum"
     },
@@ -72,8 +72,8 @@
         "age": 23,
         "phoneNo": "09181234567",
         "email": "carla.villanueva@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "1415 Rainbow Dr, Magic City",
         "remarks": "lorem ipsum"
     },
@@ -85,8 +85,8 @@
         "age": 21,
         "phoneNo": "09161234567",
         "email": "luis.mendoza@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "1617 Cloud Nine St, Dreamland"
     },
     {
@@ -97,8 +97,8 @@
         "age": 26,
         "phoneNo": "09211234567",
         "email": "sofia.rivera@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "1819 Starry Lane, Comet Town"
     },
     {
@@ -109,8 +109,8 @@
         "age": 26,
         "phoneNo": "09381234567",
         "email": "marco.gonzales@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "2021 Lunar Way, Space City"
     },
     {
@@ -121,8 +121,8 @@
         "age": 21,
         "phoneNo": "09271234567",
         "email": "elena.ramos@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "2223 Stellar St, Galaxy Town"
     },
     {
@@ -133,8 +133,8 @@
         "age": 28,
         "phoneNo": "09151234567",
         "email": "daniel.torres@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "2425 Orbit Ave, Cosmos City"
     },
     {
@@ -145,8 +145,8 @@
         "age": 19,
         "phoneNo": "09291234567",
         "email": "clara.lopez@example.com",
-        "pwdID": -1,
-        "seniorID": -1,
+        "pwdID": "N/A",
+        "seniorID": "N/A",
         "address": "2627 Solar Rd, Universe Town"
     }
 
