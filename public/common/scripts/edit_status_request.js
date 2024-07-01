@@ -1,30 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let statusSelect = document.getElementById("editstatus");
-    let startDateGroup = document.getElementById("start-date-group");
-    let finishDateGroup = document.getElementById("finish-date-group");
-    let startDateInput = document.getElementById("start-date");
-    let finishDateInput = document.getElementById("finish-date");
+    let statusSelect = document.getElementById("edit-status");
+    let payStatusSelect = document.getElementById("payment-status");
     let reqIDval = document.getElementById("request-id");
-
-    startDateGroup.style.display = "none";
-    finishDateGroup.style.display = "none";
-
-    statusSelect.addEventListener("change", function () {
-        let currentDate = new Date().toISOString().split("T")[0];
-
-        if (statusSelect.value === "in_progress") {
-            startDateGroup.style.display = "block";
-            finishDateGroup.style.display = "none";
-            startDateInput.value = currentDate;
-        } else if (statusSelect.value === "completed") {
-            finishDateGroup.style.display = "block";
-            startDateGroup.style.display = "none";
-            finishDateInput.value = currentDate;
-        } else {
-            startDateGroup.style.display = "none";
-            finishDateGroup.style.display = "none";
-        }
-    });
 
     let form = document.getElementById("status-form");
     form.addEventListener("submit", function (event) {
@@ -33,8 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let formData = {
             requestID: parseInt(reqIDval.outerText),
             status: statusSelect.value,
-            startDate: startDateInput.value,
-            finishDate: finishDateInput.value,
+            payStatus: payStatusSelect.value,
             remarks: document.getElementById("remarks").value,
         };
 
@@ -67,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var patientName = button.closest("tr").dataset.patientName;
         var remarks = button.closest("tr").dataset.remarks;
         var requestID = button.closest("tr").dataset.requestId;
+        let reqStatus = button.closest("tr").dataset.status;
+        let payStatus = button.closest("tr").dataset.payStatus;
 
         // Populate the modal with the extracted data
         var modalTitle = statusModal.querySelector(".modal-title");
@@ -80,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
         patientId.textContent = "Patient ID: " + patientID;
         requestId.textContent = requestID;
         remarksTextarea.placeholder = remarks;
+        statusSelect.value = reqStatus;
+        payStatusSelect.value = payStatus;
     });
 
     document.querySelector(".close-pdf").onclick = function () {

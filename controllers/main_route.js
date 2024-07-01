@@ -410,17 +410,16 @@ function add(router) {
     });
 
     router.post("/update-status-request-db", function (req, resp) {
-        const { requestID, status, remarks } = req.body;
+        const { requestID, status, payStatus, remarks } = req.body;
         let dateEnd;
         let date = new Date();
-        console.log("====================" + date);
-
-
+        
         if (status === "Completed") dateEnd = new Date(date.getTime() + (8 * 60 * 60 * 1000));
 
         const updateValues = {
             $set: {
                 status: status,
+                payStatus: payStatus,
                 dateEnd: dateEnd,
                 remarks: remarks,
             },
