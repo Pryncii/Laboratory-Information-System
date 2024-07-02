@@ -1,5 +1,3 @@
-const { Query } = require("mongoose");
-
 document.addEventListener("DOMContentLoaded", function () {
     let statusSelect = document.getElementById("editstatus");
     let startDateGroup = document.getElementById("start-date-group");
