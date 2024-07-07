@@ -1,0 +1,103 @@
+body { background-color: #FFF8F3 !important; }
+.hundredspace, .patient-row, .patient-stuff, table, .test-items { width: 100%; }
+.fiftyspace { width: 50%; }
+.twentyfivespace { width: 25%; }
+.patient-stuff { height: 100%; }
+table { border-collapse: collapse; }
+table { table-layout: fixed; }
+.test-items { margin: 0px 0px 15px 0px; }
+
+.button-spacer { 
+    width: 70%;
+    text-align: center; 
+}
+
+.main-content, .patient-info, .test-info, .patient-stuff, .history-stuff {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.patient-info {
+    height: 295px;
+    border-bottom:1px solid #0D1D58;
+}
+
+.test-info {
+    height: 515px;
+}
+
+.label {
+    height: 75px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.label-text {
+    color: #0D1D58;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.fiftyspace, .hundredspace, .twentyfivespace{
+    color: #0D1D58;
+    font-size: 20px;
+    align-content: center;
+    padding: 10px;
+}
+
+.patient-row {
+    display: flex;
+    flex-direction: row;
+    height: 33%;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+}
+
+.item-label, .item-container, .proceed-button { 
+    font-family: "Inter"; 
+    padding: 10px; 
+}
+
+.item-label{ 
+    color: #0D1D58; 
+    border: 2px solid #FFF8F3 !important;
+    border-radius: 10px;
+    background-color: #0D1D58 !important;
+    color: #FFF8F3;
+    text-align: center;
+}
+
+.item-container {
+    border: 2px solid #FFF8F3;
+    border-radius: 10px;
+    background-color: #DDDFE3;
+}
+
+.proceed-button
+{
+    width: 15%;
+    height: 100%;
+    background-color: #0D1D58;
+    color: #FFF8F3;
+    border: #0D1D58;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.proceed-button:hover {
+    background-color: #4A6BA1;
+    color: #FFF8F3;
+}
+
+.input-item {
+    background-color: #DDDFE3;
+    border-radius: 5px;
+    border-width: 0px;
+    padding-left: 10px;
+}

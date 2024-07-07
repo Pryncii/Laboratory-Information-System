@@ -21,7 +21,8 @@ const controllers = [
   'login_register_route',
   'main_route',
   'patient_request_route',
-  'view_patients_route'
+  'view_patients_route',
+  'patient_history_route'
 ];
 
 controllers.forEach(controller => {

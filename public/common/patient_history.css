@@ -6,7 +6,11 @@ body { background-color: #FFF8F3 !important; }
 table { border-collapse: collapse; }
 table { table-layout: fixed; }
 .test-items { margin: 0px 0px 15px 0px; }
-.button-spacer { width: 70%; }
+
+.button-spacer { 
+    width: 70%; 
+    text-align: center; 
+}
 
 .main-content, .patient-info, .test-info, .patient-stuff, .history-stuff {
     display: flex;

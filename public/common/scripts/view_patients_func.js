@@ -161,7 +161,7 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container" ><a href="/patient-history/${patient.patientID}"><h5>${patient.name}</h5></a></td> 
                             <td class="item-container"><h5>${patient.latestDate}</h5></td> 
                             <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
@@ -197,7 +197,7 @@ $(document).ready(function(){
                     patient = pageData[i];
                     patients += `
                         <tr>
-                            <td class="item-container"><h5>${patient.name}</h5></td> 
+                            <td class="item-container" ><a href="/patient-history/${patient.patientID}"><h5>${patient.name}</h5></a></td>  
                             <td class="item-container"><h5>${patient.latestDate}</h5></td> 
                             <td class="item-container"><h5>${patient.remarks}</h5></td>
                         </tr>
