@@ -258,7 +258,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Clinical Microscopy") {
@@ -357,7 +357,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Chemistry") {
@@ -517,7 +517,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Serology") {
@@ -575,7 +575,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdf" onclick="generatePDF('${requestID}','${category}');">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
                 </div>
             `;
     }
@@ -836,10 +836,6 @@ function showClinicalMicroscopy(requestID) {
     $(`#${requestID}-content`).html(content);
 }
 
-function saveFields(requestID){
-
-}
-
 function saveChanges(requestID, category){
     let data = [];
     if(category === "Hematology") {
@@ -945,62 +941,132 @@ function saveChanges(requestID, category){
             }
         
     });//fn+post
+}
 
 async function generatePDF(requestID, category) {
-    document.getElementById("pdfModal").style.display = "block"; // for testing purposes
-    const data = {
-        hemoglobin: document.getElementById(`${requestID}-hemoglobin`).value,
-        hematocrit: document.getElementById(`${requestID}-hematocrit`).value,
-        rbccount: document.getElementById(`${requestID}-rbc-count`).value,
-        wbccount: document.getElementById(`${requestID}-wbc-count`).value,
-        neutrophil: document.getElementById(`${requestID}-neutrophil`).value,
-        lymphocyte: document.getElementById(`${requestID}-lymphocyte`).value,
-        monocyte: document.getElementById(`${requestID}-monocyte`).value,
-        eosinophil: document.getElementById(`${requestID}-eosinophil`).value,
-        basophil: document.getElementById(`${requestID}-basophil`).value,
-    };
-
-    try {
-        const pdfDoc = await PDFDocument.load(await readFile("hematology.pdf"));
-        const form = pdfDoc.getForm();
-        var fields = form.getFields();
-
-        // Define the Times New Roman font
-        const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-        // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-        fields.forEach((field) => {
-            field.defaultUpdateAppearances(timesNewRoman, "/TiRo 13 Tf 0 g");
+        let data = [];
+    
+        if (category === "Hematology") {
+            category = "hematology";
+            let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
+            ? $("#" + requestID + "-platelet").val() 
+            : "";
+    
+            data.push({
+            hemo: $("#" + requestID + "-hemoglobin").val(),
+            hema: $("#" + requestID + "-hematocrit").val(),
+            rbc: $("#" + requestID + "-rbc-count").val(),
+            wbc: $("#" + requestID + "-wbc-count").val(),
+            neut: $("#" + requestID + "-neutrophil").val(),
+            lymp: $("#" + requestID + "-lymphocyte").val(),
+            mono: $("#" + requestID + "-monocyte").val(),
+            eosi: $("#" + requestID + "-eosinophil").val(),
+            baso: $("#" + requestID + "-basophil").val(),
+            pltc: pltc
+            });
+        } else if (category === "Clinical Microscopy") {
+            category = "clinical-microscopy";
+            if($(`#${requestID}-urinalysis-btn`).prop('checked')){
+                data.push({
+                    clr: $("#" + requestID + "-urinalysis-color").val(),
+                    trans: $("#" + requestID + "-transparency").val(),
+                    ph: $("#" + requestID + "-ph").val(),
+                    spgrav: $("#" + requestID + "-specific-gravity").val(),
+                    sug: $("#" + requestID + "-sugar").val(),
+                    pro: $("#" + requestID + "-protein").val(),
+                    pus: $("#" + requestID + "-pus").val(),
+                    rbc: $("#" + requestID + "-rbc").val(),
+                    bac: $("#" + requestID + "-urinalysis-bacteria").val(),
+                    epi: $("#" + requestID + "-epithelial-cells").val(),
+                    muc: $("#" + requestID + "-mucus-thread").val()
+                });
+            }
+            else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
+                category = "clinical-microscopy";
+                data.push({
+                    clr: $("#" + requestID + "-fecalysis-color").val(),
+                    cons: $("#" + requestID + "-consistency").val(),
+                    wbc: $("#" + requestID + "-wbc").val(),
+                    rbc: $("#" + requestID + "-rbc").val(),
+                    ovapar: $("#" + requestID + "-ova-parasite").val(),
+                    fat: $("#" + requestID + "-fat-globule").val(),
+                    bile: $("#" + requestID + "-bile-crystal").val(),
+                    veg: $("#" + requestID + "-vegetable-fiber").val(),
+                    meat: $("#" + requestID + "-meat-fiber").val(),
+                    pus: $("#" + requestID + "-pus-cells").val(),
+                    eryth: $("#" + requestID + "-erythrocyte").val(),
+                    yeast: $("#" + requestID + "-yeast-cell").val(),
+                    bac: $("#" + requestID + "-fecalysis-bacteria").val()
+                });
+            }
+        } else if (category === "Chemistry") {
+            category = "chemistry";
+            data.push({
+                fbs: $("#" + requestID + "-fbs").val(),
+                crt: $("#" + requestID + "-creatinine").val(),
+                uric: $("#" + requestID + "-uric-acid").val(),
+                chol: $("#" + requestID + "-cholesterol").val(),
+                tri: $("#" + requestID + "-triglycerides").val(),
+                hdl: $("#" + requestID + "-hdl").val(),
+                ldl: $("#" + requestID + "-ldl").val(),
+                vldl: $("#" + requestID + "-vldl").val(),
+                bun: $("#" + requestID + "-bun").val(),
+                sgpt: $("#" + requestID + "-sgpt").val(),
+                sgot: $("#" + requestID + "-sgot").val(),
+                hba1c: $("#" + requestID + "-hba1c").val()
+            });
+        } else if (category === "Serology") {
+            category = "serology";
+            data.push({
+                hbsag: $("#" + requestID + "-hbsag").val(),
+                rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
+                preg: $("#" + requestID + "-pregnancy-test").val(),
+                dengN: $("#" + requestID + "-dengue-ns1").val(),
+                dengD: $("#" + requestID + "-dengue-duo").val()
+            });
+        }
+    
+        const response = await fetch('/generate-pdf-' + category, {
+            method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
         });
-
-        // Set values for specific fields by their names
-        form.getTextField("Hemoglobin").setText(data.hemoglobin);
-        form.getTextField("Hematocrit").setText(data.hematocrit);
-        form.getTextField("RBC Count").setText(data.rbccount);
-        form.getTextField("WBC Count").setText(data.wbccount);
-        form.getTextField("Neutrophil").setText(data.neutrophil);
-        form.getTextField("Lymphocyte").setText(data.lymphocyte);
-        form.getTextField("Monocyte").setText(data.monocyte);
-        form.getTextField("Eosinophil").setText(data.eosinophil);
-        form.getTextField("Basophil").setText(data.basophil);
-
-        // Flatten the form to make fields non-editable and set appearances
-        form.flatten();
-
-        // Save the filled and flattened PDF
-        const pdfBytes = await pdfDoc.save();
-
-        // Set response to download the generated PDF
-        res.setHeader("Content-Type", "application/pdf");
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename=Result_${lastName}.pdf`
-        );
-        res.send(Buffer.from(pdfBytes));
-
-        console.log("PDF generated successfully"); // Log successful generation
-    } catch (error) {
-        console.log("Error generating PDF:", error); // Log any errors
-        res.status(500).send("Error generating PDF");
-    }
-}}
+    
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+    
+            // Display the PDF in the iframe
+            const pdfFrame = document.getElementById('pdfFrame');
+            pdfFrame.src = url;
+    
+            // Show the modal
+            const modal = document.getElementById('pdfModal');
+            modal.style.display = 'block';
+    
+            document.querySelector(".close-pdf").onclick = function () {
+                const modal = document.getElementById("pdfModal");
+                modal.style.display = "none";
+            };
+        
+            document.getElementById('pdfModal').onclick = function () {
+                const modal = document.getElementById("pdfModal");
+                modal.style.display = "none";
+            }
+    
+            // Enable the download button
+            const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Result_${requestID}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                };
+            } else {
+                console.error('Failed to generate PDF');
+            }
+}
