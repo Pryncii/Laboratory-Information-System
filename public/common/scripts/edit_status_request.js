@@ -120,7 +120,7 @@ function flag2(parameter, value) {
     }
 }
 
-function generateTemplate(requestID, category) {
+function generateTemplate(requestID, category, patientName, age, sex) {
     if (category === "Hematology") {
         header = `
             <div class="item-label p-3 w-50 mx-2">
@@ -258,7 +258,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Clinical Microscopy") {
@@ -357,7 +357,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Chemistry") {
@@ -517,7 +517,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
                 </div>
             `;
     } else if (category === "Serology") {
@@ -575,7 +575,7 @@ function generateTemplate(requestID, category) {
         submit = `
                 <div class="my-3">
                     <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}','${patientName}', '${age}', '${sex}')">Save to PDF</button>
                 </div>
             `;
     }
@@ -943,7 +943,7 @@ function saveChanges(requestID, category){
     });//fn+post
 }
 
-async function generatePDF(requestID, category) {
+async function generatePDF(requestID, category, patientName, age, sex) {
         let data = [];
     
         if (category === "Hematology") {
@@ -951,8 +951,10 @@ async function generatePDF(requestID, category) {
             let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
             ? $("#" + requestID + "-platelet").val() 
             : "";
-    
             data.push({
+            name: patientName,
+            age: age,
+            sex: sex,
             hemo: $("#" + requestID + "-hemoglobin").val(),
             hema: $("#" + requestID + "-hematocrit").val(),
             rbc: $("#" + requestID + "-rbc-count").val(),
@@ -968,6 +970,9 @@ async function generatePDF(requestID, category) {
             category = "clinical-microscopy";
             if($(`#${requestID}-urinalysis-btn`).prop('checked')){
                 data.push({
+                    name: patientName,
+                    age: age,
+                    sex: sex,
                     clr: $("#" + requestID + "-urinalysis-color").val(),
                     trans: $("#" + requestID + "-transparency").val(),
                     ph: $("#" + requestID + "-ph").val(),
@@ -984,6 +989,9 @@ async function generatePDF(requestID, category) {
             else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
                 category = "clinical-microscopy";
                 data.push({
+                    name: patientName,
+                    age: age,
+                    sex: sex,
                     clr: $("#" + requestID + "-fecalysis-color").val(),
                     cons: $("#" + requestID + "-consistency").val(),
                     wbc: $("#" + requestID + "-wbc").val(),
@@ -1002,6 +1010,9 @@ async function generatePDF(requestID, category) {
         } else if (category === "Chemistry") {
             category = "chemistry";
             data.push({
+                name: patientName,
+                age: age,
+                sex: sex,
                 fbs: $("#" + requestID + "-fbs").val(),
                 crt: $("#" + requestID + "-creatinine").val(),
                 uric: $("#" + requestID + "-uric-acid").val(),
@@ -1018,9 +1029,13 @@ async function generatePDF(requestID, category) {
         } else if (category === "Serology") {
             category = "serology";
             data.push({
+                name: patientName,
+                age: age,
+                sex: sex,
                 hbsag: $("#" + requestID + "-hbsag").val(),
                 rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-                preg: $("#" + requestID + "-pregnancy-test").val(),
+                serum: $("#" + requestID + "-pregnancy-test-serum").val(),
+                urine: $("#" + requestID + "-pregnancy-test-urine").val(),
                 dengN: $("#" + requestID + "-dengue-ns1").val(),
                 dengD: $("#" + requestID + "-dengue-duo").val()
             });
@@ -1066,7 +1081,42 @@ async function generatePDF(requestID, category) {
                     a.click();
                     a.remove();
                 };
+
+                const emailBtn = document.getElementById('emailBtn');
+                emailBtn.onclick = async () => {
+                    const email = prompt("Enter the recipient's email address:");
+                    if (email) {
+                        alert('PDF has been sent to email.');
+                        const emailResponse = await fetch('/send-pdf-to-email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                requestID,
+                                category,
+                                email,
+                                pdfData: await blobToBase64(blob)
+                            })
+                        });
+        
+                        if (emailResponse.ok) {
+                            alert('Email sent successfully');
+                        } else {
+                            alert('Failed to send email');
+                        }
+                    }
+                };
             } else {
                 console.error('Failed to generate PDF');
             }
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
 }

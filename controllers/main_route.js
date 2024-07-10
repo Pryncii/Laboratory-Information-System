@@ -155,6 +155,8 @@ function add(router) {
                             requestID: item.requestID,
                             patientID: patients.patientID,
                             patientName: patients.name,
+                            age: patients.age,
+                            sex: patients.sex,
                             medtech: medtechs.name,
                             category: item.category,
                             test: item.test,

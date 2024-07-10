@@ -3,6 +3,7 @@ const { appdata } = require("../models/data");
 const helper = require('./helpers');
 const { PDFDocument, StandardFonts } = require('pdf-lib');
 const { readFile } = require('fs/promises');
+const nodemailer = require('nodemailer');
 
 const {
     userModel,
@@ -22,6 +23,9 @@ const {
 function add(router) {
     router.post('/generate-pdf-hematology', async (req, res) => {
         const [{
+            name,
+            age,
+            sex,
             hemo,
             hema,
             rbc,
@@ -34,23 +38,42 @@ function add(router) {
             pltc
         }] = req.body;
 
-            console.log('Received data:', req.body);  // Log the received data
+            console.log('Received data:', req.body);  
+            const dir = 'public/common/pdfTemplates/';
 
             try {
-                const pdfDoc = await PDFDocument.load(await readFile('HematologyTemplate.pdf'));
+                const pdfDoc = await PDFDocument.load(await readFile(dir + 'HematologyTemplate.pdf'));
                 const form = pdfDoc.getForm();
                 const fields = form.getFields();
         
                 // Define the Times New Roman font
                 const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
                 console.log(fields.map(field => field.getName())); 
                 // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
                 fields.forEach(field => {
                     field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
                 });
 
+                const today = new Date();
+
+                let month = today.getMonth() + 1;
+                let day = today.getDate();
+                let year = today.getFullYear();
+                
+                form.getTextField('Name').setText(name.toUpperCase());
+                form.getTextField('Name').defaultUpdateAppearances(timesBold);
+                form.getTextField('Age/Sex').setText(age + "/" + sex);
+                form.getTextField('Date').setText(month+ "/" + day + "/" + year);
+
+                let lastName = JSON.stringify(global.userFname[0]);
+                let firstName = JSON.stringify(global.userFname[1]);
+                lastName = lastName.replace("\"", "").replace(",", "").replace("\"", "");
+                firstName = firstName.replace("\"", "").replace(",", "").replace("\"", "");
+
+                form.getTextField('Physician').setText(firstName + " " + lastName);
                 // Set values for specific fields by their names
-            form.getTextField('Hemoglobin').setText(hemo);
+                form.getTextField('Hemoglobin').setText(hemo);
                 form.getTextField('Hematocrit').setText(hema);
                 form.getTextField('RBC Count').setText(rbc);
                 form.getTextField('WBC Count').setText(wbc);
@@ -81,6 +104,9 @@ function add(router) {
     });
     router.post('/generate-pdf-clinical-microscopy', async (req, res) => {
         const [{
+            name,
+            age,
+            sex,
             clr,
             trans, 
             ph,
@@ -102,21 +128,40 @@ function add(router) {
             yeast
         }] = req.body;
 
-        console.log('Received data:', req.body);  // Log the received data
-
+        console.log('Received data:', req.body);  
+        const dir = 'public/common/pdfTemplates/';
+        
         try {
-            const pdfDoc = await PDFDocument.load(await readFile('ClinicalMicroscopyTemplate.pdf'));
+            const pdfDoc = await PDFDocument.load(await readFile(dir + 'ClinicalMicroscopyTemplate.pdf'));
             const form = pdfDoc.getForm();
             const fields = form.getFields();
         
             // Define the Times New Roman font
             const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+            const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
             console.log(fields.map(field => field.getName())); 
             // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
             fields.forEach(field => {
                 field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
             });
-        
+
+            const today = new Date();
+
+            let month = today.getMonth() + 1;
+            let day = today.getDate();
+            let year = today.getFullYear();
+            
+            form.getTextField('Name').setText(name.toUpperCase());
+            form.getTextField('Name').defaultUpdateAppearances(timesBold);
+            form.getTextField('AgeSex').setText(age + "/" + sex);
+            form.getTextField('Date').setText(month+ "/" + day + "/" + year);
+
+            let lastName = JSON.stringify(global.userFname[0]);
+            let firstName = JSON.stringify(global.userFname[1]);
+            lastName = lastName.replace("\"", "").replace(",", "").replace("\"", "");
+            firstName = firstName.replace("\"", "").replace(",", "").replace("\"", "");
+
+            form.getTextField('Physician').setText(firstName + " " + lastName);
             // Set values for specific fields by their names
             if (trans || ph || spgrav) {
                 form.getTextField('Color_Urinal').setText(clr);
@@ -166,6 +211,9 @@ function add(router) {
     });
     router.post('/generate-pdf-chemistry', async (req, res) => {
         const [{
+            name,
+            age,
+            sex,
             fbs,
             crt,
             uric,
@@ -180,20 +228,40 @@ function add(router) {
             hba1c
         }] = req.body;
 
-            console.log('Received data:', req.body);  // Log the received data
+            console.log('Received data:', req.body);  
+            const dir = 'public/common/pdfTemplates/';
 
             try {
-                const pdfDoc = await PDFDocument.load(await readFile('ChemistryTemplate.pdf'));
+                const pdfDoc = await PDFDocument.load(await readFile(dir + 'ChemistryTemplate.pdf'));
                 const form = pdfDoc.getForm();
                 const fields = form.getFields();
         
                 // Define the Times New Roman font
                 const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
                 console.log(fields.map(field => field.getName())); 
                 // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
                 fields.forEach(field => {
                     field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
                 });
+
+                const today = new Date();
+
+                let month = today.getMonth() + 1;
+                let day = today.getDate();
+                let year = today.getFullYear();
+                
+                form.getTextField('Name').setText(name.toUpperCase());
+                form.getTextField('Name').defaultUpdateAppearances(timesBold);
+                form.getTextField('AgeSex').setText(age + "/" + sex);
+                form.getTextField('Date').setText(month+ "/" + day + "/" + year);
+
+                let lastName = JSON.stringify(global.userFname[0]);
+                let firstName = JSON.stringify(global.userFname[1]);
+                lastName = lastName.replace("\"", "").replace(",", "").replace("\"", "");
+                firstName = firstName.replace("\"", "").replace(",", "").replace("\"", "");
+
+                form.getTextField('Physician').setText(firstName + " " + lastName);
 
                 // Set values for specific fields by their names
                 form.getTextField('Glucose').setText(fbs);
@@ -228,31 +296,57 @@ function add(router) {
     });
     router.post('/generate-pdf-serology', async (req, res) => {
         const [{
+            name,
+            age,
+            sex,
             hbsag,
             rprvdrl,
-            preg,
+            serum,
+            urine,
             dengN,
             dengD
         }] = req.body;
 
-            console.log('Received data:', req.body);  // Log the received data
+            console.log('Received data:', req.body);  
+            const dir = 'public/common/pdfTemplates/';
 
             try {
-                const pdfDoc = await PDFDocument.load(await readFile('SerologyTemplate.pdf'));
+                const pdfDoc = await PDFDocument.load(await readFile(dir + 'SerologyTemplate.pdf'));
                 const form = pdfDoc.getForm();
                 const fields = form.getFields();
         
                 // Define the Times New Roman font
-                const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-                console.log(fields.map(field => field.getName())); 
-                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-                fields.forEach(field => {
-                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-                });
+            // Define the Times New Roman font
+            const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+            const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+            console.log(fields.map(field => field.getName())); 
+            // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
+            fields.forEach(field => {
+                field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
+            });
+
+            const today = new Date();
+
+            let month = today.getMonth() + 1;
+            let day = today.getDate();
+            let year = today.getFullYear();
+            
+            form.getTextField('Name').setText(name.toUpperCase());
+            form.getTextField('Name').defaultUpdateAppearances(timesBold);
+            form.getTextField('AgeSex').setText(age + "/" + sex);
+            form.getTextField('Date').setText(month+ "/" + day + "/" + year);
+
+            let lastName = JSON.stringify(global.userFname[0]);
+            let firstName = JSON.stringify(global.userFname[1]);
+            lastName = lastName.replace("\"", "").replace(",", "").replace("\"", "");
+            firstName = firstName.replace("\"", "").replace(",", "").replace("\"", "");
+
+            form.getTextField('Physician').setText(firstName + " " + lastName);
                 // Set values for specific fields by their names
                 form.getTextField('HbsAg').setText(hbsag);
                 form.getTextField('RPR').setText(rprvdrl);
-                form.getTextField('Serum').setText(preg);
+                form.getTextField('Serum').setText(serum);
+                form.getTextField('Urine').setText(urine);
                 form.getTextField('NS1').setText(dengN);
                 form.getTextField('Duo').setText(dengD);
 
@@ -273,6 +367,42 @@ function add(router) {
                 console.log('Error generating PDF:', error);  // Log any errors
                 res.status(500).send('Error generating PDF');
             }
+    });
+    router.post('/send-pdf-to-email', async (req, res) => {
+        const { requestID, category, email, pdfData } = req.body;
+    
+        // Create a transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'bioscopicdiagnosticlaboratory@gmail.com',
+                pass: 'ceht usoq zmxc gckd'
+            }
+        });
+    
+        // Send mail with defined transport object
+        try {
+            let info = await transporter.sendMail({
+                from: '"Bioscopic Diagnostic Laboratory" <your-email@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: category.charAt(0).toUpperCase() + category.slice(1).toLowerCase() + ' Test Results', // Subject line
+                text: 'Please find attached your '+ category +' test results.', // plain text body
+                attachments: [
+                    {
+                        filename: requestID + "_" + 'TestResult_'+ category + '.pdf',
+                        content: pdfData,
+                        encoding: 'base64',
+                        contentType: 'application/pdf'
+                    }
+                ]
+            });
+    
+            console.log('Message sent: %s', info.messageId);
+            res.status(200).send('Email sent successfully');
+        } catch (error) {
+            console.log('Error sending email:', error);
+            res.status(500).send('Error sending email');
+        }
     });
 }
 

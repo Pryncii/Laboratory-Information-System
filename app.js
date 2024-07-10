@@ -3,8 +3,8 @@ const express = require('express');
 const server = express();
 
 const bodyParser = require('body-parser')
-server.use(express.json()); 
-server.use(express.urlencoded({ extended: true }));
+server.use(express.json({limit: '50mb'})); 
+server.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 const handlebars = require('express-handlebars');
 server.set('view engine', 'hbs');
