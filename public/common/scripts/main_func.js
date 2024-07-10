@@ -31,6 +31,28 @@ $(document).ready(function() {
         return pathArray[pathArray.length - 1]; // Get the last segment of the URL path
     }
 
+    let sortOrder = 'asc';
+    let sortField = 'name';
+    
+    function sortData() {
+      const button = document.getElementById('sortButton');
+      
+      if (sortField === 'name') {
+        sortField = 'requestId';
+        button.innerText = 'Sort by Request ID';
+      } else {
+        sortField = 'name';
+        button.innerText = 'Sort by Name';
+      }
+      
+      fetch(`/main?sortBy=${sortField}&order=${sortOrder}`)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('dataContainer').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching sorted data:', error));
+    }
+
     $("#backButton").click(function() {
         var backValue = getSomeValueFromUrl() - 1;
         if (backValue) {
