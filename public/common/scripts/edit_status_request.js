@@ -779,8 +779,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                     epi: $("#" + requestID + "-epithelial-cells").val(),
                     muc: $("#" + requestID + "-mucus-thread").val()
                 });
-            }
-            else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
+            } else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
                 category = "clinical-microscopy";
                 data.push({
                     name: patientName,
@@ -834,8 +833,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 dengN: $("#" + requestID + "-dengue-ns1").val(),
                 dengD: $("#" + requestID + "-dengue-duo").val()
             });
-        }
-    } else if (category === "Chemistry") {
+        } else if (category === "Chemistry") {
         category = "chemistry";
         data.push({
             fbs: $("#" + requestID + "-fbs").val(),
