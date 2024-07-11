@@ -34,6 +34,27 @@ $(document).ready(function() {
       }
     });
 
+    $('#CM-1').change(function() {
+      if ($(this).is(':checked')) {
+        $('#CM-2').prop('checked', false);
+        $('#CM-3').prop('checked', false);
+      }
+    });
+
+    $('#CM-2').change(function() {
+      if ($(this).is(':checked')) {
+        $('#CM-1').prop('checked', false);
+        $('#CM-3').prop('checked', false);
+      }
+    });
+
+    $('#CM-3').change(function() {
+      if ($(this).is(':checked')) {
+        $('#CM-1').prop('checked', false);
+        $('#CM-2').prop('checked', false);
+      }
+    });
+
     $('#wPayment').click(function() {
         payStatus = "Paid";
         addRequest(payStatus);
