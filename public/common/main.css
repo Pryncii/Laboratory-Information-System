@@ -1,4 +1,4 @@
-.main-content { margin: 50px 50px 0px 50px; }
+.main-content { margin: 50px; }
 .test-content { margin: 20px 50px 0px 50px; }
 ._title > h1, .item-label, .item-container, .btn-container, .page-container, .advanced { font-family: "Inter"; }
 ._title, .item-label { color: #0D1D58; }
@@ -74,10 +74,15 @@ table { table-layout: fixed; }
 }
 
 .advanced {
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding: 10px !important;
+}
+
+.normal {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 10px !important;
 }
 
 .card-body {
@@ -136,8 +141,6 @@ table { table-layout: fixed; }
     outline: none;
     border-color: white;
 }
-
-
 
 .c { background-color: rgba(112, 253, 112, 0.623); }
 .c:hover { background-color:rgba(23, 219, 23, 0.623); }

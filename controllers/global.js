@@ -1,4 +1,4 @@
 module.exports = {
   loggedUser: null,
-  userFname: null,
+  userFname: null
 };

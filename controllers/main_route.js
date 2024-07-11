@@ -455,7 +455,7 @@ function add(router) {
         });
     });
 
-    route.post("/sortPatients", function (req, resp) {
+    router.post("/sortPatients", function (req, resp) {
 
     });
 }

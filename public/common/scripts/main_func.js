@@ -118,7 +118,7 @@ $(document).ready(function() {
 
     $("#sortButton").click(function(){
         let sortType = $("#sortButton").text()
-        sortType = sortType=="Name" ? "Request ID" : "Name";
+        sortType = sortType=="Requests A-Z" ? "Requests Z-A" : "Requests A-Z";
         $("#sortButton").text(sortType);
     //     $.post('/sortPatients',
     //     {
