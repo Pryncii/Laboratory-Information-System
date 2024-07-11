@@ -50,10 +50,6 @@ function add(router) {
                 const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
                 const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
                 console.log(fields.map(field => field.getName())); 
-                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-                fields.forEach(field => {
-                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-                });
 
                 const today = new Date();
 
@@ -62,7 +58,6 @@ function add(router) {
                 let year = today.getFullYear();
                 
                 form.getTextField('Name').setText(name.toUpperCase());
-                form.getTextField('Name').defaultUpdateAppearances(timesBold);
                 form.getTextField('Age/Sex').setText(age + "/" + sex);
                 form.getTextField('Date').setText(month+ "/" + day + "/" + year);
 
@@ -84,6 +79,13 @@ function add(router) {
                 form.getTextField('Monocyte').setText(mono);
                 form.getTextField('Platelet Count').setText(pltc);
 
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
+                });
+
+                form.getTextField('Age/Sex').updateAppearances(timesNewRoman);
+                form.getTextField('Date').updateAppearances(timesNewRoman);
+                form.getTextField('Physician').updateAppearances(timesNewRoman);
         
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
@@ -140,10 +142,6 @@ function add(router) {
             const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
             const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
             console.log(fields.map(field => field.getName())); 
-            // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-            fields.forEach(field => {
-                field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-            });
 
             const today = new Date();
 
@@ -152,7 +150,6 @@ function add(router) {
             let year = today.getFullYear();
             
             form.getTextField('Name').setText(name.toUpperCase());
-            form.getTextField('Name').defaultUpdateAppearances(timesBold);
             form.getTextField('AgeSex').setText(age + "/" + sex);
             form.getTextField('Date').setText(month+ "/" + day + "/" + year);
 
@@ -191,6 +188,13 @@ function add(router) {
                 form.getTextField('Yeast_Cells').setText(yeast);
             }
 
+            fields.forEach(field => {
+                field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
+            });
+
+            form.getTextField('AgeSex').updateAppearances(timesNewRoman);
+            form.getTextField('Date').updateAppearances(timesNewRoman);
+            form.getTextField('Physician').updateAppearances(timesNewRoman);
         
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
@@ -240,10 +244,6 @@ function add(router) {
                 const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
                 const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
                 console.log(fields.map(field => field.getName())); 
-                // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-                fields.forEach(field => {
-                    field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-                });
 
                 const today = new Date();
 
@@ -277,6 +277,14 @@ function add(router) {
                 form.getTextField('SGOT').setText(sgot);
                 form.getTextField('HBA1C').setText(hba1c);
         
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
+                });
+
+                form.getTextField('AgeSex').updateAppearances(timesNewRoman);
+                form.getTextField('Date').updateAppearances(timesNewRoman);
+                form.getTextField('Physician').updateAppearances(timesNewRoman);
+
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
         
@@ -320,10 +328,6 @@ function add(router) {
             const timesNewRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
             const timesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
             console.log(fields.map(field => field.getName())); 
-            // Loop through each form field and set its appearance stream to use Times New Roman font and font size 13
-            fields.forEach(field => {
-                field.defaultUpdateAppearances(timesNewRoman, '/TiRo 13 Tf 0 g');
-            });
 
             const today = new Date();
 
@@ -350,6 +354,13 @@ function add(router) {
                 form.getTextField('NS1').setText(dengN);
                 form.getTextField('Duo').setText(dengD);
 
+                fields.forEach(field => {
+                    field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
+                });
+
+                form.getTextField('AgeSex').updateAppearances(timesNewRoman);
+                form.getTextField('Date').updateAppearances(timesNewRoman);
+                form.getTextField('Physician').updateAppearances(timesNewRoman);
         
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
