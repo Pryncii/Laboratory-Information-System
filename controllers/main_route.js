@@ -454,6 +454,10 @@ function add(router) {
             })
         });
     });
+
+    route.post("/sortPatients", function (req, resp) {
+
+    });
 }
 
 module.exports.add = add;

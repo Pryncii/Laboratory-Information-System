@@ -31,27 +31,27 @@ $(document).ready(function() {
         return pathArray[pathArray.length - 1]; // Get the last segment of the URL path
     }
 
-    let sortOrder = 'asc';
-    let sortField = 'name';
+    // let sortOrder = 'asc';
+    // let sortField = 'name';
     
-    function sortData() {
-      const button = document.getElementById('sortButton');
+    // function sortData() {
+    //   const button = document.getElementById('sortButton');
       
-      if (sortField === 'name') {
-        sortField = 'requestId';
-        button.innerText = 'Sort by Request ID';
-      } else {
-        sortField = 'name';
-        button.innerText = 'Sort by Name';
-      }
+    //   if (sortField === 'name') {
+    //     sortField = 'requestId';
+    //     button.innerText = 'Sort by Request ID';
+    //   } else {
+    //     sortField = 'name';
+    //     button.innerText = 'Sort by Name';
+    //   }
       
-      fetch(`/main?sortBy=${sortField}&order=${sortOrder}`)
-        .then(response => response.text())
-        .then(html => {
-          document.getElementById('dataContainer').innerHTML = html;
-        })
-        .catch(error => console.error('Error fetching sorted data:', error));
-    }
+    //   fetch(`/main?sortBy=${sortField}&order=${sortOrder}`)
+    //     .then(response => response.text())
+    //     .then(html => {
+    //       document.getElementById('dataContainer').innerHTML = html;
+    //     })
+    //     .catch(error => console.error('Error fetching sorted data:', error));
+    // }
 
     $("#backButton").click(function() {
         var backValue = getSomeValueFromUrl() - 1;
@@ -85,13 +85,14 @@ $(document).ready(function() {
         } else console.error('someValue not found in URL');
     });
 
+    
     $("#nextButton").click(function(){
-    var nextValue = getSomeValueFromUrl() + 1;
-    if (nextValue) {
-        $.post('/main/' + nextValue, // Replace with your actual data endpoint
-        {},
-        function(data, status){
-            if(status === 'success'){
+        var nextValue = getSomeValueFromUrl() + 1;
+        if (nextValue) {
+            $.post('/main/' + nextValue, // Replace with your actual data endpoint
+            {},
+            function(data, status){
+                if(status === 'success'){
                 var $tableBody = $('#data-table tbody');
                 $tableBody.empty(); // Clear any existing rows
 
@@ -113,5 +114,37 @@ $(document).ready(function() {
             } else console.error('Failed to fetch data');
         });
     } else console.error('someValue not found in URL');
+    });
+
+    $("#sortButton").click(function(){
+        let sortType = $("#sortButton").text()
+        sortType = sortType=="Name" ? "Request ID" : "Name";
+        $("#sortButton").text(sortType);
+    //     $.post('/sortPatients',
+    //     {
+    //         sortType: sortType
+    //     },
+    //     function(data, status){
+    //         if(status === 'success'){
+    //             var $tableBody = $('#data-table tbody');
+    //             $tableBody.empty(); // Clear any existing rows
+
+    //             // Iterate over the data and append rows to the table
+    //             $.each(data, function(index, item){
+    //                 var row = `<tr data-patient-id="${item.patientID}" data-patient-name="${item.patientName}" data-status="${item.status}" data-remarks="${item.remarks}" data-date-start="${item.dateStart}" data-date-end="${item.dateEnd}">
+    //                     <th class="item-container number"><h5>${index + 1}</h5></th>
+    //                     <td class="item-container"><h5>${item.patientID}</h5></td>
+    //                     <td class="item-container"><h5>${item.patientName}</h5></td>
+    //                     <td class="item-container"><h5>${item.category}</h5></td>
+    //                     <td class="item-container status"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
+    //                     <h5 class="status-item ${item.barColor}">${item.status}</h5></a></td>
+    //                     <td class="item-container"><h5>${item.remarks}</h5></td>
+    //                     <td class="item-container date"><h5>${item.dateStart}</h5></td>
+    //                     <td class="item-container date"><h5>${item.dateEnd}</h5></td>
+    //                 </tr>`;
+    //                 $tableBody.append(row);
+    //             });
+    //         } else console.error('Failed to fetch data');
+    //     });
     });
 });
