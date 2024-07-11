@@ -22,6 +22,7 @@ const controllers = [
   'main_route',
   'patient_request_route',
   'view_patients_route',
+  'patient_history_route',
   'generate_pdf_route'
 ];
 
