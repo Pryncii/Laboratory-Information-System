@@ -290,7 +290,7 @@ function add(router) {
                 let dengueNs1Val;
                 let dengueDuoVal;
                 if (test.includes('HbsAg')) {
-                    hbsAgVal = -1;
+                    hbsAgVal = "";
                 }
                 if (test.includes('RPR/VDRL')) {
                     rprVdrlVal = "";
