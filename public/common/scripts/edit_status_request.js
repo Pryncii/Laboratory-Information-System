@@ -136,7 +136,7 @@ function convertEmptyToMinusOne(obj, tests) {
     }
 }
 
-function generateTemplate(requestID, category, alltests, results) {
+function generateTemplate(requestID, category, patientName, age, sex, alltests, results) {
     const data = JSON.parse(decodeURIComponent(results));
     convertMinusOneToEmpty(data)
 
@@ -602,7 +602,7 @@ function generateTemplate(requestID, category, alltests, results) {
     submit = `
         <div class="my-3">
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}')">Save to PDF</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
         </div>
     `;
     $(`#${requestID}-header`).html(header);
@@ -805,31 +805,36 @@ function saveChanges(requestID, category) {
         });//fn+post
 }
 
-async function generatePDF(requestID, category) {
+async function generatePDF(requestID, category, patientName, age, sex) {
     let data = [];
 
     if (category === "Hematology") {
         category = "hematology";
-        let pltc = $(`#${requestID}-platelet-btn`).prop('checked')
-            ? $("#" + requestID + "-platelet").val()
-            : "";
-
+        let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
+        ? $("#" + requestID + "-platelet").val() 
+        : "";
         data.push({
-            hemo: $("#" + requestID + "-hemoglobin").val(),
-            hema: $("#" + requestID + "-hematocrit").val(),
-            rbc: $("#" + requestID + "-rbc-count").val(),
-            wbc: $("#" + requestID + "-wbc-count").val(),
-            neut: $("#" + requestID + "-neutrophil").val(),
-            lymp: $("#" + requestID + "-lymphocyte").val(),
-            mono: $("#" + requestID + "-monocyte").val(),
-            eosi: $("#" + requestID + "-eosinophil").val(),
-            baso: $("#" + requestID + "-basophil").val(),
-            pltc: pltc
+        name: patientName,
+        age: age,
+        sex: sex,
+        hemo: $("#" + requestID + "-hemoglobin").val(),
+        hema: $("#" + requestID + "-hematocrit").val(),
+        rbc: $("#" + requestID + "-rbc-count").val(),
+        wbc: $("#" + requestID + "-wbc-count").val(),
+        neut: $("#" + requestID + "-neutrophil").val(),
+        lymp: $("#" + requestID + "-lymphocyte").val(),
+        mono: $("#" + requestID + "-monocyte").val(),
+        eosi: $("#" + requestID + "-eosinophil").val(),
+        baso: $("#" + requestID + "-basophil").val(),
+        pltc: pltc
         });
     } else if (category === "Clinical Microscopy") {
         category = "clinical-microscopy";
-        if ($(`#${requestID}-urinalysis-btn`).prop('checked')) {
+        if($(`#${requestID}-urinalysis-btn`).prop('checked')){
             data.push({
+                name: patientName,
+                age: age,
+                sex: sex,
                 clr: $("#" + requestID + "-urinalysis-color").val(),
                 trans: $("#" + requestID + "-transparency").val(),
                 ph: $("#" + requestID + "-ph").val(),
@@ -843,9 +848,12 @@ async function generatePDF(requestID, category) {
                 muc: $("#" + requestID + "-mucus-thread").val()
             });
         }
-        else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
+        else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
             category = "clinical-microscopy";
             data.push({
+                name: patientName,
+                age: age,
+                sex: sex,
                 clr: $("#" + requestID + "-fecalysis-color").val(),
                 cons: $("#" + requestID + "-consistency").val(),
                 wbc: $("#" + requestID + "-wbc").val(),
@@ -864,6 +872,9 @@ async function generatePDF(requestID, category) {
     } else if (category === "Chemistry") {
         category = "chemistry";
         data.push({
+            name: patientName,
+            age: age,
+            sex: sex,
             fbs: $("#" + requestID + "-fbs").val(),
             crt: $("#" + requestID + "-creatinine").val(),
             uric: $("#" + requestID + "-uric-acid").val(),
@@ -880,20 +891,50 @@ async function generatePDF(requestID, category) {
     } else if (category === "") {
         category = "serology";
         data.push({
+            name: patientName,
+            age: age,
+            sex: sex,
             hbsag: $("#" + requestID + "-hbsag").val(),
             rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-            preg: $("#" + requestID + "-pregnancy-test").val(),
+            serum: $("#" + requestID + "-pregnancy-test-serum").val(),
+            urine: $("#" + requestID + "-pregnancy-test-urine").val(),
             dengN: $("#" + requestID + "-dengue-ns1").val(),
             dengD: $("#" + requestID + "-dengue-duo").val()
         });
     }
+    else if (category === "Chemistry") {
+    category = "chemistry";
+    data.push({
+        fbs: $("#" + requestID + "-fbs").val(),
+        crt: $("#" + requestID + "-creatinine").val(),
+        uric: $("#" + requestID + "-uric-acid").val(),
+        chol: $("#" + requestID + "-cholesterol").val(),
+        tri: $("#" + requestID + "-triglycerides").val(),
+        hdl: $("#" + requestID + "-hdl").val(),
+        ldl: $("#" + requestID + "-ldl").val(),
+        vldl: $("#" + requestID + "-vldl").val(),
+        bun: $("#" + requestID + "-bun").val(),
+        sgpt: $("#" + requestID + "-sgpt").val(),
+        sgot: $("#" + requestID + "-sgot").val(),
+        hba1c: $("#" + requestID + "-hba1c").val()
+    });
+} else if (category === "Serology") {
+    category = "serology";
+    data.push({
+        hbsag: $("#" + requestID + "-hbsag").val(),
+        rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
+        preg: $("#" + requestID + "-pregnancy-test").val(),
+        dengN: $("#" + requestID + "-dengue-ns1").val(),
+        dengD: $("#" + requestID + "-dengue-duo").val()
+    });
+}
 
-    const response = await fetch('/generate-pdf-' + category, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+const response = await fetch('/generate-pdf-' + category, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
     });
 
     if (response.ok) {
@@ -912,7 +953,7 @@ async function generatePDF(requestID, category) {
             const modal = document.getElementById("pdfModal");
             modal.style.display = "none";
         };
-
+    
         document.getElementById('pdfModal').onclick = function () {
             const modal = document.getElementById("pdfModal");
             modal.style.display = "none";
@@ -920,15 +961,51 @@ async function generatePDF(requestID, category) {
 
         // Enable the download button
         const downloadBtn = document.getElementById('downloadBtn');
-        downloadBtn.onclick = () => {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Result_${requestID}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        };
-    } else {
-        console.error('Failed to generate PDF');
-    }
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Result_${requestID}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            };
+
+            const emailBtn = document.getElementById('emailBtn');
+            emailBtn.onclick = async () => {
+                const email = prompt("Enter the recipient's email address:");
+                if (email) {
+                    alert('PDF has been sent to email.');
+                    const emailResponse = await fetch('/send-pdf-to-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            requestID,
+                            category,
+                            email,
+                            pdfData: await blobToBase64(blob)
+                        })
+                    });
+    
+                    if (emailResponse.ok) {
+                        alert('Email sent successfully');
+                    } else {
+                        alert('Failed to send email');
+                    }
+                }
+            };
+        } else {
+            console.error('Failed to generate PDF');
+        }
+
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
 }
