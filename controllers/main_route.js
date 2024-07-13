@@ -135,38 +135,11 @@ function add(router) {
                         const medtechs = await userModel.findOne({
                             medtechID: item.medtechID,
                         });
-
-                        let results;
-                        if(item.category == "Serology"){
-                            results = await serologyModel.findOne({
-                                requestID: item.requestID,
-                            });
-                        }
-                        else if(item.category == "Hematology"){
-                            results = await hematologyModel.findOne({
-                                requestID: item.requestID,
-                            });
-                        }
-                        else if(item.category == "Clinical Microscopy"){
-                            if(item.test == "Urinalysis"){
-                                results = await urinalysisModel.findOne({
-                                    requestID: item.requestID,
-                                });
-                            }
-                            else if(item.test == "Fecalysis"){
-                                results = await fecalysisModel.findOne({
-                                    requestID: item.requestID,
-                                });
-                            }
-                        }
-                        else if(item.category == "Chemistry"){
-                            results = await chemistryModel.findOne({
-                                requestID: item.requestID,
-                            });
-                        }
                         //Check the value of each test in chemistry and add a flag if out of range
-                        
-                        
+                        const tests = await chemistryModel.findOne({
+                            requestID: item.requestID,
+                        });
+
                         if (item.status == "Completed") {
                             statusColor = "c";
                         } else if (item.status == "In Progress") {
@@ -196,8 +169,7 @@ function add(router) {
                                 : "",
                             remarks: item.remarks,
                             barColor: statusColor,
-                            payStatus: item.payStatus,
-                            results: JSON.stringify(results)
+                            payStatus: item.payStatus
                         });
                         flagStatus = "";
 
@@ -267,7 +239,7 @@ function add(router) {
                 }
 
                 global.userFname = global.loggedUser.name.split(" ");
-                console.log(vals[valNo])
+
                 resp.render("main", {
                     layout: "index",
                     title: "Main - Laboratory Information System",
@@ -287,16 +259,15 @@ function add(router) {
     });
 
     router.post("/main/:id/save-edit-request", function (req, resp) {
-        let pageNumber = req.body.pageNumber;
         let category = req.body.category;
         let data = req.body.data[0];
         let requestID = req.body.requestID;
         console.log(category);
-        console.log(data)
+        console.log(data);
         console.log(requestID);
-        console.log(pageNumber)
         let updateData;
         if (category === "Hematology") {
+            if (data.pltc) {
                 updateData = {
                     hemoglobin: data.hemo,
                     hematocrit: data.hema,
@@ -307,12 +278,21 @@ function add(router) {
                     monocyte: data.mono,
                     eosinophil: data.eosi,
                     basophil: data.baso,
-                    plateletCount: data.pltc,
-                    esr: data.esr,
-                    bloodWithRh: data.bwrh,
-                    clottingTime: data.clot,
-                    bleedingTime: data.bleed,
+                    plateletCount: data.pltc
                 };
+            } else {
+                updateData = {
+                    hemoglobin: data.hemo,
+                    hematocrit: data.hema,
+                    rbcCount: data.rbc,
+                    wbcCount: data.wbc,
+                    neutrophil: data.neut,
+                    lymphocyte: data.lymp,
+                    monocyte: data.mono,
+                    eosinophil: data.eosi,
+                    basophil: data.baso,
+                };
+            }
             hematologyModel
                 .findOneAndUpdate(
                     { requestID: requestID },
@@ -428,7 +408,7 @@ function add(router) {
 
         }
 
-        resp.json({ redirect: "/main/" + pageNumber });
+        resp.json({ redirect: "/main/1" });
     });
 
     router.post("/update-status-request-db", function (req, resp) {
