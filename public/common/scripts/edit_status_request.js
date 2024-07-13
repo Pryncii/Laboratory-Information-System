@@ -877,7 +877,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             sex: sex,
             fbs: $("#" + requestID + "-fbs").val(),
             crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uric-acid").val(),
+            uric: $("#" + requestID + "-uricacid").val(),
             chol: $("#" + requestID + "-cholesterol").val(),
             tri: $("#" + requestID + "-triglycerides").val(),
             hdl: $("#" + requestID + "-hdl").val(),
@@ -907,7 +907,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
     data.push({
         fbs: $("#" + requestID + "-fbs").val(),
         crt: $("#" + requestID + "-creatinine").val(),
-        uric: $("#" + requestID + "-uric-acid").val(),
+        uric: $("#" + requestID + "-uricacid").val(),
         chol: $("#" + requestID + "-cholesterol").val(),
         tri: $("#" + requestID + "-triglycerides").val(),
         hdl: $("#" + requestID + "-hdl").val(),
