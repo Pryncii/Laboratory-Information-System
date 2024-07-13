@@ -120,7 +120,26 @@ function flag2(parameter, value) {
     }
 }
 
-function generateTemplate(requestID, category, patientName, age, sex, alltests) {
+function convertMinusOneToEmpty(obj) {
+    for (let key in obj) {
+        if (obj[key] === -1) {
+            obj[key] = '';
+        }
+    }
+}
+
+function convertEmptyToMinusOne(obj, tests) {
+    for (let i = 0; i < tests.length; i++) {
+        if (obj[tests[i]] === '') {
+            obj[tests[i]] = -1;
+        }
+    }
+}
+
+function generateTemplate(requestID, category, patientName, age, sex, alltests, results) {
+    const data = JSON.parse(decodeURIComponent(results));
+    convertMinusOneToEmpty(data)
+
     test = alltests.includes(', ') ? alltests.split(', ') : [alltests];
     if (category == "Hematology" || category == "Chemistry") {
         header = `
@@ -150,7 +169,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-hemoglobin" name="hemoglobin" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-hemoglobin" name="hemoglobin" value="${data.hemoglobin}">
                             <label for="hemoglobin">Hemoglobin</label>
                         </div>
                     </td>
@@ -161,7 +180,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-hematocrit" name="hematocrit" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-hematocrit" name="hematocrit" value="${data.hematocrit}">
                             <label for="hematocrit">Hematocrit</label>
                         </div>
                     </td>
@@ -174,7 +193,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-rbc-count" name="rbc-count" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-rbc-count" name="rbc-count" value="${data.rbcCount}">
                             <label for="rbc-count">RBC Count</label>
                         </div>
                     </td>
@@ -185,7 +204,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-wbc-count" name="wbc-count" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-wbc-count" name="wbc-count" value="${data.wbcCount}">
                             <label for="wbc-count">WBC Count</label>
                         </div>
                     </td>
@@ -198,7 +217,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-neutrophil" name="neutrophil" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-neutrophil" name="neutrophil" value="${data.neutrophil}">
                             <label for="neutrophil">Neutrophil</label>
                         </div>
                     </td>
@@ -209,7 +228,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-lymphocyte" name="lymphocyte" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-lymphocyte" name="lymphocyte" value="${data.lymphocyte}">
                             <label for="lymphocyte">Lymphocite</label>
                         </div>
                     </td>
@@ -222,7 +241,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-monocyte" name="monocyte" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-monocyte" name="monocyte" value="${data.monocyte}">
                             <label for="monocyte">Monocyte</label>
                         </div>
                     </td>
@@ -233,7 +252,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     </td>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-eosinophil" name="eosinophil" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-eosinophil" name="eosinophil" value="${data.eosinophil}">
                             <label for="eosinophil">Eosinophil</label>
                         </div>
                     </td>
@@ -246,7 +265,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 <tr>
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-basophil" name="basophil" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-basophil" name="basophil" value="${data.basophil}">
                             <label for="basophil">Basophil</label>
                         </div>
                     </td>
@@ -260,7 +279,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     content += `
                     <td colspan=2>
                         <div class="form-floating m-2">
-                            <select class="form-control text-center" id="${requestID}-plateletdesc" name="plateletdesc" placeholder="">
+                            <select class="form-control text-center" id="${requestID}-plateletdesc" name="plateletdesc">
                                 <option value="Inadequate">Inadequate</option>
                                 <option value="Adequate">Adequate</option>
                             </select>
@@ -272,7 +291,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     content += `
                     <td>
                         <div class="form-floating m-2 id="${requestID}-platelet-lbl">
-                            <input type="text" class="form-control text-center" id="${requestID}-platelet" name="platelet" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-platelet" name="platelet" value="${data.plateletCount}">
                             <label for="platelet">Platelet Count</label>
                         </div>
                     </td>
@@ -287,10 +306,30 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 </tr>
                 `;
             } else {
+                let tests = {
+                    //HEMATOLOGY
+                    esr: 'esr',
+                    bloodtypewithrh: 'bloodWithRh',
+                    clottingtime: 'clottingTime',
+                    bleedingtime: 'bleedingTime',
+                    //CHEMISTRY
+                    fbs: 'fbs',
+                    creatinine: 'creatinine',
+                    uricacid: 'uricAcid',
+                    cholesterol: 'cholesterol',
+                    triglycerides: 'triglycerides',
+                    hdl: 'hdl',
+                    ldl: 'ldl',
+                    vldl: 'vldl',
+                    bun: 'bun',
+                    sgpt: 'sgpt',
+                    sgot: 'sgot',
+                    hba1c: 'hba1c'
+                };
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]}"> 
                             <label for="${name}">${test[i]}</label>
                         </div>
                     </td>
@@ -316,7 +355,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
         `;
     } else if (category == "Clinical Microscopy") {
         header = `
-            <div class="item-label p-3 w-100 mx-2">
+            <div class="item-label p-3 w-100 mx-2" id="${requestID}-clinical-microscopy">
                 ${test}
             </div>
         `;
@@ -326,13 +365,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-urinalysis-color" name="color" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-urinalysis-color" name="color" value="${data.color}">
                                 <label for="color">Color</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-transparency" name="transparency" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-transparency" name="transparency" value="${data.transparency}">
                                 <label for="transparency">Transparency</label>
                             </div>
                         </td>
@@ -340,13 +379,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-ph" name="ph" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-ph" name="ph" value="${data.pH}">
                                 <label for="ph">pH</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-specific-gravity" name="specific-gravity" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-specific-gravity" name="specific-gravity" value="${data.specificGravity}">
                                 <label for="specific-gravity">Specific Gravity</label>
                             </div>
                         </td>
@@ -354,13 +393,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-sugar" name="sugar" placeholder=""> 
+                                <input type="text" class="form-control text-center" id="${requestID}-sugar" name="sugar" value="${data.sugar}"> 
                                 <label for="sugar">Sugar</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-protein" name="protein" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-protein" name="protein" value="${data.protein}">
                                 <label for="protein">Protein</label>
                             </div>
                         </td>
@@ -368,13 +407,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-pus" name="pus" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-pus" name="pus" value="${data.pus}">
                                 <label for="pus">Pus</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-rbc" name="rbc" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-rbc" name="rbc" value="${data.rbc}">
                                 <label for="rbc">RBC</label>
                             </div>
                         </td>
@@ -382,13 +421,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-urinalysis-bacteria" name="bacteria" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-urinalysis-bacteria" name="bacteria" value="${data.bacteria}">
                                 <label for="bacteria">Bacteria</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2" id="${requestID}-epithelial-cells-lbl">
-                                <input type="text" class="form-control text-center" id="${requestID}-epithelial-cells" name="epithelial-cells" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-epithelial-cells" name="epithelial-cells" value="${data.epithelialCells}">
                                 <label for="epithelial-cells">Epithelial Cells</label>
                             </div>
                         </td>
@@ -396,7 +435,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-mucus-thread" name="mucus-thread" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-mucus-thread" name="mucus-thread" value="${data.mucusThread}">
                                 <label for="mucus-thread">Mucus Thread</label>
                             </div>
                         </td>
@@ -409,13 +448,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-fecalysis-color" name="color" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-fecalysis-color" name="color" value="${data.color}">
                                 <label for="color">Color</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-consistency" name="consistency" placeholder=""> 
+                                <input type="text" class="form-control text-center" id="${requestID}-consistency" name="consistency" value="${data.consistency}"> 
                                 <label for="consistency">Consistency</label>
                             </div>
                         </td>
@@ -423,13 +462,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-wbc" name="wbc" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-wbc" name="wbc" value="${data.wbc}">
                                 <label for="wbc">WBC</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-rbc" name="rbc" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-rbc" name="rbc" value="${data.rbc}">
                                 <label for="rbc">RBC</label>
                             </div>
                         </td>
@@ -437,13 +476,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-ova-parasite" name="ova-parasite" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-ova-parasite" name="ova-parasite" value="${data.ovaParasite}">
                                 <label for="ova-parasite">Ova/Parasite</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-fat-globule" name="fat-globule" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-fat-globule" name="fat-globule" value="${data.fatGlobule}">
                                 <label for="fat-globule">Fat Globule</label>
                             </div>
                         </td>
@@ -451,13 +490,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-bile-crystal" name="bile-crystal" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-bile-crystal" name="bile-crystal" value="${data.bileCrystal}">
                                 <label for="bile-crystal">Bile Crystal</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-vegetable-fiber" name="vegetable-fiber" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-vegetable-fiber" name="vegetable-fiber" value="${data.vegetableFiber}">
                                 <label for="vegetable-fiber">Vegetable Fiber</label>
                             </div>
                         </td>
@@ -465,13 +504,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-meat-fiber" name="meat-fiber" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-meat-fiber" name="meat-fiber" value="${data.meatFiber}">
                                 <label for="meat-fiber">Meat Fiber</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2" id="${requestID}-pus-cells-lbl">
-                                <input type="text" class="form-control text-center" id="${requestID}-pus-cells" name="pus-cells" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-pus-cells" name="pus-cells" value="${data.pusCells}">
                                 <label for="pus-cells">Pus Cells</label>
                             </div>
                         </td>
@@ -479,13 +518,13 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-erythrocyte" name="erythrocyte" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-erythrocyte" name="erythrocyte" value="${data.erythrocyte}">
                                 <label for="erythrocyte">Erythrocyte</label>
                             </div>
                         </td>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-yeast-cell" name="yeast-cell" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-yeast-cell" name="yeast-cell" value="${data.yeastCell}">
                                 <label for="yeast-cell">Yeast Cell</label>
                             </div>
                         </td>
@@ -493,7 +532,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                     <tr>
                         <td>
                             <div class="form-floating m-2">
-                                <input type="text" class="form-control text-center" id="${requestID}-fecalysis-bacteria" name="bacteria" placeholder="">
+                                <input type="text" class="form-control text-center" id="${requestID}-fecalysis-bacteria" name="bacteria" value="${data.bacteria}">
                                 <label for="bacteria">Bacteria</label>
                             </div>
                         </td>
@@ -502,6 +541,15 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
             `;
         }
     } else if (category == "Serology") {
+        let tests = {
+            hbsag: 'hbsAg',
+            'rpr/vdrl': 'rprVdrl',
+            serumpregnancytest: 'pregnancyTestSerum',
+            urinepregnancytest: 'pregnancyTestUrine',
+            denguens1: 'dengueNs1',
+            dengueduo: 'dengueDuo'
+        };
+
         header = `
             <div class="item-label p-3 m-2 w-100">
                 ${category}
@@ -520,12 +568,14 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 content += "<tr>";
             }
             if (test[i] == "Serum Pregnancy Test" || test[i] == "Urine Pregnancy Test") {
+                selectedPos = data[tests[name]] === "Positive" ? "selected" : "" 
+                selectedNeg = data[tests[name]] === "Negative" ? "selected" : "" 
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <select class="form-control text-center" id="${requestID}-${name}" name="${name}" placeholder="">
-                                <option value="Positive">Positive</option>
-                                <option value="Negative">Negative</option>
+                            <select class="form-control text-center" id="${requestID}-${name}" name="${name}">
+                                <option value="Positive" ${selectedPos}>Positive</option>
+                                <option value="Negative" ${selectedNeg}>Negative</option>
                             </select>
                             <label for="${name}">${test[i]}</label>
                         </div>
@@ -535,7 +585,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests) 
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" placeholder="">
+                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]}">
                             <label for="${name}">${test[i]}</label>
                         </div>
                     </td>
@@ -628,6 +678,7 @@ function showPlatelets(requestID) {
 }
 
 function saveChanges(requestID, category) {
+    let pageNumber = $(`#pageDetails`).text().trim().split(' ')[1]
     let data = [];
     if (category === "Hematology") {
         let pltc = $(`#${requestID}-platelet-btn`).prop('checked')
@@ -644,11 +695,19 @@ function saveChanges(requestID, category) {
             mono: $("#" + requestID + "-monocyte").val(),
             eosi: $("#" + requestID + "-eosinophil").val(),
             baso: $("#" + requestID + "-basophil").val(),
-            pltc: pltc,
+            pltc: $("#" + requestID + "-platelet").val(),
+            esr: $("#" + requestID + "-esr").val(),
+            bwrh: $("#" + requestID + "-bloodtypewithrh").val(),
+            clot: $("#" + requestID + "-clottingtime").val(),
+            bleed: $("#" + requestID + "-bleedingtime").val(),
         });
 
+        tests = ['hemo', 'hema', 'rbc', 'wbc', 'neut', 'lymp', 'mono', 'eosi', 'baso', 'pltc', 'esr', 'bwrh', 'clot', 'bleed']
+        convertEmptyToMinusOne(data[0], tests)
+
     } else if (category === "Clinical Microscopy") {
-        if ($(`#${requestID}-urinalysis-btn`).prop('checked')) {
+        //if ($(`#${requestID}-urinalysis-btn`).prop('checked')) {
+        if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis") {
             category = "Urinalysis";
             data.push({
                 clr: $("#" + requestID + "-urinalysis-color").val(),
@@ -663,8 +722,13 @@ function saveChanges(requestID, category) {
                 epi: $("#" + requestID + "-epithelial-cells").val(),
                 muc: $("#" + requestID + "-mucus-thread").val(),
             });
+
+            tests = ['ph', 'spgrav', 'pus', 'rbc']
+            convertEmptyToMinusOne(data[0], tests)   
         }
-        else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
+        //else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
+        
+        else if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis") {
             category = "Fecalysis";
             data.push({
                 clr: $("#" + requestID + "-fecalysis-color").val(),
@@ -681,6 +745,9 @@ function saveChanges(requestID, category) {
                 yeast: $("#" + requestID + "-yeast-cell").val(),
                 bac: $("#" + requestID + "-fecalysis-bacteria").val(),
             });
+
+            tests = ['rbc', 'wbc', 'pus', 'yeast', 'eryth']
+            convertEmptyToMinusOne(data[0], tests)   
         }
 
     } else if (category === "Chemistry") {
@@ -688,7 +755,7 @@ function saveChanges(requestID, category) {
         data.push({
             fbs: $("#" + requestID + "-fbs").val(),
             crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uric-acid").val(),
+            uric: $("#" + requestID + "-uricacid").val(),
             chol: $("#" + requestID + "-cholesterol").val(),
             tri: $("#" + requestID + "-triglycerides").val(),
             hdl: $("#" + requestID + "-hdl").val(),
@@ -700,18 +767,21 @@ function saveChanges(requestID, category) {
             hba1c: $("#" + requestID + "-hba1c").val(),
         });
 
+        tests = ['fbs', 'crt', 'uric', 'chol', 'tri', 'hdl', 'ldl', 'vldl', 'bun', 'sgpt', 'sgot', 'hba1c']
+        convertEmptyToMinusOne(data[0], tests)
+
     } else if (category === "Serology") {
         category = "Serology";
         data.push({
             hbsag: $("#" + requestID + "-hbsag").val(),
-            rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-            pregs: $("#" + requestID + "-pregnancy-test-serum").val(),
-            pregu: $("#" + requestID + "-pregnancy-test-urine").val(),
-            dengN: $("#" + requestID + "-dengue-ns1").val(),
-            dengD: $("#" + requestID + "-dengue-duo").val(),
+            rprvdrl: $("#" + requestID + "-rpr\\/vdrl").val(),
+            pregs: $("#" + requestID + "-serumpregnancytest").val(),
+            pregu: $("#" + requestID + "-urinepregnancytest").val(),
+            dengN: $("#" + requestID + "-denguens1").val(),
+            dengD: $("#" + requestID + "-dengueduo").val(),
         });
-    }
 
+    }
     let currentPath = window.location.pathname;
     let endpoint = currentPath + "/save-edit-request";
 
@@ -724,6 +794,7 @@ function saveChanges(requestID, category) {
             requestID: requestID,
             category: category,
             data: data,
+            pageNumber: pageNumber,
         },
         function (response, status) {
             if (status === 'success' && response.redirect) {
@@ -817,9 +888,8 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             sgot: $("#" + requestID + "-sgot").val(),
             hba1c: $("#" + requestID + "-hba1c").val()
         });
-    }
-    else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
-        category = "clinical-microscopy";
+    } else if (category === "") {
+        category = "serology";
         data.push({
             name: patientName,
             age: age,
