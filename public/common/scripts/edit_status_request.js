@@ -755,7 +755,7 @@ function saveChanges(requestID, category) {
         data.push({
             fbs: $("#" + requestID + "-fbs").val(),
             crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uricacid").val(),
+            uric: $("#" + requestID + "-uric-acid").val(),
             chol: $("#" + requestID + "-cholesterol").val(),
             tri: $("#" + requestID + "-triglycerides").val(),
             hdl: $("#" + requestID + "-hdl").val(),
