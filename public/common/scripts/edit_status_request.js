@@ -755,7 +755,7 @@ function saveChanges(requestID, category) {
         data.push({
             fbs: $("#" + requestID + "-fbs").val(),
             crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uric-acid").val(),
+            uric: $("#" + requestID + "-uricacid").val(),
             chol: $("#" + requestID + "-cholesterol").val(),
             tri: $("#" + requestID + "-triglycerides").val(),
             hdl: $("#" + requestID + "-hdl").val(),
@@ -830,7 +830,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
         });
     } else if (category === "Clinical Microscopy") {
         category = "clinical-microscopy";
-        if($(`#${requestID}-urinalysis-btn`).prop('checked')){
+        if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis"){
             data.push({
                 name: patientName,
                 age: age,
@@ -848,7 +848,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 muc: $("#" + requestID + "-mucus-thread").val()
             });
         }
-        else if($(`#${requestID}-fecalysis-btn`).prop('checked')){
+        else if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis"){
             category = "clinical-microscopy";
             data.push({
                 name: patientName,
@@ -888,7 +888,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             sgot: $("#" + requestID + "-sgot").val(),
             hba1c: $("#" + requestID + "-hba1c").val()
         });
-    } else if (category === "") {
+    } else if (category === "Serology") {
         category = "serology";
         data.push({
             name: patientName,
@@ -896,8 +896,8 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             sex: sex,
             hbsag: $("#" + requestID + "-hbsag").val(),
             rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-            serum: $("#" + requestID + "-pregnancy-test-serum").val(),
-            urine: $("#" + requestID + "-pregnancy-test-urine").val(),
+            serum: $("#" + requestID + "-serumpregnancytest").val(),
+            urine: $("#" + requestID + "-urinepregnancytest").val(),
             dengN: $("#" + requestID + "-dengue-ns1").val(),
             dengD: $("#" + requestID + "-dengue-duo").val()
         });
@@ -923,7 +923,8 @@ async function generatePDF(requestID, category, patientName, age, sex) {
     data.push({
         hbsag: $("#" + requestID + "-hbsag").val(),
         rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-        preg: $("#" + requestID + "-pregnancy-test").val(),
+        pregs: $("#" + requestID + "-serumpregnancytest").val(),
+        pregu: $("#" + requestID + "-urinepregnancytest").val(),
         dengN: $("#" + requestID + "-dengue-ns1").val(),
         dengD: $("#" + requestID + "-dengue-duo").val()
     });
