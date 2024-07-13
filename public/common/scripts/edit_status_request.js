@@ -820,22 +820,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 sgot: $("#" + requestID + "-sgot").val(),
                 hba1c: $("#" + requestID + "-hba1c").val()
             });
-        }
-        else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
-            category = "clinical-microscopy";
-            data.push({
-                name: patientName,
-                age: age,
-                sex: sex,
-                hbsag: $("#" + requestID + "-hbsag").val(),
-                rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-                serum: $("#" + requestID + "-pregnancy-test-serum").val(),
-                urine: $("#" + requestID + "-pregnancy-test-urine").val(),
-                dengN: $("#" + requestID + "-dengue-ns1").val(),
-                dengD: $("#" + requestID + "-dengue-duo").val()
-            });
-        }
-    } else if (category === "Chemistry") {
+        } else if (category === "Chemistry") {
         category = "chemistry";
         data.push({
             fbs: $("#" + requestID + "-fbs").val(),
@@ -885,7 +870,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             document.querySelector(".close-pdf").onclick = function () {
                 const modal = document.getElementById("pdfModal");
                 modal.style.display = "none";
-            };
+            }
         
             document.getElementById('pdfModal').onclick = function () {
                 const modal = document.getElementById("pdfModal");
