@@ -12,5 +12,5 @@ npm i pdf-lib
 
 npm install nodemailer
 
->>run<<
+
 node app.js to run
