@@ -895,40 +895,13 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             age: age,
             sex: sex,
             hbsag: $("#" + requestID + "-hbsag").val(),
-            rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
+            rprvdrl: $("#" + requestID + "-rpr\\/vdrl").val(),
             serum: $("#" + requestID + "-serumpregnancytest").val(),
             urine: $("#" + requestID + "-urinepregnancytest").val(),
-            dengN: $("#" + requestID + "-dengue-ns1").val(),
-            dengD: $("#" + requestID + "-dengue-duo").val()
+            dengN: $("#" + requestID + "-denguens1").val(),
+            dengD: $("#" + requestID + "-dengueduo").val()
         });
     }
-    else if (category === "Chemistry") {
-    category = "chemistry";
-    data.push({
-        fbs: $("#" + requestID + "-fbs").val(),
-        crt: $("#" + requestID + "-creatinine").val(),
-        uric: $("#" + requestID + "-uricacid").val(),
-        chol: $("#" + requestID + "-cholesterol").val(),
-        tri: $("#" + requestID + "-triglycerides").val(),
-        hdl: $("#" + requestID + "-hdl").val(),
-        ldl: $("#" + requestID + "-ldl").val(),
-        vldl: $("#" + requestID + "-vldl").val(),
-        bun: $("#" + requestID + "-bun").val(),
-        sgpt: $("#" + requestID + "-sgpt").val(),
-        sgot: $("#" + requestID + "-sgot").val(),
-        hba1c: $("#" + requestID + "-hba1c").val()
-    });
-} else if (category === "Serology") {
-    category = "serology";
-    data.push({
-        hbsag: $("#" + requestID + "-hbsag").val(),
-        rprvdrl: $("#" + requestID + "-rpr-vdrl").val(),
-        pregs: $("#" + requestID + "-serumpregnancytest").val(),
-        pregu: $("#" + requestID + "-urinepregnancytest").val(),
-        dengN: $("#" + requestID + "-dengue-ns1").val(),
-        dengD: $("#" + requestID + "-dengue-duo").val()
-    });
-}
 
 const response = await fetch('/generate-pdf-' + category, {
     method: 'POST',
