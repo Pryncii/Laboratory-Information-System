@@ -123,24 +123,35 @@ function flag2(parameter, value) {
 function convertMinusOneToEmpty(obj) {
     for (let key in obj) {
         if (obj[key] === -1) {
-            obj[key] = '';
+            obj[key] = "";
         }
     }
 }
 
 function convertEmptyToMinusOne(obj, tests) {
     for (let i = 0; i < tests.length; i++) {
-        if (obj[tests[i]] === '') {
+        if (obj[tests[i]] === "") {
             obj[tests[i]] = -1;
         }
     }
 }
 
-function generateTemplate(requestID, category, patientName, age, sex, alltests, results) {
+function generateTemplate(
+    requestID,
+    category,
+    patientName,
+    age,
+    sex,
+    alltests,
+    results,
+    allmedtechs
+) {
     const data = JSON.parse(decodeURIComponent(results));
-    convertMinusOneToEmpty(data)
+    convertMinusOneToEmpty(data);
+    const medtechs = JSON.parse(decodeURIComponent(allmedtechs));
+    convertMinusOneToEmpty(medtechs);
 
-    test = alltests.includes(', ') ? alltests.split(', ') : [alltests];
+    test = alltests.includes(", ") ? alltests.split(", ") : [alltests];
     if (category == "Hematology" || category == "Chemistry") {
         header = `
             <div class="item-label p-3 w-100 mx-2">
@@ -151,12 +162,12 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
             <table class="w-100">
         `;
         for (var i = 0; i < test.length; i++) {
-            if (test[i].includes(' ')) {
-                var name = test[i].replace(/ /g, '').toLowerCase();
+            if (test[i].includes(" ")) {
+                var name = test[i].replace(/ /g, "").toLowerCase();
             } else {
                 var name = test[i].toLowerCase();
             }
-            if (test[0] == 'CBC' || test[0] == 'CBC with Platelet Count') {
+            if (test[0] == "CBC" || test[0] == "CBC with Platelet Count") {
                 if (i % 2 == 1) {
                     content += "<tr>";
                 }
@@ -165,7 +176,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                     content += "<tr>";
                 }
             }
-            if (test[i] == 'CBC' || test[i] == 'CBC with Platelet Count') {
+            if (test[i] == "CBC" || test[i] == "CBC with Platelet Count") {
                 content += `
                     <td>
                         <div class="form-floating m-2">
@@ -275,7 +286,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                         </div>
                     </td>
                 `;
-                if (test[i] == 'CBC') {
+                if (test[i] == "CBC") {
                     content += `
                     <td colspan=2>
                         <div class="form-floating m-2">
@@ -286,7 +297,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                             <label for="plateletdesc">Platelet</label>
                         </div>
                     </td>
-                    `
+                    `;
                 } else {
                     content += `
                     <td>
@@ -300,7 +311,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                             <input type="text" id="${requestID}-platelet-flag" class="form-control form-control-sm" disabled>
                         </div>
                     </td>
-                    `
+                    `;
                 }
                 content += `
                 </tr>
@@ -308,28 +319,29 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
             } else {
                 let tests = {
                     //HEMATOLOGY
-                    esr: 'esr',
-                    bloodtypewithrh: 'bloodWithRh',
-                    clottingtime: 'clottingTime',
-                    bleedingtime: 'bleedingTime',
+                    esr: "esr",
+                    bloodtypewithrh: "bloodWithRh",
+                    clottingtime: "clottingTime",
+                    bleedingtime: "bleedingTime",
                     //CHEMISTRY
-                    fbs: 'fbs',
-                    creatinine: 'creatinine',
-                    uricacid: 'uricAcid',
-                    cholesterol: 'cholesterol',
-                    triglycerides: 'triglycerides',
-                    hdl: 'hdl',
-                    ldl: 'ldl',
-                    vldl: 'vldl',
-                    bun: 'bun',
-                    sgpt: 'sgpt',
-                    sgot: 'sgot',
-                    hba1c: 'hba1c'
+                    fbs: "fbs",
+                    creatinine: "creatinine",
+                    uricacid: "uricAcid",
+                    cholesterol: "cholesterol",
+                    triglycerides: "triglycerides",
+                    hdl: "hdl",
+                    ldl: "ldl",
+                    vldl: "vldl",
+                    bun: "bun",
+                    sgpt: "sgpt",
+                    sgot: "sgot",
+                    hba1c: "hba1c",
                 };
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]}"> 
+                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]
+                    }"> 
                             <label for="${name}">${test[i]}</label>
                         </div>
                     </td>
@@ -340,7 +352,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                     </td>
                 `;
             }
-            if (test[0] == 'CBC' || test[0] == 'CBC with Platelet Count') {
+            if (test[0] == "CBC" || test[0] == "CBC with Platelet Count") {
                 if (i % 2 == 0) {
                     content += "</tr>";
                 }
@@ -359,7 +371,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                 ${test}
             </div>
         `;
-        if (test == 'Urinalysis') {
+        if (test == "Urinalysis") {
             content = `
                 <table class="w-100">
                     <tr>
@@ -442,7 +454,7 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                     </tr>
                 </table>
             `;
-        } else if (test == 'Fecalysis') {
+        } else if (test == "Fecalysis") {
             content = `
                 <table class="w-100">
                     <tr>
@@ -542,12 +554,12 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
         }
     } else if (category == "Serology") {
         let tests = {
-            hbsag: 'hbsAg',
-            'rpr/vdrl': 'rprVdrl',
-            serumpregnancytest: 'pregnancyTestSerum',
-            urinepregnancytest: 'pregnancyTestUrine',
-            denguens1: 'dengueNs1',
-            dengueduo: 'dengueDuo'
+            hbsag: "hbsAg",
+            "rpr/vdrl": "rprVdrl",
+            serumpregnancytest: "pregnancyTestSerum",
+            urinepregnancytest: "pregnancyTestUrine",
+            denguens1: "dengueNs1",
+            dengueduo: "dengueDuo",
         };
 
         header = `
@@ -559,17 +571,20 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
             <table class="w-100">
         `;
         for (var i = 0; i < test.length; i++) {
-            if (test[i].includes(' ')) {
-                var name = test[i].replace(/ /g, '').toLowerCase();
+            if (test[i].includes(" ")) {
+                var name = test[i].replace(/ /g, "").toLowerCase();
             } else {
                 var name = test[i].toLowerCase();
             }
             if (i % 2 == 0) {
                 content += "<tr>";
             }
-            if (test[i] == "Serum Pregnancy Test" || test[i] == "Urine Pregnancy Test") {
-                selectedPos = data[tests[name]] === "Positive" ? "selected" : "" 
-                selectedNeg = data[tests[name]] === "Negative" ? "selected" : "" 
+            if (
+                test[i] == "Serum Pregnancy Test" ||
+                test[i] == "Urine Pregnancy Test"
+            ) {
+                selectedPos = data[tests[name]] === "Positive" ? "selected" : "";
+                selectedNeg = data[tests[name]] === "Negative" ? "selected" : "";
                 content += `
                     <td>
                         <div class="form-floating m-2">
@@ -585,7 +600,8 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
                 content += `
                     <td>
                         <div class="form-floating m-2">
-                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]}">
+                            <input type="text" class="form-control text-center" id="${requestID}-${name}" name="${name}" value="${data[tests[name]]
+                    }">
                             <label for="${name}">${test[i]}</label>
                         </div>
                     </td>
@@ -601,6 +617,15 @@ function generateTemplate(requestID, category, patientName, age, sex, alltests, 
     }
     submit = `
         <div class="my-3">
+            <div class="form-floating mb-4">
+                <select class="form-control text-center" id="${requestID}-medtech" name="medtech">`;
+    for (var i = 0; i < medtechs.length; i++) {
+        submit += `<option value="${medtechs[i].medtechID}">${medtechs[i].name}</option>`;
+    }
+    submit += `
+                </select>
+                <label for="medtech">Medtech</label>
+            </div>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
         </div>
@@ -678,10 +703,10 @@ function showPlatelets(requestID) {
 }
 
 function saveChanges(requestID, category) {
-    let pageNumber = $(`#pageDetails`).text().trim().split(' ')[1]
+    let pageNumber = $(`#pageDetails`).text().trim().split(" ")[1];
     let data = [];
     if (category === "Hematology") {
-        let pltc = $(`#${requestID}-platelet-btn`).prop('checked')
+        let pltc = $(`#${requestID}-platelet-btn`).prop("checked")
             ? $("#" + requestID + "-platelet").val()
             : "";
 
@@ -702,9 +727,23 @@ function saveChanges(requestID, category) {
             bleed: $("#" + requestID + "-bleedingtime").val(),
         });
 
-        tests = ['hemo', 'hema', 'rbc', 'wbc', 'neut', 'lymp', 'mono', 'eosi', 'baso', 'pltc', 'esr', 'bwrh', 'clot', 'bleed']
-        convertEmptyToMinusOne(data[0], tests)
-
+        tests = [
+            "hemo",
+            "hema",
+            "rbc",
+            "wbc",
+            "neut",
+            "lymp",
+            "mono",
+            "eosi",
+            "baso",
+            "pltc",
+            "esr",
+            "bwrh",
+            "clot",
+            "bleed",
+        ];
+        convertEmptyToMinusOne(data[0], tests);
     } else if (category === "Clinical Microscopy") {
         //if ($(`#${requestID}-urinalysis-btn`).prop('checked')) {
         if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis") {
@@ -723,12 +762,13 @@ function saveChanges(requestID, category) {
                 muc: $("#" + requestID + "-mucus-thread").val(),
             });
 
-            tests = ['ph', 'spgrav', 'pus', 'rbc']
-            convertEmptyToMinusOne(data[0], tests)   
+            tests = ["ph", "spgrav", "pus", "rbc"];
+            convertEmptyToMinusOne(data[0], tests);
         }
         //else if ($(`#${requestID}-fecalysis-btn`).prop('checked')) {
-        
-        else if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis") {
+        else if (
+            $(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis"
+        ) {
             category = "Fecalysis";
             data.push({
                 clr: $("#" + requestID + "-fecalysis-color").val(),
@@ -746,10 +786,9 @@ function saveChanges(requestID, category) {
                 bac: $("#" + requestID + "-fecalysis-bacteria").val(),
             });
 
-            tests = ['rbc', 'wbc', 'pus', 'yeast', 'eryth']
-            convertEmptyToMinusOne(data[0], tests)   
+            tests = ["rbc", "wbc", "pus", "yeast", "eryth"];
+            convertEmptyToMinusOne(data[0], tests);
         }
-
     } else if (category === "Chemistry") {
         category = "Chemistry";
         data.push({
@@ -767,9 +806,21 @@ function saveChanges(requestID, category) {
             hba1c: $("#" + requestID + "-hba1c").val(),
         });
 
-        tests = ['fbs', 'crt', 'uric', 'chol', 'tri', 'hdl', 'ldl', 'vldl', 'bun', 'sgpt', 'sgot', 'hba1c']
-        convertEmptyToMinusOne(data[0], tests)
-
+        tests = [
+            "fbs",
+            "crt",
+            "uric",
+            "chol",
+            "tri",
+            "hdl",
+            "ldl",
+            "vldl",
+            "bun",
+            "sgpt",
+            "sgot",
+            "hba1c",
+        ];
+        convertEmptyToMinusOne(data[0], tests);
     } else if (category === "Serology") {
         category = "Serology";
         data.push({
@@ -780,13 +831,11 @@ function saveChanges(requestID, category) {
             dengN: $("#" + requestID + "-denguens1").val(),
             dengD: $("#" + requestID + "-dengueduo").val(),
         });
-
     }
     let currentPath = window.location.pathname;
     let endpoint = currentPath + "/save-edit-request";
 
-
-    $('#Modal-' + requestID).modal('hide');
+    $("#Modal-" + requestID).modal("hide");
 
     $.post(
         endpoint,
@@ -797,12 +846,12 @@ function saveChanges(requestID, category) {
             pageNumber: pageNumber,
         },
         function (response, status) {
-            if (status === 'success' && response.redirect) {
+            if (status === "success" && response.redirect) {
                 // Redirect to the new URL
                 window.location.href = response.redirect;
             }
-
-        });//fn+post
+        }
+    ); //fn+post
 }
 
 async function generatePDF(requestID, category, patientName, age, sex) {
@@ -810,27 +859,27 @@ async function generatePDF(requestID, category, patientName, age, sex) {
 
     if (category === "Hematology") {
         category = "hematology";
-        let pltc = $(`#${requestID}-platelet-btn`).prop('checked') 
-        ? $("#" + requestID + "-platelet").val() 
-        : "";
+        let pltc = $(`#${requestID}-platelet-btn`).prop("checked")
+            ? $("#" + requestID + "-platelet").val()
+            : "";
         data.push({
-        name: patientName,
-        age: age,
-        sex: sex,
-        hemo: $("#" + requestID + "-hemoglobin").val(),
-        hema: $("#" + requestID + "-hematocrit").val(),
-        rbc: $("#" + requestID + "-rbc-count").val(),
-        wbc: $("#" + requestID + "-wbc-count").val(),
-        neut: $("#" + requestID + "-neutrophil").val(),
-        lymp: $("#" + requestID + "-lymphocyte").val(),
-        mono: $("#" + requestID + "-monocyte").val(),
-        eosi: $("#" + requestID + "-eosinophil").val(),
-        baso: $("#" + requestID + "-basophil").val(),
-        pltc: pltc
+            name: patientName,
+            age: age,
+            sex: sex,
+            hemo: $("#" + requestID + "-hemoglobin").val(),
+            hema: $("#" + requestID + "-hematocrit").val(),
+            rbc: $("#" + requestID + "-rbc-count").val(),
+            wbc: $("#" + requestID + "-wbc-count").val(),
+            neut: $("#" + requestID + "-neutrophil").val(),
+            lymp: $("#" + requestID + "-lymphocyte").val(),
+            mono: $("#" + requestID + "-monocyte").val(),
+            eosi: $("#" + requestID + "-eosinophil").val(),
+            baso: $("#" + requestID + "-basophil").val(),
+            pltc: pltc,
         });
     } else if (category === "Clinical Microscopy") {
         category = "clinical-microscopy";
-        if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis"){
+        if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis") {
             data.push({
                 name: patientName,
                 age: age,
@@ -845,10 +894,11 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 rbc: $("#" + requestID + "-rbc").val(),
                 bac: $("#" + requestID + "-urinalysis-bacteria").val(),
                 epi: $("#" + requestID + "-epithelial-cells").val(),
-                muc: $("#" + requestID + "-mucus-thread").val()
+                muc: $("#" + requestID + "-mucus-thread").val(),
             });
-        }
-        else if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis"){
+        } else if (
+            $(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis"
+        ) {
             category = "clinical-microscopy";
             data.push({
                 name: patientName,
@@ -866,7 +916,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 pus: $("#" + requestID + "-pus-cells").val(),
                 eryth: $("#" + requestID + "-erythrocyte").val(),
                 yeast: $("#" + requestID + "-yeast-cell").val(),
-                bac: $("#" + requestID + "-fecalysis-bacteria").val()
+                bac: $("#" + requestID + "-fecalysis-bacteria").val(),
             });
         }
     } else if (category === "Chemistry") {
@@ -886,7 +936,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             bun: $("#" + requestID + "-bun").val(),
             sgpt: $("#" + requestID + "-sgpt").val(),
             sgot: $("#" + requestID + "-sgot").val(),
-            hba1c: $("#" + requestID + "-hba1c").val()
+            hba1c: $("#" + requestID + "-hba1c").val(),
         });
     } else if (category === "Serology") {
         category = "serology";
@@ -899,16 +949,16 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             serum: $("#" + requestID + "-serumpregnancytest").val(),
             urine: $("#" + requestID + "-urinepregnancytest").val(),
             dengN: $("#" + requestID + "-denguens1").val(),
-            dengD: $("#" + requestID + "-dengueduo").val()
+            dengD: $("#" + requestID + "-dengueduo").val(),
         });
     }
 
-const response = await fetch('/generate-pdf-' + category, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+    const response = await fetch("/generate-pdf-" + category, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
     });
 
     if (response.ok) {
@@ -916,69 +966,68 @@ const response = await fetch('/generate-pdf-' + category, {
         const url = window.URL.createObjectURL(blob);
 
         // Display the PDF in the iframe
-        const pdfFrame = document.getElementById('pdfFrame');
+        const pdfFrame = document.getElementById("pdfFrame");
         pdfFrame.src = url;
 
         // Show the modal
-        const modal = document.getElementById('pdfModal');
-        modal.style.display = 'block';
+        const modal = document.getElementById("pdfModal");
+        modal.style.display = "block";
 
         document.querySelector(".close-pdf").onclick = function () {
             const modal = document.getElementById("pdfModal");
             modal.style.display = "none";
         };
-    
-        document.getElementById('pdfModal').onclick = function () {
+
+        document.getElementById("pdfModal").onclick = function () {
             const modal = document.getElementById("pdfModal");
             modal.style.display = "none";
-        }
+        };
 
         // Enable the download button
-        const downloadBtn = document.getElementById('downloadBtn');
-            downloadBtn.onclick = () => {
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Result_${requestID}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            };
+        const downloadBtn = document.getElementById("downloadBtn");
+        downloadBtn.onclick = () => {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `Result_${requestID}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        };
 
-            const emailBtn = document.getElementById('emailBtn');
-            emailBtn.onclick = async () => {
-                const email = prompt("Enter the recipient's email address:");
-                if (email) {
-                    alert('PDF has been sent to email.');
-                    const emailResponse = await fetch('/send-pdf-to-email', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            requestID,
-                            category,
-                            email,
-                            pdfData: await blobToBase64(blob)
-                        })
-                    });
-    
-                    if (emailResponse.ok) {
-                        alert('Email sent successfully');
-                    } else {
-                        alert('Failed to send email');
-                    }
+        const emailBtn = document.getElementById("emailBtn");
+        emailBtn.onclick = async () => {
+            const email = prompt("Enter the recipient's email address:");
+            if (email) {
+                alert("PDF has been sent to email.");
+                const emailResponse = await fetch("/send-pdf-to-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        requestID,
+                        category,
+                        email,
+                        pdfData: await blobToBase64(blob),
+                    }),
+                });
+
+                if (emailResponse.ok) {
+                    alert("Email sent successfully");
+                } else {
+                    alert("Failed to send email");
                 }
-            };
-        } else {
-            console.error('Failed to generate PDF');
-        }
-
+            }
+        };
+    } else {
+        console.error("Failed to generate PDF");
+    }
 }
 
 function blobToBase64(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onloadend = () => resolve(reader.result.split(",")[1]);
         reader.onerror = reject;
         reader.readAsDataURL(blob);
     });

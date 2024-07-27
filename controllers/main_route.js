@@ -1,5 +1,5 @@
-const global = require('./global');
-const helper = require('./helpers');
+const global = require("./global");
+const helper = require("./helpers");
 const { appdata } = require("../models/data");
 
 const {
@@ -14,7 +14,7 @@ const {
     // Use this model to look for the corresponding test
     // Note: Can't query specific values of tests, use other
     // Models to query a specific category
-    allTestModel
+    allTestModel,
 } = appdata;
 
 function add(router) {
@@ -24,14 +24,14 @@ function add(router) {
         let listofID = [];
 
         /*
-        console.log("");
-        console.log("Search: " + req.query.search);
-        console.log("Lower Date: " + req.query.lowerdate);
-        console.log("Upper Date: " + req.query.upperdate);
-        console.log("Status: " + req.query.status);
-        console.log("Categories: " + req.query.category);
-        console.log("Tests: " + req.query.tests);
-        */
+                console.log("");
+                console.log("Search: " + req.query.search);
+                console.log("Lower Date: " + req.query.lowerdate);
+                console.log("Upper Date: " + req.query.upperdate);
+                console.log("Status: " + req.query.status);
+                console.log("Categories: " + req.query.category);
+                console.log("Tests: " + req.query.tests);
+                */
 
         if (req.query.search !== undefined || req.query.search !== "") {
             regex = new RegExp(req.query.search, "i");
@@ -55,8 +55,10 @@ function add(router) {
         }
 
         if (
-            (req.query.lowerdate !== undefined && helper.isValidDate(req.query.lowerdate)) ||
-            (req.query.upperdate !== undefined && helper.isValidDate(req.query.upperdate))
+            (req.query.lowerdate !== undefined &&
+                helper.isValidDate(req.query.lowerdate)) ||
+            (req.query.upperdate !== undefined &&
+                helper.isValidDate(req.query.upperdate))
         ) {
             const dateRangeQuery = {};
 
@@ -137,36 +139,31 @@ function add(router) {
                         });
 
                         let results;
-                        if(item.category == "Serology"){
+                        if (item.category == "Serology") {
                             results = await serologyModel.findOne({
                                 requestID: item.requestID,
                             });
-                        }
-                        else if(item.category == "Hematology"){
+                        } else if (item.category == "Hematology") {
                             results = await hematologyModel.findOne({
                                 requestID: item.requestID,
                             });
-                        }
-                        else if(item.category == "Clinical Microscopy"){
-                            if(item.test == "Urinalysis"){
+                        } else if (item.category == "Clinical Microscopy") {
+                            if (item.test == "Urinalysis") {
                                 results = await urinalysisModel.findOne({
                                     requestID: item.requestID,
                                 });
-                            }
-                            else if(item.test == "Fecalysis"){
+                            } else if (item.test == "Fecalysis") {
                                 results = await fecalysisModel.findOne({
                                     requestID: item.requestID,
                                 });
                             }
-                        }
-                        else if(item.category == "Chemistry"){
+                        } else if (item.category == "Chemistry") {
                             results = await chemistryModel.findOne({
                                 requestID: item.requestID,
                             });
                         }
                         //Check the value of each test in chemistry and add a flag if out of range
-                        
-                        
+
                         if (item.status == "Completed") {
                             statusColor = "c";
                         } else if (item.status == "In Progress") {
@@ -176,7 +173,7 @@ function add(router) {
                         }
 
                         // console.log(patients);
-
+                        const allmedtechs = await userModel.find({ prcno: { $ne: "N/A" } });
                         subval.push({
                             patientNo: patientNo,
                             requestID: item.requestID,
@@ -197,7 +194,8 @@ function add(router) {
                             remarks: item.remarks,
                             barColor: statusColor,
                             payStatus: item.payStatus,
-                            results: JSON.stringify(results)
+                            results: JSON.stringify(results),
+                            allmedtechs: JSON.stringify(allmedtechs),
                         });
                         flagStatus = "";
 
@@ -267,7 +265,7 @@ function add(router) {
                 }
 
                 global.userFname = global.loggedUser.name.split(" ");
-                console.log(vals[valNo])
+                console.log(vals[valNo]);
                 resp.render("main", {
                     layout: "index",
                     title: "Main - Laboratory Information System",
@@ -292,27 +290,27 @@ function add(router) {
         let data = req.body.data[0];
         let requestID = req.body.requestID;
         console.log(category);
-        console.log(data)
+        console.log(data);
         console.log(requestID);
-        console.log(pageNumber)
+        console.log(pageNumber);
         let updateData;
         if (category === "Hematology") {
-                updateData = {
-                    hemoglobin: data.hemo,
-                    hematocrit: data.hema,
-                    rbcCount: data.rbc,
-                    wbcCount: data.wbc,
-                    neutrophil: data.neut,
-                    lymphocyte: data.lymp,
-                    monocyte: data.mono,
-                    eosinophil: data.eosi,
-                    basophil: data.baso,
-                    plateletCount: data.pltc,
-                    esr: data.esr,
-                    bloodWithRh: data.bwrh,
-                    clottingTime: data.clot,
-                    bleedingTime: data.bleed,
-                };
+            updateData = {
+                hemoglobin: data.hemo,
+                hematocrit: data.hema,
+                rbcCount: data.rbc,
+                wbcCount: data.wbc,
+                neutrophil: data.neut,
+                lymphocyte: data.lymp,
+                monocyte: data.mono,
+                eosinophil: data.eosi,
+                basophil: data.baso,
+                plateletCount: data.pltc,
+                esr: data.esr,
+                bloodWithRh: data.bwrh,
+                clottingTime: data.clot,
+                bleedingTime: data.bleed,
+            };
             hematologyModel
                 .findOneAndUpdate(
                     { requestID: requestID },
@@ -323,7 +321,6 @@ function add(router) {
                     console.log("successfully updated test");
                 })
                 .catch(helper.errorFn);
-
         } else if (category === "Urinalysis") {
             updateData = {
                 color: data.clr,
@@ -336,7 +333,7 @@ function add(router) {
                 rbc: data.rbc,
                 bacteria: data.bac,
                 epithelialCells: data.epi,
-                mucusThread: data.muc
+                mucusThread: data.muc,
             };
             urinalysisModel
                 .findOneAndUpdate(
@@ -348,7 +345,6 @@ function add(router) {
                     console.log("successfully updated test");
                 })
                 .catch(helper.errorFn);
-
         } else if (category === "Fecalysis") {
             updateData = {
                 color: data.clr,
@@ -363,7 +359,7 @@ function add(router) {
                 meatFiber: data.meat,
                 pusCells: data.pus,
                 erythrocyte: data.eryth,
-                yeastCell: data.yeast
+                yeastCell: data.yeast,
             };
 
             fecalysisModel
@@ -376,7 +372,6 @@ function add(router) {
                     console.log("successfully updated test");
                 })
                 .catch(helper.errorFn);
-
         } else if (category === "Chemistry") {
             updateData = {
                 fbs: data.fbs,
@@ -390,7 +385,7 @@ function add(router) {
                 bun: data.bun,
                 sgpt: data.sgpt,
                 sgot: data.sgot,
-                hba1c: data.hba1c
+                hba1c: data.hba1c,
             };
 
             chemistryModel
@@ -403,7 +398,6 @@ function add(router) {
                     console.log("successfully updated test");
                 })
                 .catch(helper.errorFn);
-
         } else if (category === "Serology") {
             updateData = {
                 requestID: requestID,
@@ -425,7 +419,6 @@ function add(router) {
                     console.log("successfully updated test");
                 })
                 .catch(helper.errorFn);
-
         }
 
         resp.json({ redirect: "/main/" + pageNumber });
@@ -435,8 +428,9 @@ function add(router) {
         const { requestID, status, payStatus, remarks } = req.body;
         let dateEnd;
         let date = new Date();
-        
-        if (status === "Completed") dateEnd = new Date(date.getTime() + (8 * 60 * 60 * 1000));
+
+        if (status === "Completed")
+            dateEnd = new Date(date.getTime() + 8 * 60 * 60 * 1000);
 
         const updateValues = {
             $set: {
@@ -447,7 +441,8 @@ function add(router) {
             },
         };
 
-        requestModel.updateOne({ requestID: requestID }, updateValues)
+        requestModel
+            .updateOne({ requestID: requestID }, updateValues)
             .then(async function (updatedRequest) {
                 if (updatedRequest) {
                     // If the update was successful, redirect back to the main page
@@ -469,12 +464,18 @@ function add(router) {
 
     router.get("/main/:pageNo/gender/:requestID", function (req, res) {
         const requestID = req.params.requestID;
-        requestModel.findOne({ requestID: requestID }).lean().then(function (request) {
-            patientModel.findOne({ patientID: request.patientID }).lean().then(function (patient) {
-                const gender = patient.sex;
-                res.json({ gender: gender });
-            })
-        });
+        requestModel
+            .findOne({ requestID: requestID })
+            .lean()
+            .then(function (request) {
+                patientModel
+                    .findOne({ patientID: request.patientID })
+                    .lean()
+                    .then(function (patient) {
+                        const gender = patient.sex;
+                        res.json({ gender: gender });
+                    });
+            });
     });
 }
 

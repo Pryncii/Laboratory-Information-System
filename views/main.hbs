@@ -9,29 +9,33 @@
 
 
 
- <div class="main-content">
+<div class="main-content">
     <!-- ======= Title ======= -->
     <div class="_title container-fluid">
         <h1>Requested/Ongoing Lab Tests</h1>
-      <h2 id="time"></h2>
+        <h2 id="time"></h2>
     </div>
 
     <div class="test-content">
         <!-- ======= Advanced Search ======= -->
-        <form action = "/main/1" method = "get">
+        <form action="/main/1" method="get">
             <div class="form-box">
                 <div class="norm">
                     <input class="input-item form-control" type="text" id="search" name="search" placeholder="Search">
                     <button class="btn-item btn btn-primary btn-lg" type="submit">SEARCH</button>
                 </div>
-                
+
                 <div class="adv">
-                    <a data-bs-toggle="collapse" data-bs-target="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch" class="advanced">
+                    <a data-bs-toggle="collapse" data-bs-target="#collapseSearch" role="button" aria-expanded="false"
+                        aria-controls="collapseSearch" class="advanced">
                         <div class="adv-title">
                             <h5 class="adv-icon">Advanced Search</h5>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
-                            <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-chevron-double-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                                <path fill-rule="evenodd"
+                                    d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
                             </svg>
                         </div>
                     </a>
@@ -49,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                 <div class="col-md-12">
+                                <div class="col-md-12">
                                     <label for="date">Status</label>
                                     <select class="form-select adv-item" id="status" name="status">
                                         <option value="A">All</option>
@@ -57,10 +61,10 @@
                                         <option value="In Progress">In Progress</option>
                                         <option value="Completed">Completed</option>
                                     </select>
-                                 </div>
+                                </div>
                             </div>
                             <div class="row">
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <label for="date">Category</label>
                                     <select class="form-select adv-item" id="category" name="category">
                                         <option value="AA">All</option>
@@ -69,14 +73,15 @@
                                         <option value="Chemistry">Chemistry</option>
                                         <option value="Serology">Serology</option>
                                     </select>
-                                 </div>
-                                 <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
                                     <label for="date">Test</label>
                                     <select class="form-select adv-item" id="tests" name="tests">
                                         <option value="AAA">All</option>
 
                                         <option value="CBC" class="h-cat">CBC</option>
-                                        <option value="CBC with Platelet Count" class="h-cat">CBC with Platelet Count</option>
+                                        <option value="CBC with Platelet Count" class="h-cat">CBC with Platelet Count
+                                        </option>
                                         <option value="ESR" class="h-cat">ESR</option>
                                         <option value="Blood Type with Rh" class="h-cat">Blood Type with Rh</option>
                                         <option value="Clotting Time" class="h-cat">Clotting Time</option>
@@ -85,7 +90,7 @@
                                         <option value="Urinalysis" class="cm-cat">Urinalysis</option>
                                         <option value="Fecalysis" class="cm-cat">Fecalysis</option>
                                         <option value="FOBT" class="cm-cat">FOBT</option>
-                                        
+
                                         <option value="FBS" class="c-cat">FBS</option>
                                         <option value="Creatinine" class="c-cat">Creatinine</option>
                                         <option value="Uric Acid" class="c-cat">Uric Acid</option>
@@ -98,7 +103,7 @@
                                         <option value="SGPT" class="c-cat">SGPT</option>
                                         <option value="SGOT" class="c-cat">SGOT</option>
                                         <option value="HbA1c" class="c-cat">HbA1c</option>
-                                        
+
                                         <option value="HbsAg" class="s-cat">HbsAg</option>
                                         <option value="RPR/VDRL" class="s-cat">RPR/VDRL</option>
                                         <option value="Serum Pregnancy Test" class="s-cat">Serum Pregnancy Test</option>
@@ -106,7 +111,7 @@
                                         <option value="Dengue NS1" class="s-cat">Dengue NS1</option>
                                         <option value="Dengue Duo" class="s-cat">Dengue Duo</option>
                                     </select>
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -115,32 +120,75 @@
         <!-- ======= Table of Lab Tests ======= -->
         <table class="test-items">
             <tr>
-                <th class="item-label number"><h6>#</h6></th>
-                <th class="item-label id-item"><h6>Request ID</h6></th>
-                <th class="item-label id-item"><h6>Patient ID</h6></th>
-                <th class="item-label"><h6>Name</h6></th>
-                <th class="item-label"><h6>Test&sol;s</h6></th>
-                <th class="item-label status"><h6>Request Status</h6></th>
-                <th class="item-label remarks"><h6>Remarks</h6></th>
-                <th class="item-label id-item"><h6>Payment Status</h6></th>
-                <th class="item-label date"><h6>Date Requested</h6></th>
-                <th class="item-label date"><h6>Date Completed</h6></th>
+                <th class="item-label number">
+                    <h6>#</h6>
+                </th>
+                <th class="item-label id-item">
+                    <h6>Request ID</h6>
+                </th>
+                <th class="item-label id-item">
+                    <h6>Patient ID</h6>
+                </th>
+                <th class="item-label">
+                    <h6>Name</h6>
+                </th>
+                <th class="item-label">
+                    <h6>Test&sol;s</h6>
+                </th>
+                <th class="item-label status">
+                    <h6>Request Status</h6>
+                </th>
+                <th class="item-label remarks">
+                    <h6>Remarks</h6>
+                </th>
+                <th class="item-label id-item">
+                    <h6>Payment Status</h6>
+                </th>
+                <th class="item-label date">
+                    <h6>Date Requested</h6>
+                </th>
+                <th class="item-label date">
+                    <h6>Date Completed</h6>
+                </th>
             </tr>
             {{#each data}}
-                <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}" 
-                data-status="{{status}}" data-remarks="{{remarks}}" data-pay-status="{{payStatus}}" data-bs-toggle="modal" data-bs-target="#Modal-{{requestID}}" role="button" onclick="generateTemplate('{{requestID}}', '{{category}}', '{{patientName}}', '{{age}}', '{{sex}}', '{{test}}', '{{results}}')">
-                    <th class="item-container number"><h6>{{patientNo}}</h6></th>
-                    <th class="item-container"><h6>{{requestID}}</h6></th>
-                    <td class="item-container"><h6>{{patientID}}</h6></th>
-                    <td class="item-container"><h6>{{patientName}}</h6></th>
-                    <td class="item-container"><h6>{{test}}</h6></th>
-                    <td class="item-container status" data-bs-toggle="modal" data-bs-target="#statusModal" role="button"><a data-bs-toggle="modal" data-bs-target="#statusModal" role="button" id="reqStatus">
-                    <h6 class="status-item {{barColor}}">{{status}}</h6></a></th>
-                    <td class="item-container" data-bs-toggle="modal" data-bs-target="#statusModal" role="button"><h6>{{remarks}}</h6></th>
-                    <td class="item-container id-item" data-bs-toggle="modal" data-bs-target="#statusModal" role="button" id="payStatus"><h6>{{payStatus}}</h6></th>
-                    <td class="item-container date"><h6>{{dateStart}}</h6></th>
-                    <td class="item-container date"><h6>{{dateEnd}}</h6></th>
-                </tr>
+            <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}"
+                data-status="{{status}}" data-remarks="{{remarks}}" data-pay-status="{{payStatus}}"
+                data-bs-toggle="modal" data-bs-target="#Modal-{{requestID}}" role="button"
+                onclick="generateTemplate('{{requestID}}', '{{category}}', '{{patientName}}', '{{age}}', '{{sex}}', '{{test}}', '{{results}}', '{{allmedtechs}}')">
+                <th class="item-container number">
+                    <h6>{{patientNo}}</h6>
+                </th>
+                <th class="item-container">
+                    <h6>{{requestID}}</h6>
+                </th>
+                <td class="item-container">
+                    <h6>{{patientID}}</h6>
+                    </th>
+                <td class="item-container">
+                    <h6>{{patientName}}</h6>
+                    </th>
+                <td class="item-container">
+                    <h6>{{test}}</h6>
+                    </th>
+                <td class="item-container status" data-bs-toggle="modal" data-bs-target="#statusModal" role="button"><a
+                        data-bs-toggle="modal" data-bs-target="#statusModal" role="button" id="reqStatus">
+                        <h6 class="status-item {{barColor}}">{{status}}</h6>
+                    </a></th>
+                <td class="item-container" data-bs-toggle="modal" data-bs-target="#statusModal" role="button">
+                    <h6>{{remarks}}</h6>
+                    </th>
+                <td class="item-container id-item" data-bs-toggle="modal" data-bs-target="#statusModal" role="button"
+                    id="payStatus">
+                    <h6>{{payStatus}}</h6>
+                    </th>
+                <td class="item-container date">
+                    <h6>{{dateStart}}</h6>
+                    </th>
+                <td class="item-container date">
+                    <h6>{{dateEnd}}</h6>
+                    </th>
+            </tr>
             {{/each}}
         </table>
 
@@ -149,9 +197,11 @@
             <tr>
                 <th class="btn-container float-start">
                     {{#if pageFirst}}
-                        <button type="button" class="btn btn-primary btn-lg" id="back" onclick="window.location.href='/main/{{pageNoBack}}{{query}}'" disabled>BACK</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="back"
+                        onclick="window.location.href='/main/{{pageNoBack}}{{query}}'" disabled>BACK</button>
                     {{else}}
-                        <button type="button" class="btn btn-primary btn-lg" id="back" onclick="window.location.href='/main/{{pageNoBack}}{{query}}'">BACK</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="back"
+                        onclick="window.location.href='/main/{{pageNoBack}}{{query}}'">BACK</button>
                     {{/if}}
                 </th>
                 <th class="page-container text-center" id="pageDetails">
@@ -159,100 +209,106 @@
                 </th>
                 <th class="btn-container float-end">
                     {{#if pageLast}}
-                        <button type="button" class="btn btn-primary btn-lg" id="next" onclick="window.location.href='/main/{{pageNoNext}}{{query}}'" disabled>NEXT</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="next"
+                        onclick="window.location.href='/main/{{pageNoNext}}{{query}}'" disabled>NEXT</button>
                     {{else}}
-                        <button type="button" class="btn btn-primary btn-lg" id="next" onclick="window.location.href='/main/{{pageNoNext}}{{query}}'">NEXT</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="next"
+                        onclick="window.location.href='/main/{{pageNoNext}}{{query}}'">NEXT</button>
                     {{/if}}
                 </th>
             </tr>
         </table>
-        
-        <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-        <!-- Modal content -->
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="statusModalLabel">Edit Status</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="form-header">
-                            <div class="form-title">
-                                <h1 id="user-name"><h2 id="patient-id"></h2></h1>
-                            </div>
-                        </div>
-                        <form id="status-form" action="/update-status-request-db" method = "post">
-                            <div class="form-group">
-                                <div class="d-flex mb-3">
-                                    <h2 id="request-id-lbl" name="request-id-lbl">Request ID:&nbsp;</h2><h2 id="request-id" name="requestID"><br></h2>
-                                </div>
-                                <label for="status">Request Status</label>
-                                <select id="edit-status" name="status" class="form-control">
-                                    <option value="Requested">Requested</option>
-                                    <option value="In Progress">In Progress</option>
-                                    <option value="Completed">Completed</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="payment-status">Payment Status</label>
-                                <select id="payment-status" name="paymentStatus" class="form-control">
-                                    <option value="Unpaid">Unpaid</option>
-                                    <option value="Paid">Paid</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="remarks">Medical Technologist's Remarks</label>
-                                <textarea id="remarks" name="remarks" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group btn-container">
-                                <input class="reg-btn" type="submit" value="SAVE">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{#each data}}
-    <div class="modal fade modal-lg" id="Modal-{{requestID}}" tabindex="-1" aria-labelledby="ModalLabel-{{requestID}}" aria-hidden="true">
-        <!-- Modal content -->
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="ModalLabel-{{requestID}}"></h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="form-header">
-                            <div class="form-title">
-                                <h1>{{patientName}}</h1>
-                                Patient ID: {{patientID}}<br>
-                                Request ID: {{requestID}}
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="d-flex justify-content-center align-items-center my-2 w-100" id="{{requestID}}-header"></div>
-                            <div id="{{requestID}}-content"></div>
-                            <div class="my-3" id="{{requestID}}-submit"></div>
-                            <div class="my-3" id="{{requestID}}-pdfsubmit"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{/each}}
-        <div id="pdfModal" class="modalPDF">
-        <div class="modal-content-pdf">
-            <span class="close-pdf">&times;</span>
-            <h2>Generated PDF</h2>
-            <iframe id="pdfFrame" style="width:100%; height:500px;"></iframe>
-            <button id="downloadBtn">Download PDF</button>
-            <button id="emailBtn">Email PDF</button>
-        </div>
-    </div>
-    </div>
- </div>
 
+        <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="statusModalLabel">Edit Status</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-header">
+                                <div class="form-title">
+                                    <h1 id="user-name">
+                                        <h2 id="patient-id"></h2>
+                                    </h1>
+                                </div>
+                            </div>
+                            <form id="status-form" action="/update-status-request-db" method="post">
+                                <div class="form-group">
+                                    <div class="d-flex mb-3">
+                                        <h2 id="request-id-lbl" name="request-id-lbl">Request ID:&nbsp;</h2>
+                                        <h2 id="request-id" name="requestID"><br></h2>
+                                    </div>
+                                    <label for="status">Request Status</label>
+                                    <select id="edit-status" name="status" class="form-control">
+                                        <option value="Requested">Requested</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment-status">Payment Status</label>
+                                    <select id="payment-status" name="paymentStatus" class="form-control">
+                                        <option value="Unpaid">Unpaid</option>
+                                        <option value="Paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="remarks">Medical Technologist's Remarks</label>
+                                    <textarea id="remarks" name="remarks" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group btn-container">
+                                    <input class="reg-btn" type="submit" value="SAVE">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{#each data}}
+        <div class="modal fade modal-lg" id="Modal-{{requestID}}" tabindex="-1"
+            aria-labelledby="ModalLabel-{{requestID}}" aria-hidden="true">
+            <!-- Modal content -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="ModalLabel-{{requestID}}"></h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-header">
+                                <div class="form-title">
+                                    <h1>{{patientName}}</h1>
+                                    Patient ID: {{patientID}}<br>
+                                    Request ID: {{requestID}}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="d-flex justify-content-center align-items-center my-2 w-100"
+                                    id="{{requestID}}-header"></div>
+                                <div id="{{requestID}}-content"></div>
+                                <div class="my-3" id="{{requestID}}-submit"></div>
+                                <div class="my-3" id="{{requestID}}-pdfsubmit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        <div id="pdfModal" class="modalPDF">
+            <div class="modal-content-pdf">
+                <span class="close-pdf">&times;</span>
+                <h2>Generated PDF</h2>
+                <iframe id="pdfFrame" style="width:100%; height:500px;"></iframe>
+                <button id="downloadBtn">Download PDF</button>
+                <button id="emailBtn">Email PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
