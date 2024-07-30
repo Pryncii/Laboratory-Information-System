@@ -4,42 +4,68 @@ const helper = require('./helpers');
 
 const {
     patientModel,
-    requestModel
+    userModel,
+    requestModel,
+    serologyModel,
+    hematologyModel,
+    urinalysisModel,
+    fecalysisModel,
+    chemistryModel
 } = appdata;
 
 function add(router) {
-    const processHistory = (patientID, requestModel) => {
-        return requestModel
-        .find({ patientID: patientID })
-        .lean()
-        .then((requests) => {
-            if (!requests || requests.length === 0) {
-                return [];
+    const processHistory = async (patientID, requestModel) => {
+        // Find requests for the given patientID
+        const requests = await requestModel.find({ patientID }).lean();
+        const allmedtechs = await userModel.find({ prcno: { $ne: "N/A" } });
+    
+        // If there are no requests, return an empty array
+        if (!requests || requests.length === 0) {
+            return [];
+        }
+    
+        // Create an array of promises to process each request
+        const requestPromises = requests.map(async (request) => {
+            let latestDate;
+            let results;
+    
+            // Check the category of the request and find the corresponding results
+            if (request.category === "Serology") {
+                results = await serologyModel.findOne({ requestID: request.requestID }).lean();
+            } else if (request.category === "Hematology") {
+                results = await hematologyModel.findOne({ requestID: request.requestID }).lean();
+            } else if (request.category === "Clinical Microscopy") {
+                if (request.test === "Urinalysis") {
+                    results = await urinalysisModel.findOne({ requestID: request.requestID }).lean();
+                } else if (request.test === "Fecalysis") {
+                    results = await fecalysisModel.findOne({ requestID: request.requestID }).lean();
+                }
+            } else if (request.category === "Chemistry") {
+                results = await chemistryModel.findOne({ requestID: request.requestID }).lean();
             }
-
-            // Create an array of promises to process each request
-            const requestPromises = requests.map((request) => {
-                return new Promise((resolve) => {
-                    let latestDate;
-
-                    if (request.dateEnd == null) {
-                        latestDate = new Date(3000, 0, 1);
-                    } else {
-                        latestDate = new Date(request.dateEnd);
-                    }
-
-                    resolve({
-                        test: request.test,
-                        dateStart: request.dateStart,
-                        dateEnd: latestDate,
-                        remarks: request.remarks,
-                    });
-                });
-            });
-
-            // Return a promise that resolves when all request data is processed
-            return Promise.all(requestPromises);
+    
+            // Determine the latest date
+            if (request.dateEnd == null) {
+                latestDate = new Date(3000, 0, 1);
+            } else {
+                latestDate = new Date(request.dateEnd);
+            }
+    
+            // Return the processed request data
+            return {
+                requestID: request.requestID,
+                category: request.category,
+                test: request.test,
+                dateStart: request.dateStart,
+                dateEnd: latestDate,
+                remarks: request.remarks,
+                results: JSON.stringify(results),
+                allmedtechs: JSON.stringify(allmedtechs),
+            };
         });
+    
+        // Wait for all request data to be processed and return the results
+        return Promise.all(requestPromises);
     };
 
     router.get("/patient-history/:patientID/:number", function (req, resp) {
@@ -85,7 +111,7 @@ function add(router) {
                 lockBack = page <= 1;
                 pageBack = page - 1;
                 pageNext = page + 1;
-
+                
                 resp.render("patient_history", {
                     layout: "index",
                     title: "Laboratory Information System",
@@ -104,7 +130,6 @@ function add(router) {
         });  
     });
 
-    
 }
 
 module.exports.add = add;
