@@ -415,6 +415,60 @@ function add(router) {
             res.status(500).send('Error sending email');
         }
     });
+
+    router.post('/send-pdf-to-reg-email', async (req, res) => {
+        const { requestID, patientID, category, pdfData } = req.body;
+        let email;
+        
+        try {
+            const patient = await patientModel.findOne({ patientID: patientID }).lean();
+            email = patient.email;
+        } catch (error) {
+            console.error('Error fetching patient:', error);
+            return res.status(500).send('Error fetching patient data');
+        }
+        
+        console.log(email)
+
+        if (email === "N/A") {
+            return res.status(400).send('No registered email address');
+        } else if (!email) {
+            return res.status(400).send('Invalid email address');
+        }
+
+        // Create a transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'bioscopicdiagnosticlaboratory@gmail.com',
+                pass: 'ceht usoq zmxc gckd'
+            }
+        });
+        
+        // Send mail with defined transport object
+        try {
+            let info = await transporter.sendMail({
+                from: '"Bioscopic Diagnostic Laboratory" <your-email@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: category.charAt(0).toUpperCase() + category.slice(1).toLowerCase() + ' Test Results', // Subject line
+                text: 'Please find attached your '+ category +' test results.', // plain text body
+                attachments: [
+                    {
+                        filename: requestID + "_" + 'TestResult_'+ category + '.pdf',
+                        content: pdfData,
+                        encoding: 'base64',
+                        contentType: 'application/pdf'
+                    }
+                ]
+            });
+    
+            console.log('Message sent: %s', info.messageId);
+            res.status(200).send('Email sent successfully');
+        } catch (error) {
+            console.log('Error sending email:', error);
+            res.status(500).send('Error sending email');
+        }
+    });
 }
 
 module.exports.add = add;

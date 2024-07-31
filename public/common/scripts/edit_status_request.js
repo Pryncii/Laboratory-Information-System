@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             remarks: document.getElementById("remarks").value,
         };
 
-        console.log(formData);
+        // console.log(formData);
 
         const url = "/update-status-request-db";
 
@@ -138,6 +138,7 @@ function convertEmptyToMinusOne(obj, tests) {
 
 function generateTemplate(
     requestID,
+    patientID,
     category,
     patientName,
     age,
@@ -627,7 +628,7 @@ function generateTemplate(
                 <label for="medtech">Medtech</label>
             </div>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}','${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}', '${patientID}', '${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
         </div>
     `;
     $(`#${requestID}-header`).html(header);
@@ -854,7 +855,7 @@ function saveChanges(requestID, category) {
     ); //fn+post
 }
 
-async function generatePDF(requestID, category, patientName, age, sex) {
+async function generatePDF(requestID, patientID, category, patientName, age, sex) {
     let data = [];
 
     if (category === "Hematology") {
@@ -978,9 +979,9 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             modal.style.display = "none";
         };
 
-        document.getElementById("pdfModal").onclick = function () {
-            const modal = document.getElementById("pdfModal");
-            modal.style.display = "none";
+        // Close the Email modal when the close button is clicked
+        document.querySelector(".close-email").onclick = function () {
+            emailModal.style.display = "none";
         };
 
         // Enable the download button
@@ -993,9 +994,58 @@ async function generatePDF(requestID, category, patientName, age, sex) {
             a.click();
             a.remove();
         };
+        
+        window.onclick = function (event) {
+            const pdfModal = document.getElementById("pdfModal");
+            const emailModal = document.getElementById("emailModal");
+        
+            // Close PDF modal if click outside of it
+            if (event.target == pdfModal) {
+                pdfModal.style.display = "none";
+            }
+        
+            // Close Email modal if click outside of it
+            if (event.target == emailModal) {
+                emailModal.style.display = "none";
+            }
+        };
 
-        const emailBtn = document.getElementById("emailBtn");
-        emailBtn.onclick = async () => {
+        document.getElementById("emailBtn").onclick = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        
+            const emailModal = document.getElementById("emailModal");
+            emailModal.style.display = "block";
+        };
+
+        emailReg.onclick = async () => {
+            // alert("PDF has been sent to email.");
+            const emailResponse = await fetch("/send-pdf-to-reg-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestID,
+                    patientID,
+                    category,
+                    pdfData: await blobToBase64(blob),
+                }),
+            });
+
+            // Log the status code and response text for debugging
+            // console.log('Response Status:', emailResponse.status);
+            const responseText = await emailResponse.text();
+            // console.log('Response Text:', responseText);
+
+            if (emailResponse.ok) {
+                alert(`Success: ${responseText}`);
+            } else {
+                alert(`Failed to send email: ${responseText}`);
+            }
+        };
+
+        emailInput.onclick = async () => {
             const email = prompt("Enter the recipient's email address:");
             if (email) {
                 alert("PDF has been sent to email.");
@@ -1019,6 +1069,7 @@ async function generatePDF(requestID, category, patientName, age, sex) {
                 }
             }
         };
+
     } else {
         console.error("Failed to generate PDF");
     }

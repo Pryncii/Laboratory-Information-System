@@ -212,7 +212,7 @@ function add(router) {
                 let sgptVal;
                 let sgotVal;
                 let hba1cVal;
-                console.log(test);
+                // console.log(test);
                 if (test.includes('FBS')) {
                     // Code for Creatinine
                     fbsVal = -1;

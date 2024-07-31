@@ -106,7 +106,7 @@ function add(router) {
         }
 
         console.log("Search Query");
-        console.log(searchQuery);
+        // console.log(searchQuery);
 
         if (searchQuery.$and.length === 0) {
             searchQuery = {};
@@ -265,7 +265,7 @@ function add(router) {
                 }
 
                 global.userFname = global.loggedUser.name.split(" ");
-                console.log(vals[valNo]);
+                // console.log(vals[valNo]);
                 resp.render("main", {
                     layout: "index",
                     title: "Main - Laboratory Information System",
@@ -289,10 +289,10 @@ function add(router) {
         let category = req.body.category;
         let data = req.body.data[0];
         let requestID = req.body.requestID;
-        console.log(category);
-        console.log(data);
-        console.log(requestID);
-        console.log(pageNumber);
+        // console.log(category);
+        // console.log(data);
+        // console.log(requestID);
+        // console.log(pageNumber);
         let updateData;
         if (category === "Hematology") {
             updateData = {

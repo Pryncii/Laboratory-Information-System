@@ -56,7 +56,7 @@
             <!-- EACH PROCEDURE THING HERE -->
                 {{#each pageData}}
                 <tr data-request-id="{{requestID}}" data-bs-toggle="modal" data-bs-target="#Modal-{{requestID}}" role="button"
-                onclick="generateTemplate('{{requestID}}', '{{category}}', '{{../patientinfo.name}}', '{{../patientinfo.age}}', '{{../patientinfo.sex}}', '{{test}}', '{{results}}', '{{allmedtechs}}')">
+                onclick="generateTemplate('{{requestID}}', '{{../patientinfo.patientID}}', '{{category}}', '{{../patientinfo.name}}', '{{../patientinfo.age}}', '{{../patientinfo.sex}}', '{{test}}', '{{results}}', '{{allmedtechs}}')">
                 
                     <td class="item-container"><h5>{{test}}</h5></th>
                     <td class="item-container"><h5>{{dateStart}}</h5></th>
