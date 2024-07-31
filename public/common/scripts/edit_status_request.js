@@ -936,24 +936,6 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
         let unit = [];
         let multUnit = [];
 
-        result.push({
-            name: patientName,
-            age: age,
-            sex: sex,
-            fbs: $("#" + requestID + "-fbs").val(),
-            crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uricacid").val(),
-            chol: $("#" + requestID + "-cholesterol").val(),
-            tri: $("#" + requestID + "-triglycerides").val(),
-            hdl: $("#" + requestID + "-hdl").val(),
-            ldl: $("#" + requestID + "-ldl").val(),
-            vldl: $("#" + requestID + "-vldl").val(),
-            bun: $("#" + requestID + "-bun").val(),
-            sgpt: $("#" + requestID + "-sgpt").val(),
-            sgot: $("#" + requestID + "-sgot").val(),
-            hba1c: $("#" + requestID + "-hba1c").val(),
-        });
-
         for (var i = 0; i < test.length; i++) {
             if (test[i].includes(' ')) {
                 var name = test[i].replace(/ /g, '').toLowerCase();
@@ -965,6 +947,33 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
             let parameterKey = `Parameter${i}`;
             result.push({[resultKey]: $("#" + requestID + "-" + name).val()});
             parameter.push({[parameterKey]: test[i]});
+
+            let unitKey = `Unit${i}`;
+            let multUnitKey = `multUnit${i}`;
+            if (test[i] === "FBS") {
+                unit.push({[unitKey]: "Fasting: 75.0 - 115.- mg/dL"});
+            }
+            if(test[i] === "Creatinine") {
+                multUnit.push({[multUnitKey]: "M: 0.7 - 1.4 mg/dL\nF: 0.6 - 1.1 mg/dL"});
+            }
+            if (test[i] === "Uric Acid") {
+                unit.push({[unitKey]: "2.5 - 7.0 mg/dL"});
+            }
+            if (test[i] === "Cholesterol") {
+                unit.push({[unitKey]: "Up to 150.00 mg/dL"});
+            }
+            if (test[i] === "Triglycerides") {
+                unit.push({[unitKey]: "Up to 150.00 mg/dL"});
+            }
+            if (test[i] === "HDL") {
+                multUnit.push({[multUnitKey]: "M: 30-70 mg/dL\nF: 30-85 mg/dL"});
+            }
+            if (test[i] === "LDL") {
+                unit.push({[unitKey]: "Up to 130.00 mg/dL"});
+            }
+            if (test[i] === "VLDL") {
+                unit.push({[unitKey]: "8.00 - 33.00 mg/dL"});
+            }
         }
     
         mergeData = {result, parameter, unit, multUnit, info};

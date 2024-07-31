@@ -214,23 +214,13 @@ function add(router) {
             }
     });
     router.post('/generate-pdf-chemistry', async (req, res) => {
-        const [{
-            name,
-            age,
-            sex,
-            fbs,
-            crt,
-            uric,
-            chol,
-            tri,
-            hdl,
-            ldl,
-            vldl,
-            bun,
-            sgpt,
-            sgot,
-            hba1c
-        }] = req.body;
+        const {
+            result,
+            parameter,
+            unit,
+            multUnit,
+            info
+        } = req.body;
 
             console.log('Received data:', req.body);  
             const dir = 'public/common/pdfTemplates/';
@@ -251,9 +241,9 @@ function add(router) {
                 let day = today.getDate();
                 let year = today.getFullYear();
                 
-                form.getTextField('Name').setText(name.toUpperCase());
+                form.getTextField('Name').setText(info[0].name.toUpperCase());
                 form.getTextField('Name').defaultUpdateAppearances(timesBold);
-                form.getTextField('AgeSex').setText(age + "/" + sex);
+                form.getTextField('Age/Sex').setText(info[0].age + "/" + info[0].sex);
                 form.getTextField('Date').setText(month+ "/" + day + "/" + year);
 
                 let lastName = JSON.stringify(global.userFname[0]);
@@ -264,24 +254,35 @@ function add(router) {
                 form.getTextField('Physician').setText(firstName + " " + lastName);
 
                 // Set values for specific fields by their names
-                form.getTextField('Glucose').setText(fbs);
-                form.getTextField('Creatinine').setText(crt);
-                form.getTextField('Uric_Acid').setText(uric);
-                form.getTextField('Cholesterol_Total').setText(chol);
-                form.getTextField('Triglycerides').setText(tri);
-                form.getTextField('Cholesterol_HDL').setText(hdl);
-                form.getTextField('Cholesterol_LDL').setText(ldl);
-                form.getTextField('VLDL').setText(vldl);
-                form.getTextField('BUN').setText(bun);
-                form.getTextField('SGPT').setText(sgpt);
-                form.getTextField('SGOT').setText(sgot);
-                form.getTextField('HBA1C').setText(hba1c);
+                parameter.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                });
+
+                result.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                })
+
+                unit.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                })
+
+                multUnit.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                })
         
                 fields.forEach(field => {
                     field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
                 });
 
-                form.getTextField('AgeSex').updateAppearances(timesNewRoman);
+                form.getTextField('Age/Sex').updateAppearances(timesNewRoman);
                 form.getTextField('Date').updateAppearances(timesNewRoman);
                 form.getTextField('Physician').updateAppearances(timesNewRoman);
 
