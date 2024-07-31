@@ -303,21 +303,14 @@ function add(router) {
             }
     });
     router.post('/generate-pdf-serology', async (req, res) => {
-        const [{
-            name,
-            age,
-            sex,
-            hbsag,
-            rprvdrl,
-            serum,
-            urine,
-            dengN,
-            dengD
-        }] = req.body;
+        const {
+            result,
+            parameter,
+            info
+        } = req.body;
 
             console.log('Received data:', req.body);  
             const dir = 'public/common/pdfTemplates/';
-
             try {
                 const pdfDoc = await PDFDocument.load(await readFile(dir + 'SerologyTemplate.pdf'));
                 const form = pdfDoc.getForm();
@@ -335,9 +328,9 @@ function add(router) {
             let day = today.getDate();
             let year = today.getFullYear();
             
-            form.getTextField('Name').setText(name.toUpperCase());
+            form.getTextField('Name').setText(info[0].name.toUpperCase());
             form.getTextField('Name').defaultUpdateAppearances(timesBold);
-            form.getTextField('AgeSex').setText(age + "/" + sex);
+            form.getTextField('Age/Sex').setText(info[0].age + "/" + info[0].sex);
             form.getTextField('Date').setText(month+ "/" + day + "/" + year);
 
             let lastName = JSON.stringify(global.userFname[0]);
@@ -347,18 +340,23 @@ function add(router) {
 
             form.getTextField('Physician').setText(firstName + " " + lastName);
                 // Set values for specific fields by their names
-                form.getTextField('HbsAg').setText(hbsag);
-                form.getTextField('RPR').setText(rprvdrl);
-                form.getTextField('Serum').setText(serum);
-                form.getTextField('Urine').setText(urine);
-                form.getTextField('NS1').setText(dengN);
-                form.getTextField('Duo').setText(dengD);
+                parameter.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                });
+
+                result.forEach((paramObj, index) => {
+                    const key = Object.keys(paramObj)[0];
+                    const value = paramObj[key];
+                    form.getTextField(`${key}`).setText(value);
+                })
 
                 fields.forEach(field => {
                     field.defaultUpdateAppearances(timesBold, '/F1 13 Tf 0 g');
                 });
 
-                form.getTextField('AgeSex').updateAppearances(timesNewRoman);
+                form.getTextField('Age/Sex').updateAppearances(timesNewRoman);
                 form.getTextField('Date').updateAppearances(timesNewRoman);
                 form.getTextField('Physician').updateAppearances(timesNewRoman);
         
