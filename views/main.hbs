@@ -155,7 +155,7 @@
             <tr data-request-id="{{requestID}}" data-patient-id="{{patientID}}" data-patient-name="{{patientName}}"
                 data-status="{{status}}" data-remarks="{{remarks}}" data-pay-status="{{payStatus}}"
                 data-bs-toggle="modal" data-bs-target="#Modal-{{requestID}}" role="button"
-                onclick="generateTemplate('{{requestID}}', '{{category}}', '{{patientName}}', '{{age}}', '{{sex}}', '{{test}}', '{{results}}', '{{allmedtechs}}')">
+                onclick="generateTemplate('{{requestID}}', '{{patientID}}', '{{category}}', '{{patientName}}', '{{age}}', '{{sex}}', '{{test}}', '{{results}}', '{{allmedtechs}}')">
                 <th class="item-container number">
                     <h6>{{patientNo}}</h6>
                 </th>
@@ -310,5 +310,15 @@
                 <button id="emailBtn">Email PDF</button>
             </div>
         </div>
+
+        <div id="emailModal" class="emailPDF">
+            <div class="modal-content-email">
+                <span class="close-email">&times;</span>
+                <h2>Email PDF</h2>
+                <button id="emailReg">Send to Registered</button>
+                <button id="emailInput">Send to Other</button>
+            </div>
+        </div>
+        
     </div>
 </div>
