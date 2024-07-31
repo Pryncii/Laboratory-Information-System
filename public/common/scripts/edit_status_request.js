@@ -961,16 +961,10 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
                 var name = test[i].toLowerCase();
             }
 
-            if (test[i] === )
-
             let resultKey = `Result${i}`;
             let parameterKey = `Parameter${i}`;
-            let unitKey = `Unit${i}`;
-            let multUnitKey = `multUnit${i}`;
             result.push({[resultKey]: $("#" + requestID + "-" + name).val()});
             parameter.push({[parameterKey]: test[i]});
-            unit.push({[unitKey]:});
-            multUnit.push({[multUnitKey]: });
         }
     
         mergeData = {result, parameter, unit, multUnit, info};
