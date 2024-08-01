@@ -628,7 +628,7 @@ function generateTemplate(
                 <label for="medtech">Medtech</label>
             </div>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
-            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}', '${patientID}', '${category}', '${patientName}', '${age}', '${sex}')">Save to PDF</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}', '${patientID}', '${category}', '${patientName}', '${age}', '${sex}', '${alltests}')">Save to PDF</button>
         </div>
     `;
     $(`#${requestID}-header`).html(header);
@@ -855,15 +855,26 @@ function saveChanges(requestID, category) {
     ); //fn+post
 }
 
-async function generatePDF(requestID, patientID, category, patientName, age, sex) {
-    let data = [];
+async function generatePDF(requestID, patientID, category, patientName, age, sex, alltests) {
+    let result = [];
+    let parameter = [];
+    let info = [];
+    let mergeData = [];
+
+    test = alltests.includes(', ') ? alltests.split(', ') : [alltests];
+
+    info.push({
+        name: patientName,
+        age: age,
+        sex: sex
+    });
 
     if (category === "Hematology") {
         category = "hematology";
         let pltc = $(`#${requestID}-platelet-btn`).prop("checked")
             ? $("#" + requestID + "-platelet").val()
             : "";
-        data.push({
+        result.push({
             name: patientName,
             age: age,
             sex: sex,
@@ -881,7 +892,7 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
     } else if (category === "Clinical Microscopy") {
         category = "clinical-microscopy";
         if ($(`#${requestID}-clinical-microscopy`).text().trim() == "Urinalysis") {
-            data.push({
+            result.push({
                 name: patientName,
                 age: age,
                 sex: sex,
@@ -901,7 +912,7 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
             $(`#${requestID}-clinical-microscopy`).text().trim() == "Fecalysis"
         ) {
             category = "clinical-microscopy";
-            data.push({
+            result.push({
                 name: patientName,
                 age: age,
                 sex: sex,
@@ -922,36 +933,69 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
         }
     } else if (category === "Chemistry") {
         category = "chemistry";
-        data.push({
-            name: patientName,
-            age: age,
-            sex: sex,
-            fbs: $("#" + requestID + "-fbs").val(),
-            crt: $("#" + requestID + "-creatinine").val(),
-            uric: $("#" + requestID + "-uricacid").val(),
-            chol: $("#" + requestID + "-cholesterol").val(),
-            tri: $("#" + requestID + "-triglycerides").val(),
-            hdl: $("#" + requestID + "-hdl").val(),
-            ldl: $("#" + requestID + "-ldl").val(),
-            vldl: $("#" + requestID + "-vldl").val(),
-            bun: $("#" + requestID + "-bun").val(),
-            sgpt: $("#" + requestID + "-sgpt").val(),
-            sgot: $("#" + requestID + "-sgot").val(),
-            hba1c: $("#" + requestID + "-hba1c").val(),
-        });
+        let unit = [];
+        let multUnit = [];
+
+        for (var i = 0; i < test.length; i++) {
+            if (test[i].includes(' ')) {
+                var name = test[i].replace(/ /g, '').toLowerCase();
+            } else {
+                var name = test[i].toLowerCase();
+            }
+
+            let resultKey = `Result${i}`;
+            let parameterKey = `Parameter${i}`;
+            result.push({[resultKey]: $("#" + requestID + "-" + name).val()});
+            parameter.push({[parameterKey]: test[i]});
+
+            let unitKey = `Unit${i}`;
+            let multUnitKey = `multUnit${i}`;
+            if (test[i] === "FBS") {
+                unit.push({[unitKey]: "Fasting: 75.0 - 115.- mg/dL"});
+            }
+            if(test[i] === "Creatinine") {
+                multUnit.push({[multUnitKey]: "M: 0.7 - 1.4 mg/dL\nF: 0.6 - 1.1 mg/dL"});
+            }
+            if (test[i] === "Uric Acid") {
+                unit.push({[unitKey]: "2.5 - 7.0 mg/dL"});
+            }
+            if (test[i] === "Cholesterol") {
+                unit.push({[unitKey]: "Up to 150.00 mg/dL"});
+            }
+            if (test[i] === "Triglycerides") {
+                unit.push({[unitKey]: "Up to 150.00 mg/dL"});
+            }
+            if (test[i] === "HDL") {
+                multUnit.push({[multUnitKey]: "M: 30-70 mg/dL\nF: 30-85 mg/dL"});
+            }
+            if (test[i] === "LDL") {
+                unit.push({[unitKey]: "Up to 130.00 mg/dL"});
+            }
+            if (test[i] === "VLDL") {
+                unit.push({[unitKey]: "8.00 - 33.00 mg/dL"});
+            }
+        }
+    
+        mergeData = {result, parameter, unit, multUnit, info};
     } else if (category === "Serology") {
         category = "serology";
-        data.push({
-            name: patientName,
-            age: age,
-            sex: sex,
-            hbsag: $("#" + requestID + "-hbsag").val(),
-            rprvdrl: $("#" + requestID + "-rpr\\/vdrl").val(),
-            serum: $("#" + requestID + "-serumpregnancytest").val(),
-            urine: $("#" + requestID + "-urinepregnancytest").val(),
-            dengN: $("#" + requestID + "-denguens1").val(),
-            dengD: $("#" + requestID + "-dengueduo").val(),
-        });
+
+        for (var i = 0; i < test.length; i++) {
+            if (test[i].includes(' ')) {
+                var name = test[i].replace(/ /g, '').toLowerCase();
+            } else if (test[i] === "RPR/VDRL") {
+                var name = "rpr\\/vdrl";
+            } else {
+                var name = test[i].toLowerCase();
+            }
+
+            let resultKey = `Result${i}`;
+            let parameterKey = `Parameter${i}`;
+            result.push({[resultKey]: $("#" + requestID + "-" + name).val()});
+            parameter.push({[parameterKey]: test[i]});
+        }
+    
+        mergeData = {result, parameter, info};
     }
 
     const response = await fetch("/generate-pdf-" + category, {
@@ -959,7 +1003,7 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(mergeData),
     });
 
     if (response.ok) {
