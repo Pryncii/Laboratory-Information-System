@@ -1,4 +1,10 @@
 $(document).ready(function() {
+      $(document).on('keypress', function(e) {
+        if (e.which === 13) { // 13 is the keycode for Enter key
+            $('#searchbtn').click();
+            $('#search-btn').click();
+        }
+    });
     $("#selectPatient").change(function() {
       var selectedName = $("#selectPatient").val();
       let nameParts = selectedName.split(',');

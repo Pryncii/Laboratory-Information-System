@@ -28,4 +28,9 @@ body { background-color: #FFF8F3 !important; }
 }
 
 .checkbox-flex { display: flex; }
-.checkbox-item { margin-right: 10px; }
+.checkbox-item { 
+    margin-right: 10px;
+    color: #58595d;
+    padding: 5px
+    
+ }
