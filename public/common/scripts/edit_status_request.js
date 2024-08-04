@@ -831,6 +831,7 @@ function saveChanges(requestID, category) {
             pregu: $("#" + requestID + "-urinepregnancytest").val(),
             dengN: $("#" + requestID + "-denguens1").val(),
             dengD: $("#" + requestID + "-dengueduo").val(),
+            validator: $("#" + requestID + "-medtech").val(),
         });
     }
     let currentPath = window.location.pathname;
@@ -991,6 +992,9 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
 
             let resultKey = `Result${i}`;
             let parameterKey = `Parameter${i}`;
+            result.push({
+                validator: $("#" + requestID + "-medtech").val(),
+            })
             result.push({[resultKey]: $("#" + requestID + "-" + name).val()});
             parameter.push({[parameterKey]: test[i]});
         }

@@ -331,6 +331,7 @@ function add(router) {
             
             form.getTextField('Name').setText(info[0].name.toUpperCase());
             form.getTextField('Name').defaultUpdateAppearances(timesBold);
+            form.getTextField('validator').defaultUpdateAppearances(timesBold);
             form.getTextField('Age/Sex').setText(info[0].age + "/" + info[0].sex);
             form.getTextField('Date').setText(month+ "/" + day + "/" + year);
 
@@ -360,6 +361,8 @@ function add(router) {
                 form.getTextField('Age/Sex').updateAppearances(timesNewRoman);
                 form.getTextField('Date').updateAppearances(timesNewRoman);
                 form.getTextField('Physician').updateAppearances(timesNewRoman);
+                form.getTextField('validator').updateAppearances(timesNewRoman);
+                form.getTextField('validator').setText(result.validator);
         
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
