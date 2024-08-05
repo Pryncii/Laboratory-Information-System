@@ -621,7 +621,7 @@ function generateTemplate(
             <div class="form-floating mb-4">
                 <select class="form-control text-center" id="${requestID}-medtech" name="medtech">`;
     for (var i = 0; i < medtechs.length; i++) {
-        submit += `<option value="${medtechs[i].medtechID}">${medtechs[i].name}</option>`;
+        submit += `<option value="${medtechs[i].name}">${medtechs[i].name}</option>`;
     }
     submit += `
                 </select>
