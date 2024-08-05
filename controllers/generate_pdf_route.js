@@ -361,8 +361,8 @@ function add(router) {
                 form.getTextField('Age/Sex').updateAppearances(timesNewRoman);
                 form.getTextField('Date').updateAppearances(timesNewRoman);
                 form.getTextField('Physician').updateAppearances(timesNewRoman);
+                form.getTextField('validator').setText(info[0].validator);
                 form.getTextField('validator').updateAppearances(timesNewRoman);
-                form.getTextField('validator').setText(result.validator);
         
                 // Flatten the form to make fields non-editable and set appearances
                 form.flatten();
