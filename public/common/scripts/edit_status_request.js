@@ -151,7 +151,7 @@ function generateTemplate(
     convertMinusOneToEmpty(data);
     const medtechs = JSON.parse(decodeURIComponent(allmedtechs));
     convertMinusOneToEmpty(medtechs);
-
+    let prcnum;
     test = alltests.includes(", ") ? alltests.split(", ") : [alltests];
     if (category == "Hematology" || category == "Chemistry") {
         header = `
@@ -622,10 +622,15 @@ function generateTemplate(
                 <select class="form-control text-center" id="${requestID}-medtech" name="medtech">`;
     for (var i = 0; i < medtechs.length; i++) {
         submit += `<option value="${medtechs[i].name}">${medtechs[i].name}</option>`;
+        prcnum = i;
     }
     submit += `
                 </select>
                 <label for="medtech">Medtech</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input type="text" class="form-control text-center" id="${requestID}-prcno" value="${medtechs[prcnum].prcno}" readonly>
+                <label for="prcno">Prcno</label>
             </div>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-submit" onclick="saveChanges('${requestID}', '${category}')">Submit</button>
             <button type="button" class="btn btn-primary btn-lg mx-2" id="${requestID}-pdfsubmit" onclick="generatePDF('${requestID}', '${patientID}', '${category}', '${patientName}', '${age}', '${sex}', '${alltests}')">Save to PDF</button>
@@ -864,11 +869,13 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
 
     test = alltests.includes(', ') ? alltests.split(', ') : [alltests];
 
+    prctxt = "Lic no. " + $("#" + requestID + "-prcno").val();
     info.push({
         name: patientName,
         age: age,
         sex: sex,
-        validator: $("#" + requestID + "-medtech").val()
+        validator: $("#" + requestID + "-medtech").val(),
+        prcnum: prctxt
     });
 
     if (category === "Hematology") {
