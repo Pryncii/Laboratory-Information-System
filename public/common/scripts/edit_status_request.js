@@ -1072,7 +1072,9 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
         };
 
         emailReg.onclick = async () => {
-            // alert("PDF has been sent to email.");
+            const isConfirmed = confirm('Confirm send (make sure PDF details are correct)');
+            if(isConfirmed){
+            alert("PDF has been sent to email.");
             const emailResponse = await fetch("/send-pdf-to-reg-email", {
                 method: "POST",
                 headers: {
@@ -1085,8 +1087,7 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
                     pdfData: await blobToBase64(blob),
                 }),
             });
-
-            // Log the status code and response text for debugging
+             // Log the status code and response text for debugging
             // console.log('Response Status:', emailResponse.status);
             const responseText = await emailResponse.text();
             // console.log('Response Text:', responseText);
@@ -1096,30 +1097,36 @@ async function generatePDF(requestID, patientID, category, patientName, age, sex
             } else {
                 alert(`Failed to send email: ${responseText}`);
             }
+        }   
+
         };
 
         emailInput.onclick = async () => {
             const email = prompt("Enter the recipient's email address:");
-            if (email) {
-                alert("PDF has been sent to email.");
-                const emailResponse = await fetch("/send-pdf-to-email", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        requestID,
-                        category,
-                        email,
-                        pdfData: await blobToBase64(blob),
-                    }),
-                });
 
-                if (emailResponse.ok) {
-                    alert("Email sent successfully");
-                } else {
-                    alert("Failed to send email");
+            if (email) {
+                const isConfirmed = confirm(`You entered: ${email}\nIs this correct?`);
+                if (isConfirmed) {
+                    alert("PDF has been sent to email.");
+                    const emailResponse = await fetch("/send-pdf-to-email", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            requestID,
+                            category,
+                            email,
+                            pdfData: await blobToBase64(blob),
+                        }),
+                    });
+                    if (emailResponse.ok) {
+                        alert("Email sent successfully");
+                    } else {
+                        alert("Failed to send email");
+                    }
                 }
+
             }
         };
 
